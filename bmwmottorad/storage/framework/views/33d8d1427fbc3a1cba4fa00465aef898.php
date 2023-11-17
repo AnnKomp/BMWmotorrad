@@ -1,0 +1,52 @@
+<?php $__env->startSection('categories'); ?>
+  <div style="<?php echo \Illuminate\Support\Arr::toCssStyles([
+        'background-color : grey',
+        'display: flex',
+        'flex-wrap: nowrap',
+        'justify-content: space-around',
+        'padding: auto',
+        'align-items: center',
+        ]) ?>">
+        <?php $__currentLoopData = $ranges; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $range): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <a href="/motos-filtered?id=<?php echo e($range->idgamme); ?>"
+            style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black',
+            'text-decoration: none',
+            'font-size: 2em',
+            'height : 1%']) ?>">
+                <?php echo e($range->libellegamme); ?>
+
+            </a>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('content'); ?>
+<ul>
+<?php $__currentLoopData = $motos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $moto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<a href="/moto?id=<?php echo e($moto->idmoto); ?>" style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black','text-decoration: none']) ?>">
+    <div
+    style="<?php echo \Illuminate\Support\Arr::toCssStyles([
+         'background: #FAFAFA',
+         'border-radius: 1rem',
+         'box-shadow: 0 0 5px #0000001c',
+         'padding: 2em',
+         'border : solid'
+         ]) ?>">
+         <div style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: red']) ?>">
+         <?php echo e($moto->nommoto); ?>
+
+         </div>
+         <div>
+         <?php echo e($moto->descriptifmoto); ?>
+
+         </div>
+
+     </div>
+    </a>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</ul>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.menus', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/turart/public_html/SAE301_TD2_G5/bmwmottorad/resources/views/moto-list-filtered.blade.php ENDPATH**/ ?>

@@ -101,7 +101,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'bmwmottorad@register.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'name' => env('MAIL_FROM_NAME', 'BMWMOTTORAD'),
     ],
 
     /*
