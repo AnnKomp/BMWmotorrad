@@ -2,6 +2,10 @@
 
 @section('title', 'Motos')
 
+<link rel="stylesheet" type="text/css" href="{{asset('css/moto-list.css')}}"/>
+
+<h1>Hello</h1>
+
 @section('categories')
   <div @style ([
         'background-color : grey',
@@ -12,11 +16,7 @@
         'align-items: center',
         ])>
         @foreach ($ranges as $range)
-            <a href="/motos-filtered?id={{ $range->idgamme }}"
-            @style(['color: black',
-                'text-decoration: none',
-                'font-size: 2em',
-                'height : 1%'])>
+            <a href="/motos-filtered?id={{ $range->idgamme }}" class="categories">
                 {{ $range->libellegamme }}
             </a>
         @endforeach
