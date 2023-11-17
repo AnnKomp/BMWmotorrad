@@ -35,3 +35,15 @@ xj6gyho4w3rhq2xvuqcirwmxjvud5qivpdd5fc3yglp45a6u6xsa
 /home/turart/public_html/SAE301_TD2_G5/.git/MERGE_MSG
 * Build Log *
 * Build Log *
+
+*** These modified files were found in JOE when it aborted on Fri Nov 17 22:33:36 2023
+*** JOE was aborted by UNIX signal 1
+
+*** File '(Unnamed)'
+/home/turart/public_html/SAE301_TD2_G5/.git/MERGE_MSG
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc
