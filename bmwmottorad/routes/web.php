@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\MotoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MotoController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
