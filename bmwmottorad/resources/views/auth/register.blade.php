@@ -5,7 +5,11 @@
         <!-- Civilite -->
         <div>
             <x-input-label for="civilite" :value="__('Civilite')" />
-            <x-text-input id="civilite" class="block mt-1 w-full" type="text" name="civilite" :value="old('civilite')" required autofocus autocomplete="civilite" />
+            <select id="civilite" class="bloc mt-1 w-full" type="text" name="civilite" :value="old('civilite')" required autofocus>
+                <option value="M">M.</option>
+                <option value="Mme">Mme</option>
+            </select>
+            <!-- <x-text-input id="civilite" class="block mt-1 w-full" type="text" name="civilite" :value="old('civilite')" required autofocus autocomplete="civilite" /> -->
             <x-input-error :messages="$errors->get('civilite')" class="mt-2" />
         </div>
 
