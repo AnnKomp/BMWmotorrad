@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
+Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
