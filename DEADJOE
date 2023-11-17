@@ -1,0 +1,37 @@
+
+*** These modified files were found in JOE when it aborted on Fri Nov 17 14:35:44 2023
+*** JOE was aborted by UNIX signal 1
+
+*** File '/home/turart/public_html/SAE301_TD2_G5/.git/MERGE_MSG'
+
+
+Merge branch 'main' of https://dev.azure.com/Td2BMW/BMW/_git/SAE301_TD2_G5 into main
+
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc
+
+*** File '(Unnamed)'
+make
+
+*** File '* Build Log *'
+
+JOE: cd /home/turart/public_html/SAE301_TD2_G5
+
+make: *** No targets specified and no makefile found.  Stop.
+
+JOE: [31mFAIL[0m (exit status =
+*** File '(Unnamed)'
+xj6gyho4w3rhq2xvuqcirwmxjvud5qivpdd5fc3yglp45a6u6xsa
+*** File '(Unnamed)'
+/home/turart/public_html/SAE301_TD2_G5/.git/MERGE_MSG
+* Build Log *
+* Build Log *
