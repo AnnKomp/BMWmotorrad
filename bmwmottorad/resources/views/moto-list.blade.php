@@ -11,9 +11,14 @@
         'padding: auto',
         'align-items: center',
         ])>
-
-        @foreach ($gammes as $gamme)
-            <a @style(['color: black','text-decoration: none','font-size: 2em','height : 1%'])>{{ $gamme->libellegamme }}</a>
+        @foreach ($ranges as $range)
+            <a href="/motos-filtered?id={{ $range->idgamme }}"
+            @style(['color: black',
+                'text-decoration: none',
+                'font-size: 2em',
+                'height : 1%'])>
+                {{ $range->libellegamme }}
+            </a>
         @endforeach
     </div>
 @endsection
@@ -28,7 +33,8 @@
         'background: #FAFAFA',
         'border-radius: 1rem',
         'box-shadow: 0 0 5px #0000001c',
-        'padding: 2em'
+        'padding: 2em',
+        'border : solid'
         ])>
         <div @style(['color: red'])>
         {{ $moto->nommoto }}
