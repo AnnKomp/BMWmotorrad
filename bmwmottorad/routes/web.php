@@ -21,6 +21,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get("/options",[OptionController::class, "store" ]);
+Route::get("/option",[OptionController::class, "info" ]);
+Route::post("/options/save", [ OptionController::class, 'save']);
+
+Route::get("/accessoires",[AccessoireController::class, "store" ]);
+Route::get("/accessoire",[AccessoireController::class, "info" ]);
+
+Route::get("/pack",[PackController::class, "info" ]);
+Route::get("/packs",[PackController::class, "store" ]);
+
+
+
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
