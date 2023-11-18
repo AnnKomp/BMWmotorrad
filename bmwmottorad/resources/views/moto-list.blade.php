@@ -15,20 +15,19 @@
 @endsection
 
 @section('content')
-<ul>
+<div class = 'moto_display'>
    @foreach ($motos as $moto)
-   <a href="/moto?id={{ $moto->idmoto }}" >
+   <a href="/moto?id={{ $moto->idmoto }}" class = "moto_lien">
    <div class = 'moto_box'>
-        <div @style(['color: red'])>
+        <div class = 'moto_name'>
         {{ $moto->nommoto }}
         </div>
-        <div>
-        {{ $moto->lienmedia }}
-        </div>
+        <img src={{$moto->lienmedia}} width=100% height=100%>
+
 
     </div>
    </a>
 
   @endforeach
-</ul>
+</div>
 @endsection

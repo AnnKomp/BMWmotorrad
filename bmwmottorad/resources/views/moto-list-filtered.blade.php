@@ -14,16 +14,14 @@
 
 
 @section('content')
-<ul>
+<div class="moto_display">
 @foreach($motos as $moto)
-<a href="/moto?id={{ $moto->idmoto }}" @style(['color: black','text-decoration: none'])>
-    <div class = 'moto_box'>
-        <div @style(['color: red'])>
+<a href="/moto?id={{ $moto->idmoto }}" class = "moto_lien">
+    <div class = 'moto_box' >
+        <div class = 'moto_name'>
             {{ $moto->nommoto }}
         </div>
-        <div>
-            {{ $moto->descriptifmoto }}
-        </div>
+        <img width=100% height=100% src={{$moto->lienmedia}}>
 
 
     </div>
@@ -31,6 +29,8 @@
 
 </a>
 @endforeach
-</ul>
+</div>
+
+<img src="blob:https://www.bmw-motorrad.fr/e12f87f5-2647-48d8-b755-60b3b88dea1b">
 
 @endsection

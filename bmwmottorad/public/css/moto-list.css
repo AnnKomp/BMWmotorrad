@@ -6,11 +6,11 @@
 }
 
 .moto_box{
-background: #FAFAFA;
-border-radius: 1rem;
-box-shadow: 0 0 5px #0000001c;
-padding: 2em;
-border : solid;
+    background: #FAFAFA;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px #0000001c;
+    border : solid;
+    width : 100%;
 }
 
 .header_category{
@@ -25,4 +25,25 @@ border : solid;
 a {
     color: black;
     text-decoration: none;
+}
+
+.moto_name{
+    color : red;
+    font-size: 2em;
+    background-color: blue;
+}
+
+.moto_display{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: yellow;
+    align-items: center;
+}
+
+.moto_lien{
+    color: black;
+    text-decoration: none;
+    margin: 30px;
+    background-color: red;
+    width: 27%;
 }
