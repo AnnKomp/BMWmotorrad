@@ -1,3 +1,6 @@
 /.fleet
 /.idea
 /.vscode
+bmwmottorad/bootstrap/cache/packages.php
+bmwmottorad/bootstrap/cache/services.php
+bmwmottorad/storage/logs/laravel.log
