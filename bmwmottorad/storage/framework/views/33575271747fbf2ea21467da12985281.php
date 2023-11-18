@@ -1,20 +1,11 @@
 <?php $__env->startSection('title', 'Motos'); ?>
 
+<link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/moto-list.css')); ?>"/>
+
 <?php $__env->startSection('categories'); ?>
-  <div style="<?php echo \Illuminate\Support\Arr::toCssStyles([
-        'background-color : grey',
-        'display: flex',
-        'flex-wrap: nowrap',
-        'justify-content: space-around',
-        'padding: auto',
-        'align-items: center',
-        ]) ?>">
+    <div class = 'header_category'>
         <?php $__currentLoopData = $ranges; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $range): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <a href="/motos-filtered?id=<?php echo e($range->idgamme); ?>"
-            style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black',
-                'text-decoration: none',
-                'font-size: 2em',
-                'height : 1%']) ?>">
+            <a href="/motos-filtered?id=<?php echo e($range->idgamme); ?>" class="categories">
                 <?php echo e($range->libellegamme); ?>
 
             </a>
@@ -23,32 +14,22 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<h2>Les motos</h2>
-<ul>
+<div class = 'moto_display'>
    <?php $__currentLoopData = $motos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $moto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-   <a href="/moto?id=<?php echo e($moto->idmoto); ?>" style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black','text-decoration: none']) ?>">
-   <div
-   style="<?php echo \Illuminate\Support\Arr::toCssStyles([
-        'background: #FAFAFA',
-        'border-radius: 1rem',
-        'box-shadow: 0 0 5px #0000001c',
-        'padding: 2em',
-        'border : solid'
-        ]) ?>">
-        <div style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: red']) ?>">
+   <a href="/moto?id=<?php echo e($moto->idmoto); ?>" class = "moto_lien">
+   <div class = 'moto_box'>
+        <div class = 'moto_name'>
         <?php echo e($moto->nommoto); ?>
 
         </div>
-        <div>
-        <?php echo e($moto->descriptifmoto); ?>
+        <img src=<?php echo e($moto->lienmedia); ?> width=100% height=100%>
 
-        </div>
 
     </div>
    </a>
 
   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-</ul>
+</div>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.menus', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/turart/public_html/SAE301_TD2_G5/bmwmottorad/resources/views/moto-list.blade.php ENDPATH**/ ?>
