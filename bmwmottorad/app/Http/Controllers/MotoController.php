@@ -10,7 +10,7 @@ class MotoController extends Controller
 {
     public function index() {
         $ranges = DB::table('modelemoto')->select('*')->join('gammemoto','modelemoto.idgamme','=','gammemoto.idgamme')->get();
-        $motos = DB::table('modelemoto')->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')->get();
+        $motos = DB::table('modelemoto')->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')->whereColumn('idmediapresentation','idmedia')->get();
         return view ("moto-list", ['motos'=>$motos],['ranges'=>$ranges]);
     }
 

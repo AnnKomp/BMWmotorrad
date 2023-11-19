@@ -1,0 +1,16 @@
+#birthday, #accounttype{
+    border-radius: 5px;
+    border: 1px solid #d3dce6;
+}
+
+#phonenumber{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+#numbertype{
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+}

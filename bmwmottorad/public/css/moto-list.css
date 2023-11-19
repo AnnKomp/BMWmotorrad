@@ -28,15 +28,15 @@ a {
 }
 
 .moto_name{
-    color : red;
+    color : white;
     font-size: 2em;
-    background-color: blue;
+    background-color: black;
+    text-align: center;
 }
 
 .moto_display{
     display: flex;
     flex-wrap: wrap;
-    background-color: yellow;
     align-items: center;
 }
 
@@ -44,6 +44,5 @@ a {
     color: black;
     text-decoration: none;
     margin: 30px;
-    background-color: red;
     width: 27%;
 }

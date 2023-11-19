@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Telephone;
+use App\Models\Adresse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +19,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $phone = Telephone::where('idclient', '=', $request->user()->idclient)->get();
+        $adress = DB::table('adresse')->select('nompays','numrue','rue','ville','codepostal')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->first();
         return view('profile.edit', [
             'user' => $request->user(),
+            'adress' => $adress,
+            'phones' => $phone,
         ]);
     }
 
@@ -35,6 +42,20 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    // Update de user's adress information
+    public function updateadress(Request $request): RedirectResponse
+    {
+        $adress = DB::table('adresse')->select('adresse.numadresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->first();
+        Adresse::where('numadresse', $adress->numadresse)->update([
+            'nompays'=>$request->nompays,
+            'numrue'=>$request->numrue,
+            'rue'=>$request->rue,
+            'ville'=>$request->ville,
+            'codepostal'=>$request->codepostal,
+        ]);
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
