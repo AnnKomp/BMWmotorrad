@@ -31,6 +31,4 @@
 @endforeach
 </div>
 
-<img src="blob:https://www.bmw-motorrad.fr/e12f87f5-2647-48d8-b755-60b3b88dea1b">
-
 @endsection

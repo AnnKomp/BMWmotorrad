@@ -18,23 +18,83 @@ table {
     vertical-align: center;
     color: black;
     margin:auto;
-    padding: auto;
     border-collapse: collapse;
+    max-width: 80%;
+    margin-top: 3%;
 }
 
-td {
+td,th {
     padding-inline: 5%;
     border-bottom: solid 1px;
 }
 
+
+
 h1 {
     vertical-align: center;
     color: black;
-    margin:20px;
+    margin:auto;
     padding: auto;
     text-align: center;
   }
 
 tr:nth-child(even){
     background-color : #ccc;
+}
+
+th {
+    background-color: #666;
+}
+
+.slider-container {
+    max-width: 60%;
+    margin: 0 auto;
+    margin-top: 1%;
+    overflow: hidden;
+}
+
+.slider {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider img {
+    width: 100%;
+    height: auto;
+}
+.slick-prev,
+.slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: white;
+    background-color: #333;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+.slick-prev {
+    left: 0;
+}
+
+.slick-next {
+    right: 0;
+}
+
+.slick-prev::before,
+.slick-next::before {
+    content: '\2190'; /* Code Unicode pour une flèche vers la gauche */
+    font-family: 'Arial', sans-serif; /* Utilisez une police qui prend en charge le symbole */
+}
+
+.slick-next::before {
+    content: '\2192'; /* Code Unicode pour une flèche vers la droite */
+}
+
+hr {
+    margin-block: 5%;
+    align : center;
 }

@@ -3,6 +3,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{asset('css/layout-menu.css')}}"/>
 
 
         <title>BMW @yield('title')</title>
@@ -14,17 +15,10 @@
 
     <body>
 
-    	<header @style ([
-            'background-color : #aaa',
-            'display: flex',
-            'flex-wrap: nowrap',
-            'justify-content: space-around',
-            'padding: 30px',
-            'align-items: center'
-            ])>
-            <a href="{{ url("/") }}" @style(['color: black','text-decoration: none', 'font-size: 3em','height : 1%', 'font-weight: bolder'])>BMW</a>
-            <a href="{{ url("/motos") }} " @style(['color: black','text-decoration: none','font-size: 3em','height : 1%'])>Les motos</a>
-            <a href="{{ url("/motos") }} " @style(['color: black','text-decoration: none','font-size: 3em','height : 1%'])>Les équipements</a>
+    	<header>
+            <a href="{{ url("/") }}" class='menus'><img src="https://www.bmw-motorrad.fr/content/dam/bmwmotorradnsc/common/mnm/graphics/bmw_motorrad_logo.svg.asset.1585209612412.svg"></a>
+            <a href="{{ url("/motos") }}" class='menus'>Les motos</a>
+            <a href="{{ url("/motos") }}" class='menus'>Les équipements</a>
     	</header>
 
         <div>@yield('categories')</div>
