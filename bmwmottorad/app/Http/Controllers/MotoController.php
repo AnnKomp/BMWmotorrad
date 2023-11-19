@@ -16,8 +16,9 @@ class MotoController extends Controller
 
     public function detail(Request $request ) {
         $idmoto = $request->input('id');
-        $motos_infos = DB::table('caracteristique')->select('*')->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')->where('idbrochure','=',$idmoto)->get();
-        return view ("moto", ['idmoto' => $idmoto ], ["infos" => $motos_infos]);
+        $moto_infos = DB::table('caracteristique')->select('*')->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')->where('idbrochure','=',$idmoto)->get();
+        $moto_pics = DB::table('media')->select('lienmedia')->where('idmoto','=',$idmoto)->get();
+        return view ("moto", ["infos" => $moto_infos], ["moto_pics" => $moto_pics]);
     }
 
     public function filter(Request $request) {

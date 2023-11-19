@@ -44,5 +44,15 @@ a {
     color: black;
     text-decoration: none;
     margin: 30px;
-    width: 27%;
+    width: 30%;
+}
+
+.slick-prev::before,
+.slick-next::before {
+    content: '\2190'; /* Code Unicode pour une flèche vers la gauche */
+    font-family: 'Arial', sans-serif; /* Utilisez une police qui prend en charge le symbole */
+}
+
+.slick-next::before {
+    content: '\2192'; /* Code Unicode pour une flèche vers la droite */
 }
