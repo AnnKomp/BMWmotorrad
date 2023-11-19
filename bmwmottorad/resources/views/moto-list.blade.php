@@ -23,6 +23,9 @@
         {{ $moto->nommoto }}
         </div>
         <img src={{$moto->lienmedia}} width=100% height=100%>
+        <div >
+            {{ $moto->descriptifmoto }}
+            </div>
 
 
     </div>
