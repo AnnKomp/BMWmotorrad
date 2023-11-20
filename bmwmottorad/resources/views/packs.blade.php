@@ -21,6 +21,7 @@
      <td id="nom"><a href="/pack?id={{ $pack->idpack }}" @style(['color: black','text-decoration: none'])>{{ $pack->nompack }} </a>
      </td>
      <td>{{ $pack->descriptionpack }}</td>
+     <td> <img src="{{ $pack->photopack }}" width=100% height=100></td>
 </tr>
   @endforeach
 

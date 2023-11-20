@@ -32,4 +32,10 @@ class PackController extends Controller
         return view ("packs", ['packs' => $packs],['idmoto' => $idmoto ]);
     
     }
+
+
+    public function getPacks($selectedPacks)
+    {
+        return Pack::whereIn('idpack', $selectedPacks)->get();
+    }
 }

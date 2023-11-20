@@ -32,6 +32,7 @@ Route::get("/accessoire",[AccessoireController::class, "info" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 Route::get("/packs",[PackController::class, "store" ]);
 
+Route::post('download-pdf', [PDFController::class, 'generatePdf']);
 
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);

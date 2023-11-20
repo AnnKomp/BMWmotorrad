@@ -43,6 +43,13 @@ class OptionController extends Controller
     } 
 
 
+    public function getOptions($selectedOptions)
+    {
+        return Option::whereIn('idoption', $selectedOptions)->get();
+    }
+
+
+
 }
 
 

@@ -6,8 +6,8 @@
 
 @section('content')
 
-<form action="choice_accessories" method="post"></form>
-
+<form action="{{ url('choice_accessories') }}" method="post"></form>
+@csrf
 <h2>Les accessoires concesionnaire</h2>
 <table>
   <tr> 
