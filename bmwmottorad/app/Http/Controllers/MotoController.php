@@ -66,13 +66,14 @@ class MotoController extends Controller
             ->get();
         $motos = DB::table('modelemoto')
             ->select('*')
-            ->where('idgamme', '=', $idmoto)
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
         $source = DB::table('couleur')
             ->select('motocouleur')
             ->where('idcouleur', '=', $idcouleur)
             ->get();
-        return view("moto-color",["moto_colors" => $moto_colors, "idmoto" => $idmoto, "motos" => $motos, "source" => $source]);
+        return view("moto-color",["moto_colors" => $moto_colors, "idmoto" => $idmoto, "motos" => $motos, "source" => $source,"idcouleur" => $idcouleur]);
     }
 
     function pack(Request $request) {
