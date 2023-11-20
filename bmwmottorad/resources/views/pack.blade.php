@@ -6,6 +6,13 @@
 
 
 @section('content')
+<h2>La description du pack :</h2>
+
+@foreach($pack as $thepack)
+
+<p> {{ $thepack->descriptionpack }}</p>
+@endforeach
+
 <h2>Les options du pack :</h2>
 <table>
   <tr> 

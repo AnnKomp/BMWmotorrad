@@ -26,7 +26,7 @@ Route::get('/', function () {
 });
 
 
-Route::get("/options",[OptionController::class, "store" ]);
+Route::get("/options",[OptionController::class, "optionSelection" ]);
 Route::get("/option",[OptionController::class, "info" ]);
 Route::post("/options/save", [ OptionController::class, 'save']);
 
@@ -43,6 +43,8 @@ Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/moto/pack",[MotoController::class, "pack" ]);
+
+
 
 
 Route::get('/dashboard', function () {
