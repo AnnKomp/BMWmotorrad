@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.menus')
 
 @section('title', 'Game')
 
@@ -19,6 +19,8 @@
 </tr>
   @endforeach
 
-  
 
 </table>
+
+
+@endsection
