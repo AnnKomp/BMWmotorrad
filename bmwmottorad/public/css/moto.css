@@ -135,3 +135,7 @@ div.couleur {
     padding: auto;
     align-items: center;
 }
+
+td.couleur {
+    border-bottom: solid;
+}
