@@ -12,7 +12,7 @@
 @section('categories')
     <div class = 'header_category'>
         <a href="/moto?id={{$idmoto}}" class = "categories">{{ $motoname }}</a>
-        <a href="/moto/color?id={{$idmoto}}" class = "categories">Couleurs</a>
+        <a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{$idcouleur}}" class = "categories">Couleurs</a>
         <a href="/moto/pack?id={{$idmoto}}" class = "categories">Packs</a>
     </div>
 @endsection
@@ -20,12 +20,17 @@
 
 @section('content')
 <div class="couleur">
+    @if ($idcouleur == 0 )
+    <img class="moto_color" src="{{ $motos[0]->lienmedia }}">
+    @else
     <img class="moto_color" src="{{ $source[0]->motocouleur }}">
+    @endif
     <table class="couleur">
         @foreach ($moto_colors as $color)
         <tr>
             <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}"><img src="{{$color->photocouleur}}"></a></td>
             <td class="couleur">{{ $color->nomcouleur }}</td>
+            <td class="pack">{{ $color->prixcouleur }} €</td>
             <td class="couleur"><a href="/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}" style="font-size:24px"><i class="fa fa-info-circle"></i></a></td>
         </tr>
         @endforeach
