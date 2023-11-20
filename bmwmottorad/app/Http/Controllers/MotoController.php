@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Moto;
 use App\Models\Pack;
+use App\Models\Option;
+use App\Models\Accessoire;
 
 class MotoController extends Controller
 {
@@ -80,11 +82,16 @@ class MotoController extends Controller
     function config(Request $request) {
         $idmoto = $request->input('id');
 
-        $packs = null;
-        $options = null;
-        $accessoires = null;
+        $moto_pic = DB::table('media')
+        ->select('*')
+        ->where('idmoto','=',$idmoto)
+        ->get();
 
-        return view ("moto-config", ['packs' => $packs, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
+        $packs = Pack::all();
+        $options = Option::all();
+        $accessoires = Accessoire::all();
+
+        return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
 
     }
 
