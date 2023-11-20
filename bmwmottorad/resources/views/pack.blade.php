@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.menus')
 
 @section('title', 'Game')
 
@@ -14,11 +14,13 @@
 </tr>
    @foreach ($options as $option)
 <tr>
-     <td id="nom">{{ $option->nomoption }}</td>
+<td id="nom"><a href="/option?id={{ $option->idoption }}" @style(['color: black','text-decoration: none'])> {{ $option->nomoption }}</td>
      <td>{{ $option->detailoption }}</td>
 </tr>
   @endforeach
 
-  
 
 </table>
+
+
+@endsection

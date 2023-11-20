@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\RegisterSuiteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OptionController;
+use App\Http\Controllers\AccessoireController;
+use App\Http\Controllers\PackController;
+use App\Http\Controllers\PDFController;
 
 
 /*
@@ -32,6 +36,7 @@ Route::get("/accessoire",[AccessoireController::class, "info" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 Route::get("/packs",[PackController::class, "store" ]);
 
+Route::post('download-pdf', [PDFController::class, 'generatePdf']);
 
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
