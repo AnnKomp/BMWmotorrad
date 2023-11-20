@@ -16,7 +16,7 @@ class OptionController extends Controller
 
 
     public function info(Request $request) {
-        $idopion = $request->input('id');
+        $idoption = $request->input('id');
 
         $option = Option::where('idoption',"=", $idoption)->get();
 

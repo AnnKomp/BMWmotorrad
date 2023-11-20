@@ -20,13 +20,6 @@
 @section('content')
 
 <table>
-    <tr style='border: solid'>
-        <th  class='top_caracteristics'>Check</th>
-        <th  class='top_caracteristics'>Image</th>
-        <th  class='top_caracteristics'>Nom</th>
-        <th  class='top_caracteristics'>Prix</th>
-        <th class='top_caracteristics'>Bouton info</th>
-    </tr>
 
     <form action="/options?id={{$idmoto}}" method="post">
         @csrf
