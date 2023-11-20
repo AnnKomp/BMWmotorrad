@@ -28,7 +28,7 @@
         <th class='top_caracteristics'>Bouton info</th>
     </tr>
 
-    <form action="packs" method="post">
+    <form action="/options?id={{$idmoto}}" method="post">
         @csrf
            @foreach ($packs as $pack)
         <tr>
@@ -48,7 +48,8 @@
 
         <br>
         </table>
-        <button type="submit">Finir le choix des packs</button>
+
+        <button type="submit" >Lancer la configuration</button>
 
         </form>
 </table>

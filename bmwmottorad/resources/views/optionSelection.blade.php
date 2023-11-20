@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form action="{{ url('options/save') }}" method="post">
+<form action="/accessoires?id={{$idmoto}}" method="post">
 @csrf
 <h2>Les options usine</h2>
 <table>
@@ -29,7 +29,7 @@
 </table>
 <br>
 
-<button type="submit">Finir la configuration des options</button>
+<button type="submit">Suivant : accessoires concessionnaire</button>
 
 </form>
 
