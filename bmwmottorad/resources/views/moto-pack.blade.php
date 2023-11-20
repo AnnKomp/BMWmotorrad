@@ -49,7 +49,7 @@
         <br>
         </table>
 
-        <button type="submit" >Lancer la configuration</button>
+        <button type="submit" onclick="return collectCheckedPacks()">Lancer la configuration</button>
 
         </form>
 </table>

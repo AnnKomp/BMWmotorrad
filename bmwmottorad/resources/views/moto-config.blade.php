@@ -4,20 +4,19 @@
 
 @section('content')
 <h1>Moto configurée</h1>
-<h2> <img src= {{$moto->lienmedia}}> </h2>
 
 
 <h2>Options</h2>
     <ul>
         @foreach($options as $option)
-            <li>{{ $option->name }} - {{ $option->price }}</li>
+            <li>{{ $option->nomoption }} - {{ $option->prixoption }}</li>
         @endforeach
     </ul>
 
     <h2>Packs</h2> 
     <ul>
         @foreach($packs as $pack)
-            <li>{{ $pack->name }} - {{ $pack->price }}</li>
+            <li>{{ $pack->nompack }} - {{ $pack->prixpack }}</li>
         @endforeach
     </ul>
 

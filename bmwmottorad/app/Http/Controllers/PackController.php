@@ -40,4 +40,10 @@ class PackController extends Controller
     {
         return Pack::whereIn('idpack', $selectedPacks)->get();
     }
+
+    public function collectChecked()
+    {
+    }
+
+
 }
