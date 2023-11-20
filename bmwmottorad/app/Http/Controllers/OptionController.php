@@ -24,7 +24,7 @@ class OptionController extends Controller
         return view("option",['options'=>$option ] );
     }
 
-    public function store(Request $request){
+    public function optionSelection(Request $request){
 
         $idmoto = $request->input('id');
 
