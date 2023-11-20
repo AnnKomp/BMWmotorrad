@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Moto;
+use App\Models\Pack;
 
 class MotoController extends Controller
 {
@@ -66,11 +67,12 @@ class MotoController extends Controller
 
     function pack(Request $request) {
         $idmoto = $request->input('id');
+        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
         $motos = DB::table('modelemoto')
             ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
             ->whereColumn('idmediapresentation','idmedia')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
-        return view("moto-pack",["motos" => $motos, "idmoto" => $idmoto]);
+        return view ("moto-pack", ['packs' => $packs],['idmoto' => $idmoto, "motos" => $motos ]);
     }
 }
