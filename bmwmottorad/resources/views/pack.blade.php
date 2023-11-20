@@ -2,7 +2,7 @@
 
 @section('title', 'Game')
 
-
+<link rel="stylesheet" type="text/css" href="{{asset('css/description-pack.css')}}"/>
 
 
 @section('content')
@@ -21,7 +21,7 @@
 </tr>
    @foreach ($options as $option)
 <tr>
-<td id="nom"><a href="/option?id={{ $option->idoption }}" @style(['color: black','text-decoration: none'])> {{ $option->nomoption }}</td>
+<td id="name"><a href="/option?id={{ $option->idoption }}" @style(['color: black','text-decoration: none'])> {{ $option->nomoption }}</td>
      <td>{{ $option->detailoption }}</td>
 </tr>
   @endforeach

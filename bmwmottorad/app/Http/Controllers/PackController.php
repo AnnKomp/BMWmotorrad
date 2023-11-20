@@ -43,6 +43,7 @@ class PackController extends Controller
 
     public function collectChecked()
     {
+        
     }
 
 
