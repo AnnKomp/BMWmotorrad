@@ -48,9 +48,11 @@ class PackController extends Controller
         $idmoto = $request->input('id');
 
         $selectedPacks = $request->input('packs',[]);
+
         $options = Option::join('specifie','option.idoption','=','specifie.idoption')
                         ->where('specifie.idmoto','=',$idmoto)
                         ->get();
+
 
         return view('optionSelection', ['selectedPacks'=> $selectedPacks, 
                                         'idmoto'=>$idmoto,

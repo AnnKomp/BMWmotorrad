@@ -58,9 +58,10 @@ class OptionController extends Controller
         $accessoires=  Accessoire::where('idmoto',"=", $idmoto)->get();
 
 
-        return view('accessoireSelection',['selectedOptions'=> $selectedOptions,
+        return view('accessoireSelection',[
+                                    'selectedOptions'=> $selectedOptions,
                                     'idmoto' => $idmoto,
-                                   'accessoires' => $accessoires ]);
+                                    'accessoires' => $accessoires ]);
     }
 
 

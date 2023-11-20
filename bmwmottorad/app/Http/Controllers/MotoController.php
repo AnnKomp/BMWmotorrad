@@ -106,10 +106,15 @@ class MotoController extends Controller
 
     public function downloadPDF(Request $request) 
     {
-        //generer file 
-        // librairies Dompdf ou TCPDF
+        $data = [
+        'selectedPacks' => $request->input('selectedPacks', []),
+        'selectedOptions' => $request->input('selectedOptions', []),
+        'selectedAccessoires' => $request->input('selectedAccessoires', []),
+        ];
 
-        return response()->download('path/to/generated/pdf');
+        $pdf = PDF::loadView('pdf.moto-configPDF', $data );
+
+        return $pdf()->download('moto-config.pdf');
     }
 
 }
