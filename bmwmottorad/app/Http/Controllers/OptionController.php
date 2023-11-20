@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Option;
+use App\Models\Accessoire;
 
 use  Illuminate\Support\Facades\DB;
 
@@ -48,6 +49,19 @@ class OptionController extends Controller
         return Option::whereIn('idoption', $selectedOptions)->get();
     }
 
+
+    public function selectedAccessories(Request $request) 
+    {
+        $idmoto = $request->input('id');
+        $selectedOptions = $request->input('options', []);
+
+        $accessoires=  Accessoire::where('idmoto',"=", $idmoto)->get();
+
+
+        return view('accessoireSelection',['selectedOptions'=> $selectedOptions,
+                                    'idmoto' => $idmoto,
+                                   'accessoires' => $accessoires ]);
+    }
 
 
 }

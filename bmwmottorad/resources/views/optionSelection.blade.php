@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form action="/accessoires?id={{$idmoto}}" method="post">
+<form action="{{ route('accessories')}}?id={{$idmoto}}" method="post">
 @csrf
 <h2>Les options usine</h2>
 <table>

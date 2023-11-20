@@ -78,7 +78,7 @@ class MotoController extends Controller
         return view ("moto-pack", ['packs' => $packs, 'idmoto' => $idmoto, "motos" => $motos ]);
     }
 
-
+    //inutile?
     function config(Request $request) {
         $idmoto = $request->input('id');
 
@@ -93,6 +93,14 @@ class MotoController extends Controller
 
         return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
 
+    }
+
+    public function downloadPDF(Request $request) 
+    {
+        //generer file 
+        // librairies Dompdf ou TCPDF
+
+        return response()->download('path/to/generated/pdf');
     }
 
 }

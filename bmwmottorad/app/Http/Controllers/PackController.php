@@ -41,9 +41,20 @@ class PackController extends Controller
         return Pack::whereIn('idpack', $selectedPacks)->get();
     }
 
-    public function collectChecked()
+
+
+    public function selectedOptions(Request $request)
     {
-        
+        $idmoto = $request->input('id');
+
+        $selectedPacks = $request->input('packs',[]);
+        $options = Option::join('specifie','option.idoption','=','specifie.idoption')
+                        ->where('specifie.idmoto','=',$idmoto)
+                        ->get();
+
+        return view('optionSelection', ['selectedPacks'=> $selectedPacks, 
+                                        'idmoto'=>$idmoto,
+                                        'options'=>$options]);
     }
 
 

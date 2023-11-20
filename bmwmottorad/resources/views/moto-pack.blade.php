@@ -21,7 +21,7 @@
 
 <table>
 
-    <form action="/options?id={{$idmoto}}" method="post">
+    <form action="{{ route('options')}}?id={{$idmoto}}" method="post">
         @csrf
            @foreach ($packs as $pack)
         <tr>
@@ -42,7 +42,7 @@
         <br>
         </table>
 
-        <button type="submit" onclick="return collectCheckedPacks()">Lancer la configuration</button>
+        <button type="submit">Lancer la configuration</button>
 
         </form>
 </table>

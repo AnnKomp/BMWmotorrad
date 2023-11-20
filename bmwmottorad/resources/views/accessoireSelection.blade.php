@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form action="/moto/config?id={{$idmoto}}" method="post">
+<form action="{{ route('moto-config')}}?id={{$idmoto}}" method="post">
 @csrf
 <h2>Les accessoires concesionnaire</h2>
 <table>
@@ -16,7 +16,6 @@
     <th>Prix</th> 
 </tr>
   @foreach ($accessoires as $accessoire)
-    @if ($idmoto == $accessoire->idmoto )
   <tr>
      <td><input type="checkbox" name="accessories[]" value="{{$accessoire->idaccessoire}}"></td> 
      <td id="nom"> <a href="/accessoire?id={{ $accessoire->idaccessoire }}" @style(['color: black','text-decoration: none'])>
@@ -25,7 +24,6 @@
      </td>
      <td>{{ $accessoire->prixaccessoire }}</td>
 </tr>
-    @endif
   @endforeach
   
 </table>

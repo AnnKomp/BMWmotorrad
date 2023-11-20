@@ -25,7 +25,10 @@ class AccessoireController extends Controller
 
     public function store(Request $request){
         $idmoto = $request->input('id');
-        return view ("accessoireSelection", ['accessoires' => Accessoire::all()],['idmoto' => $idmoto ]);
+
+        $accessoires=  Accessoire::where('idmoto',"=", $idmoto)->get();
+
+        return view ("accessoireSelection", ['accessoires' => $accessoires],['idmoto' => $idmoto ]);
     }
 
     
@@ -42,7 +45,20 @@ class AccessoireController extends Controller
         return Accessoire::whereIn('idaccessoire', $selectedAccessoires)->get();
     }
 
+    public function displayMotoConfig(Request $request)
+    {
 
+        $idmoto = $request->input('id');
+        $selectedAccessories = $request->input('selectedPacks',[]);
+
+        return view('moto-config', [
+            'selectedPacks'=> $request->input('selectedPacks',[]),
+            'selectedOptions'=> $request->input('selectedOptions', []),
+            'selectedAccessories'=> $selectedAccessories,
+            'idmoto' => $idmoto
+        ]);
+
+    }
 
 
 }
