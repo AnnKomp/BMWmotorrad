@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\RegisterSuiteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OptionController;
+use App\Http\Controllers\AccessoireController;
+use App\Http\Controllers\PackController;
+use App\Http\Controllers\PDFController;
 
 
 /*
