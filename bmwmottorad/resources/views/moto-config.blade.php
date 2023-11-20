@@ -3,8 +3,8 @@
 @section('title', 'Moto')
 
 @section('content')
-<h1>Moto configurée/h1>
-<h2>*photo moto*</h2>
+<h1>Moto configurée</h1>
+<h2> <img src= {{$moto->lienmedia}}> </h2>
 
 
 <h2>Options</h2>
@@ -14,7 +14,7 @@
         @endforeach
     </ul>
 
-    <h2>Packs</h2>
+    <h2>Packs</h2> 
     <ul>
         @foreach($packs as $pack)
             <li>{{ $pack->name }} - {{ $pack->price }}</li>

@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form action="/moto/config?id={{$idmoto}}" method="post"></form>
+<form action="/moto/config?id={{$idmoto}}" method="post">
 @csrf
 <h2>Les accessoires concesionnaire</h2>
 <table>
