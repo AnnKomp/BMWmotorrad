@@ -36,6 +36,13 @@
         </div>
 
         <div>
+            <x-input-label for="datenaissanceclient" :value="__('Date de naissance')" />
+            <x-input-label for="datenaissanceclient" :value="$client->datenaissanceclient" />
+            <input type="date" id="datenaissanceclient" name="datenaissanceclient" class="block mt-1 w-full" value="old('datenaissanceclient, $client->datenaissanceclient)">
+            <x-input-error class="mt-2" :messages="$errors->get('datenaissanceclient')" />
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('Adresse e-mail')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

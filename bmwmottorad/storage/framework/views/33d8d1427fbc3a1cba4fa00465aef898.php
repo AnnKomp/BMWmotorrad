@@ -31,8 +31,6 @@
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 
-<img src="blob:https://www.bmw-motorrad.fr/e12f87f5-2647-48d8-b755-60b3b88dea1b">
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.menus', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/turart/public_html/SAE301_TD2_G5/bmwmottorad/resources/views/moto-list-filtered.blade.php ENDPATH**/ ?>

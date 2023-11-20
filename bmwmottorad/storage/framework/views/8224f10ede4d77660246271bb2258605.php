@@ -3,6 +3,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/layout-menu.css')); ?>"/>
 
 
         <title>BMW <?php echo $__env->yieldContent('title'); ?></title>
@@ -14,17 +15,10 @@
 
     <body>
 
-    	<header style="<?php echo \Illuminate\Support\Arr::toCssStyles([
-            'background-color : #aaa',
-            'display: flex',
-            'flex-wrap: nowrap',
-            'justify-content: space-around',
-            'padding: 30px',
-            'align-items: center'
-            ]) ?>">
-            <a href="<?php echo e(url("/")); ?>" style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black','text-decoration: none', 'font-size: 3em','height : 1%', 'font-weight: bolder']) ?>">BMW</a>
-            <a href="<?php echo e(url("/motos")); ?> " style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black','text-decoration: none','font-size: 3em','height : 1%']) ?>">Les motos</a>
-            <a href="<?php echo e(url("/motos")); ?> " style="<?php echo \Illuminate\Support\Arr::toCssStyles(['color: black','text-decoration: none','font-size: 3em','height : 1%']) ?>">Les équipements</a>
+    	<header>
+            <a href="<?php echo e(url("/")); ?>" class='menus'><img src="https://www.bmw-motorrad.fr/content/dam/bmwmotorradnsc/common/mnm/graphics/bmw_motorrad_logo.svg.asset.1585209612412.svg"></a>
+            <a href="<?php echo e(url("/motos")); ?>" class='menus'>Les motos</a>
+            <a href="<?php echo e(url("/motos")); ?>" class='menus'>Les équipements</a>
     	</header>
 
         <div><?php echo $__env->yieldContent('categories'); ?></div>

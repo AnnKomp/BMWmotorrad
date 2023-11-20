@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Telephone;
 use App\Models\Adresse;
+use App\Models\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,12 +20,14 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $client = DB::table('client')->select('datenaissanceclient')->where('idclient', '=', auth()->user()->idclient)->first();
         $phone = Telephone::where('idclient', '=', $request->user()->idclient)->get();
-        $adress = DB::table('adresse')->select('nompays','numrue','rue','ville','codepostal')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->first();
+        $adress = DB::table('adresse')->select('nompays','numrue','rue','ville','codepostal')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', "=", auth()->user()->idclient)->first();
         return view('profile.edit', [
             'user' => $request->user(),
             'adress' => $adress,
             'phones' => $phone,
+            'client' => $client,
         ]);
     }
 
@@ -41,6 +44,14 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        Client::where('idclient', $request->user()->idclient)->update([
+            'civilite'=>$request->civilite,
+            'nomclient'=>$request->lastname,
+            'prenomclient'=>$request->firstname,
+            'emailclient'=>$request->email,
+            'datenaissanceclient'=>$request->datenaissanceclient
+        ]
+        );
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -48,7 +59,7 @@ class ProfileController extends Controller
     // Update de user's adress information
     public function updateadress(Request $request): RedirectResponse
     {
-        $adress = DB::table('adresse')->select('adresse.numadresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->first();
+        $adress = DB::table('adresse')->select('adresse.numadresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', '=', auth()->user()->idclient)->first();
         Adresse::where('numadresse', $adress->numadresse)->update([
             'nompays'=>$request->nompays,
             'numrue'=>$request->numrue,
