@@ -4,5 +4,5 @@
 
 
 @section('content')
-<h2>C'est l'accueil quoi...</h2>
+<h1>Bienvenue chez BMW Mottorad</h1>
 @endsection

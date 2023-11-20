@@ -38,7 +38,7 @@ class MotoController extends Controller
             ->join('option','option.idoption','=','specifie.idoption')
             ->where('specifie.idmoto','=',$idmoto)
             ->get();
-        return view ("moto", ["infos" => $moto_infos, "moto_pics" => $moto_pics,"moto_options" => $moto_options]);
+        return view ("moto", ["infos" => $moto_infos, "moto_pics" => $moto_pics,"moto_options" => $moto_options, "idmoto" => $idmoto]);
     }
 
     public function filter(Request $request) {
@@ -54,5 +54,23 @@ class MotoController extends Controller
         return view("moto-list-filtered", ["motos" => $motos, 'ranges'=>$ranges]);
     }
 
+    function color(Request $request) {
+        $idmoto = $request->input('id');
+        $motos = DB::table('modelemoto')
+            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->whereColumn('idmediapresentation','idmedia')
+            ->where('modelemoto.idmoto', '=', $idmoto)
+            ->get();
+        return view("moto-color",["motos" => $motos, "idmoto" => $idmoto]);
+    }
 
+    function pack(Request $request) {
+        $idmoto = $request->input('id');
+        $motos = DB::table('modelemoto')
+            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->whereColumn('idmediapresentation','idmedia')
+            ->where('modelemoto.idmoto', '=', $idmoto)
+            ->get();
+        return view("moto-pack",["motos" => $motos, "idmoto" => $idmoto]);
+    }
 }

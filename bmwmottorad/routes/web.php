@@ -33,10 +33,12 @@ Route::get("/pack",[PackController::class, "info" ]);
 Route::get("/packs",[PackController::class, "store" ]);
 
 
-
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
+Route::get("/moto/color",[MotoController::class, "color" ]);
+Route::get("/moto/pack",[MotoController::class, "pack" ]);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -49,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::post('registersuite', [RegisterSuiteController::class, 'store'])->name('registersuite');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); 
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
