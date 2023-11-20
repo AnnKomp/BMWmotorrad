@@ -25,15 +25,15 @@
         @csrf
            @foreach ($packs as $pack)
         <tr>
-            <td><input type="checkbox" name="packs[]"></td>
-            <td> <img src="{{ $pack->photopack }}" width=100% height=100></td>
+            <td class="pack"><input class="check" type="checkbox" name="packs[]"></td>
+            <td lass="pack"><img src="{{ $pack->photopack }}" width=auto height=200px></td>
             <td id="nom"><a href="/pack?id={{ $pack->idpack }}" @style(['color: black','text-decoration: none'])>{{ $pack->nompack }} </a></td>
             @if ( $pack->prixpack =="")
-                <td>0.00</td>
+                <td class="pack">0.00 €</td>
             @else
-                <td>{{ $pack->prixpack }}</td>
+                <td class="pack">{{ $pack->prixpack }} €</td>
             @endif
-            <td><a href="/pack?id={{ $pack->idpack }}" style="font-size:24px"><i class="fa fa-info-circle"></i></a></td>
+            <td class="pack"><a href="/pack?id={{ $pack->idpack }}"><i class="fa fa-info-circle"></i></a></td>
 
         </tr>
           @endforeach
@@ -42,7 +42,7 @@
         <br>
         </table>
 
-        <button type="submit" onclick="return collectCheckedPacks()">Lancer la configuration</button>
+        <button class="config" type="submit" onclick="return collectCheckedPacks()">Lancer la configuration</button>
 
         </form>
 </table>
