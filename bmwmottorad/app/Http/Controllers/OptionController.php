@@ -18,13 +18,13 @@ class OptionController extends Controller
     public function info(Request $request) {
         $idopion = $request->input('id');
 
-        $option = Option::where('idoption',"=", $idopion)->get();
+        $option = Option::where('idoption',"=", $idoption)->get();
 
 
         return view("option",['options'=>$option ] );
     }
 
-    public function store(Request $request){
+    public function optionSelection(Request $request){
 
         $idmoto = $request->input('id');
 

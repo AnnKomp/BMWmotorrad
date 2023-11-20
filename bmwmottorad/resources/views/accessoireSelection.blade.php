@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form action="{{ url('choice_accessories') }}" method="post"></form>
+<form action="/moto/config?id={{$idmoto}}" method="post"></form>
 @csrf
 <h2>Les accessoires concesionnaire</h2>
 <table>
@@ -31,7 +31,7 @@
 </table>
 <br>
 
-<button type="submit">Finir la configuration des accessoires</button>
+<button type="submit">Finir la configuration</button>
 
 </form>
 

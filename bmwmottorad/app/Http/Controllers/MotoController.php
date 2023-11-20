@@ -73,6 +73,19 @@ class MotoController extends Controller
             ->whereColumn('idmediapresentation','idmedia')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
-        return view ("moto-pack", ['packs' => $packs],['idmoto' => $idmoto, "motos" => $motos ]);
+        return view ("moto-pack", ['packs' => $packs, 'idmoto' => $idmoto, "motos" => $motos ]);
     }
+
+
+    function config(Request $request) {
+        $idmoto = $request->input('id');
+
+        $packs = null;
+        $options = null;
+        $accessoires = null;
+
+        return view ("moto-config", ['packs' => $packs, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
+
+    }
+
 }

@@ -26,11 +26,11 @@ Route::get('/', function () {
 });
 
 
-Route::get("/options",[OptionController::class, "optionSelection" ]);
+Route::post("/options",[OptionController::class, "optionSelection" ]);
 Route::get("/option",[OptionController::class, "info" ]);
 Route::post("/options/save", [ OptionController::class, 'save']);
 
-Route::get("/accessoires",[AccessoireController::class, "store" ]);
+Route::post("/accessoires",[AccessoireController::class, "store" ]);
 Route::get("/accessoire",[AccessoireController::class, "info" ]);
 
 
@@ -43,7 +43,7 @@ Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/moto/pack",[MotoController::class, "pack" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
-
+Route::post("/moto/config",[MotoController::class, "config" ]);
 
 
 Route::get('/dashboard', function () {
