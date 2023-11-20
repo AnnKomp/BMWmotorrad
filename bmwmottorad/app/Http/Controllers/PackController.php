@@ -12,11 +12,13 @@ class PackController extends Controller
     public function info(Request $request) {
         $idpack = $request->input('id');
 
+        $pack = Pack::where('idpack','=',$idpack)->get();
+
         $options = Option::join('secompose','option.idoption','=','secompose.idoption')
                                 ->where('secompose.idpack',"=", $idpack)->get();
 
 
-        return view("pack",['options'=>$options ] );
+        return view("pack",['options'=>$options ],['pack'=>$pack ]);
     }
 
     public function index() {
@@ -32,4 +34,17 @@ class PackController extends Controller
         return view ("packs", ['packs' => $packs],['idmoto' => $idmoto ]);
     
     }
+
+
+    public function getPacks($selectedPacks)
+    {
+        return Pack::whereIn('idpack', $selectedPacks)->get();
+    }
+
+    public function collectChecked()
+    {
+        
+    }
+
+
 }

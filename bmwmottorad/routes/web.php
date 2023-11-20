@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\RegisterSuiteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OptionController;
+use App\Http\Controllers\AccessoireController;
+use App\Http\Controllers\PackController;
+use App\Http\Controllers\PDFController;
 
 
 /*
@@ -22,22 +26,24 @@ Route::get('/', function () {
 });
 
 
-Route::get("/options",[OptionController::class, "store" ]);
+Route::post("/options",[OptionController::class, "optionSelection" ]);
 Route::get("/option",[OptionController::class, "info" ]);
 Route::post("/options/save", [ OptionController::class, 'save']);
 
-Route::get("/accessoires",[AccessoireController::class, "store" ]);
+Route::post("/accessoires",[AccessoireController::class, "store" ]);
 Route::get("/accessoire",[AccessoireController::class, "info" ]);
 
-Route::get("/pack",[PackController::class, "info" ]);
-Route::get("/packs",[PackController::class, "store" ]);
 
+Route::post('download-pdf', [PDFController::class, 'generatePdf']);
 
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/moto/pack",[MotoController::class, "pack" ]);
+Route::get("/pack",[PackController::class, "info" ]);
+
+Route::post("/moto/config",[MotoController::class, "config" ]);
 
 
 Route::get('/dashboard', function () {

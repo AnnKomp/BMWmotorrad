@@ -7,6 +7,7 @@
 @section('title', 'Moto')
 
 <link rel="stylesheet" type="text/css" href="{{asset('css/moto.css')}}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 @section('categories')
     <div class = 'header_category'>
@@ -19,15 +20,15 @@
 
 @section('content')
 <div class="couleur">
-    <img class="moto_color" src="https://www.bmw-motorrad.fr/content/dam/bmwmotorradnsc/common/images/models/sport/s1000rr/2022/softconfigurator/S1000RR-P0N3H-softconfigurator.jpg.asset.1661501925748.jpg">
+    <img class="moto_color" src="{{ $source[0]->motocouleur }}">
     <table class="couleur">
-        <tr style='border: solid'>
-            <th  class='top_caracteristics'>Check</th>
-            <th  class='top_caracteristics'>Image</th>
-            <th  class='top_caracteristics'>Nom Couleur</th>
-            <th class='top_caracteristics'>Bouton info</th>
+        @foreach ($moto_colors as $color)
+        <tr>
+            <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}"><img src="{{$color->photocouleur}}"></a></td>
+            <td class="couleur">{{ $color->nomcouleur }}</td>
+            <td class="couleur"><a href="/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}" style="font-size:24px"><i class="fa fa-info-circle"></i></a></td>
         </tr>
-
+        @endforeach
 
     </table>
 </div>

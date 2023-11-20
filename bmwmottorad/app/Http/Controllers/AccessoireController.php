@@ -36,4 +36,13 @@ class AccessoireController extends Controller
 
         return view ("accessoireSelection", ['accessoires' => Accessoire::all() ]);
     }
+
+    public function getAccessoires($selectedAccessoires)
+    {
+        return Accessoire::whereIn('idaccessoire', $selectedAccessoires)->get();
+    }
+
+
+
+
 }

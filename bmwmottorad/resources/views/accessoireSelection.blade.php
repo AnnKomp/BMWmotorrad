@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.menus')
 
 
 @section('title', 'Equipements moto :')
@@ -6,8 +6,8 @@
 
 @section('content')
 
-<form action="choice_accessories" method="post"></form>
-
+<form action="/moto/config?id={{$idmoto}}" method="post">
+@csrf
 <h2>Les accessoires concesionnaire</h2>
 <table>
   <tr> 
@@ -31,7 +31,7 @@
 </table>
 <br>
 
-<button type="submit">Finir la configuration des accessoires</button>
+<button type="submit">Finir la configuration</button>
 
 </form>
 
