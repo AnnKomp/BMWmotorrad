@@ -28,9 +28,9 @@ class MotoController extends Controller
         $idmoto = $request->input('id');
         $moto_infos = DB::table('modelemoto')
             ->select('*')
-            ->join('caracteristique','caracteristique.idbrochure','=','modelemoto.idmoto')
+            ->join('caracteristique','caracteristique.idmoto','=','modelemoto.idmoto')
             ->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')
-            ->where('caracteristique.idbrochure','=',$idmoto)
+            ->where('caracteristique.idmoto','=',$idmoto)
             ->get();
         $moto_pics = DB::table('media')
             ->select('lienmedia')

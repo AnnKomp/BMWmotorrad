@@ -20,7 +20,7 @@
 <?php $__env->startSection('categories'); ?>
     <div class = 'header_category'>
         <a href="/moto?id=<?php echo e($idmoto); ?>" class = "categories"><?php echo e($motoname); ?></a>
-        <a href="/moto/color?id=<?php echo e($idmoto); ?>" class = "categories">Couleurs</a>
+        <a href="/moto/color?idmoto=<?php echo e($idmoto); ?>&idcouleur=0" class = "categories">Couleurs</a>
         <a href="/moto/pack?id=<?php echo e($idmoto); ?>" class = "categories">Packs</a>
     </div>
 <?php $__env->stopSection(); ?>
