@@ -58,13 +58,22 @@ class MotoController extends Controller
     }
 
     function color(Request $request) {
-        $idmoto = $request->input('id');
+        $idmoto = $request->input('idmoto');
+        $idcouleur = $request->input('idcouleur');
+        $moto_colors = DB::table('couleur')
+            ->select('*')
+            ->where('idmoto', '=', $idmoto)
+            ->get();
         $motos = DB::table('modelemoto')
-            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
+            ->select('*')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
-        return view("moto-color",["motos" => $motos, "idmoto" => $idmoto]);
+        $source = DB::table('couleur')
+            ->select('motocouleur')
+            ->where('idcouleur', '=', $idcouleur)
+            ->get();
+        return view("moto-color",["moto_colors" => $moto_colors, "idmoto" => $idmoto, "motos" => $motos, "source" => $source,"idcouleur" => $idcouleur]);
     }
 
     function pack(Request $request) {
