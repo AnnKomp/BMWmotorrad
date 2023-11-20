@@ -33,8 +33,6 @@ Route::post("/options/save", [ OptionController::class, 'save']);
 Route::get("/accessoires",[AccessoireController::class, "store" ]);
 Route::get("/accessoire",[AccessoireController::class, "info" ]);
 
-Route::get("/pack",[PackController::class, "info" ]);
-Route::get("/packs",[PackController::class, "store" ]);
 
 Route::post('download-pdf', [PDFController::class, 'generatePdf']);
 
@@ -43,6 +41,7 @@ Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/moto/pack",[MotoController::class, "pack" ]);
+Route::get("/pack",[PackController::class, "info" ]);
 
 
 
