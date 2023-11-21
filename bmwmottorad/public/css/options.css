@@ -1,0 +1,18 @@
+table {
+    border: solid #333;
+    vertical-align: center;
+    color: black;
+    margin:auto;
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 3%;
+}
+
+td,th {
+    padding-inline: 2%;
+    border-bottom: solid 1px;
+}
+
+th {
+    background-color: #666;
+}

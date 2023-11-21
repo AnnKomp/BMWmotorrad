@@ -185,6 +185,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'A' => 
         array (
+            'App\\Services\\' => 13,
             'App\\' => 4,
         ),
     );
@@ -574,6 +575,10 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'Barryvdh\\DomPDF\\' => 
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src',
+        ),
+        'App\\Services\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Services',
         ),
         'App\\' => 
         array (
