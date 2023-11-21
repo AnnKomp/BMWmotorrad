@@ -42,7 +42,7 @@
         <br>
         </table>
 
-        <button type="submit">Lancer la configuration</button>
+        <button id="lancerconfig" type="submit">Lancer la configuration</button>
 
         </form>
 </table>

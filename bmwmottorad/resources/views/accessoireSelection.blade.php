@@ -33,7 +33,7 @@
 </table>
 <br>
 
-<button type="submit">Finir la configuration</button>
+<button type="submit" id="config">Finir la configuration</button>
 
 </form>
 

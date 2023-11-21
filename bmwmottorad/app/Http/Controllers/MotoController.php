@@ -114,7 +114,7 @@ class MotoController extends Controller
         'selectedAccessoires' => $request->input('selectedAccessoires', []),
         ];
 
-        $pdf = \Barryvdh\DomPDF\Facade::loadView('pdf.moto-configPDF', $data );
+        $pdf = Pdf::loadView('pdf.moto-configPDF', $data );
 
         return $pdf()->download('moto-config.pdf');
     }

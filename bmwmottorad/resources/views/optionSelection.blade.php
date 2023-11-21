@@ -33,7 +33,7 @@
 </table>
 <br>
 
-<button type="submit">Suivant : accessoires concessionnaire</button>
+<button type="submit" id="config">Suivant : accessoires concessionnaire</button>
 
 </form>
 
