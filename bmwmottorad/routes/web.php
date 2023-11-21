@@ -71,4 +71,4 @@ require __DIR__.'/auth.php';
 Route::post('/options', [PackController::class, 'selectedOptions'])->name('options');
 Route::post('/accessories',[OptionController::class, 'selectedAccessories'])->name('accessories');
 Route::post('/moto-config',[AccessoireController::class, 'displayMotoConfig'])->name('moto-config');
-route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
+Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
