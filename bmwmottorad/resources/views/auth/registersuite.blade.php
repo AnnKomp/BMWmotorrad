@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <script src="/js/registerdropdown.js" defer></script>
+    <script src="/js/register_suite_script.js" defer></script>
     <link rel="stylesheet" href="/css/registersuite.css">
     <form method="POST" action="{{ route('registersuite') }}">
         @csrf
@@ -31,35 +31,14 @@
             </select>
         </div>
 
-        <!-- Postal Code -->
+        <!-- Address -->
         <div>
-            <x-input-label for="codepostal" :value="__('Code Postal')" />
-            <x-text-input id="codepostal" class="block mt-1 w-full" type="number" name="codepostal" :value="old('codepostal')" required autofocus autocomplete="codepostal" />
-            <x-input-error :messages="$errors->get('codepostal')" class="mt-2" />
-        </div>
-
-        
-        <!-- City -->
-        <div>
-            <x-input-label for="ville" :value="__('Ville')" />
-            <x-text-input id="ville" class="block mt-1 w-full" type="text" name="ville" :value="old('ville')" required autofocus autocomplete="ville" />
-            <x-input-error :messages="$errors->get('ville')" class="mt-2" />
-        </div>
-
-        
-        <!-- Rue -->
-        <div>
-            <x-input-label for="rue" :value="__('Rue')" />
-            <x-text-input id="rue" class="block mt-1 w-full" type="text" name="rue" :value="old('rue')" required autofocus autocomplete="rue" />
-            <x-input-error :messages="$errors->get('rue')" class="mt-2" />
-        </div>
-
-        
-        <!-- Numéro Rue -->
-        <div>
-            <x-input-label for="numrue" :value="__('Numéro de Rue')" />
-            <x-text-input id="numrue" class="block mt-1 w-full" type="number" name="numrue" :value="old('numrue')" required autofocus autocomplete="numrue" />
-            <x-input-error :messages="$errors->get('numrue')" class="mt-2" />
+            <x-input-label for="adresse" :value="__('Adresse')" />
+            <x-text-input id="adresse" class="block mt-1 w-full" type="text" name="adresse" :value="old('adresse')" list="adress_list" onkeyup="findAdress()" required autofocus autocomplete="adresse" />
+            <datalist id='adress_list'>
+            
+            </datalist>
+            <x-input-error :messages="$errors->get('adresse')" class="mt-2" />
         </div>
 
          <!-- Birthday -->
@@ -69,43 +48,36 @@
             <x-input-error :messages="$errors->get('datenaissanceclient')" class="mt-2" />
         </div>
 
-        <!-- Account Phone number -->
+
+        <!-- Phone numbers -->
         <div>
-            <div id="phonenumber">
-                <!-- Phone number -->
-                <div>
-                    <x-input-label for="numtelephone" :value="__('Numéro de Rue')" />
-                    <x-text-input id="numtelephone" class="block mt-1 w-full" type="tel" name="numtelephone" :value="old('numtelephone')" required autofocus autocomplete="firstname" />
-                    <x-input-error :messages="$errors->get('numtelephone')" class="mt-2" />
-                </div>
-                <!-- Phone number type -->
-                <div>
-                    <x-input-label for="numbertype" :value="__('Type de Numéro')" />
-                    <div id="numbertype">
-                        <!-- Number Type -->
-                        <select id="typedropdown" type="text" name="type" :value="old('type')" required autofocus class="block mt-1 w-full">
-                            <option value="Fixe">Fixe</option>
-                            <option value="Mobile">Mobile</option>
-                        </select>
-                        <!-- Number Function -->
-                        <select id="typedropdown" type="text" name="fonction" :value="old('fonction')" required autofocus class="block mt-1 w-full">
-                            <option value="Privé">Privé</option>
-                            <option value="Professionnel">Professionnel</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <x-input-label for="telephonepvmb" :value="__('Téléphone privé mobile')" />
+            <x-text-input minlength="10" maxlength="10" id="telephonepvmb" class="block mt-1 w-full" type="tel" name="telephonepvmb" :value="old('telephonepvmb')"  autofocus autocomplete="telephonepvmb" />
+            <x-input-error :messages="$errors->get('telephonepvmb')" class="mt-2" />
         </div>
 
+        <div>
+            <x-input-label for="telephonepfmb" :value="__('Téléphone professionnel mobile')" />
+            <x-text-input minlength="10" maxlength="10" id="telephonepfmb" class="block mt-1 w-full" type="tel" name="telephonepfmb" :value="old('telephonepfmb')"  autofocus autocomplete="telephonepfmb" />
+            <x-input-error :messages="$errors->get('telephonepfmb')" class="mt-2" />
+        </div>
 
+        <div>
+            <x-input-label for="telephonepvfx" :value="__('Téléphone privé fixe')" />
+            <x-text-input minlength="10" maxlength="10" id="telephonepvfx" class="block mt-1 w-full" type="tel" name="telephonepvfx" :value="old('telephonepvfx')"  autofocus autocomplete="telephonepvfx" />
+            <x-input-error :messages="$errors->get('telephonepvfx')" class="mt-2" />
+        </div>
+
+        <div>
+            <x-input-label for="telephonepffx" :value="__('Téléphone professionnel fixe')" />
+            <x-text-input minlength="10" maxlength="10" id="telephonepffx" class="block mt-1 w-full" type="tel" name="telephonepffx" :value="old('telephonepffx')"  autofocus autocomplete="telephonepffx" />
+            <x-input-error :messages="$errors->get('telephonepffx')" class="mt-2" />
+        </div>
+        <h2>Merci de fournir au moins un numéro de téléphone</h2>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
             <x-primary-button class="ms-4">
-                {{ __('Register') }}
+                {{ __('Créer') }}
             </x-primary-button>
         </div>
     </form>

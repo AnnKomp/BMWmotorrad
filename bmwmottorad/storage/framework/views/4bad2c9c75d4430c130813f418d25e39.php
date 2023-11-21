@@ -10,7 +10,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        <link rel="stylesheet" href="/css/registersuite.css">
         <!-- Scripts -->
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     </head>
@@ -18,21 +18,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
                 <a href="/">
-                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.application-logo','data' => ['class' => 'w-20 h-20 fill-current text-gray-500']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('application-logo'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-20 h-20 fill-current text-gray-500']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>
+                    <img src="/img/logobmw.png" alt="logobmw" id="bmwmlogo">
                 </a>
             </div>
 

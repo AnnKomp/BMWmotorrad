@@ -1,4 +1,4 @@
-#birthday, #accounttype{
+#birthday, #accounttype, #nompays, #datenaissanceclient{
     border-radius: 5px;
     border: 1px solid #d3dce6;
 }
@@ -6,11 +6,16 @@
 #phonenumber{
     display: flex;
     flex-direction: row;
-    gap: 5px;
 }
 
-#numbertype{
-    display: flex;
-    flex-direction: row;
-    gap: 2px;
+h2{
+    text-align: center;
+}
+
+#bmwmlogo{
+    height: auto;
+    width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
