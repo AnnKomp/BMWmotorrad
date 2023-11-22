@@ -30,6 +30,9 @@
 </tr>
   @endforeach
 
+<a  id="config" href="{{ url('/moto/pack?id=' . $idmoto)}}"> Retour</a>
+
+
 
 </table>
 

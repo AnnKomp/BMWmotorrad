@@ -14,6 +14,8 @@ class PackController extends Controller
 
         $pack = Pack::where('idpack','=',$idpack)->get();
 
+        // idmoto...
+
         $options = Option::join('secompose','option.idoption','=','secompose.idoption')
                                 ->where('secompose.idpack',"=", $idpack)->get();
 
