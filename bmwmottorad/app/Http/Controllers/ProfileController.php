@@ -24,7 +24,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        //Getting Necessary data from the table 
+        //Getting Necessary data from the table
         $user = auth()->user();
         $client = DB::table('client')->select('datenaissanceclient', 'civilite','photoclient')->where('idclient', '=', $user->idclient)->first();
         $company = DB::table('professionnel')->select('nomcompagnie')->where('idclient', '=', $user->idclient)->first();
@@ -36,7 +36,7 @@ class ProfileController extends Controller
             'adress' => $adress,
             'phones' => $phone,
             'client' => $client,
-            'pays' => Pays::all(), 
+            'pays' => Pays::all(),
         ]);
     }
 
@@ -49,7 +49,7 @@ class ProfileController extends Controller
             'civilite' => ['required', 'string', 'max:255'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'datenaissanceclient' => ['required', 'date', 'before:' . now()->subYears(18)->format('Y-m-d')],
         ]);
 
