@@ -23,6 +23,8 @@ th {
     margin-left: 15%;
     margin-top: 25px;
     text-size-adjust: 3%;
+    border: solid;
+    font-size: 1em;
 }
 
 input.check {
