@@ -85,7 +85,7 @@
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>
 
 <h1>Les options</h1>
-<table>
+<table class = "options">
 <?php $__currentLoopData = $moto_options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <tr>
     <td class='caracteristics_name'><?php echo e($option->nomoption); ?></td>

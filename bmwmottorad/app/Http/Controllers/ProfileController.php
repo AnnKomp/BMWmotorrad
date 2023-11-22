@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use App\Models\Telephone;
 use App\Models\Adresse;
 use App\Models\Client;
@@ -77,8 +78,7 @@ class ProfileController extends Controller
     public function updateadress(Request $request): RedirectResponse
     {
         $request->validate([
-            'adresse' => ['required', 'string', 'max:100', 'unique'.User::class],
-            'datenaissanceclient' => ['required', 'date', 'before:' . now()->subYears(18)->format('Y-m-d')],
+            'adresse' => ['required', 'string', 'max:100'],
             'telephonepvmb' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i' ],
             'telephonepfmb' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],
             'telephonepvfx' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],

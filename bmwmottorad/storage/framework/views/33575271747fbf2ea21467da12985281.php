@@ -4,6 +4,7 @@
 
 <?php $__env->startSection('categories'); ?>
     <div class = 'header_category'>
+        <a href="/motos" class="categories">Voir tout</a>
         <?php $__currentLoopData = $ranges; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $range): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <a href="/motos-filtered?id=<?php echo e($range->idgamme); ?>" class="categories">
                 <?php echo e($range->libellegamme); ?>
