@@ -37,6 +37,8 @@
 </table>
 <br>
 
+<a href="{{ url('/options?id=' . $idmoto)}}"> Précédent</a>
+
 <button type="submit" id="config">Finir la configuration</button>
 
 </form>

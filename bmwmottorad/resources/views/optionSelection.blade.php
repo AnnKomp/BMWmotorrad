@@ -37,6 +37,8 @@
 </table>
 <br>
 
+<a href="{{ url('/moto/pack?id=' . $idmoto)}}"> Précedent</a>
+
 <button type="submit" id="config">Suivant : accessoires concessionnaire</button>
 
 </form>

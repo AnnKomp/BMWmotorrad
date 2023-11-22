@@ -68,6 +68,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/options', [PackController::class, 'selectedOptions'])->name('options');
+
 Route::post('/options', [PackController::class, 'selectedOptions'])->name('options');
 Route::post('/accessories',[OptionController::class, 'selectedAccessories'])->name('accessories');
 Route::post('/moto-config',[AccessoireController::class, 'displayMotoConfig'])->name('moto-config');
