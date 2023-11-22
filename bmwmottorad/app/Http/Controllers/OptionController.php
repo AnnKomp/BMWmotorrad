@@ -78,8 +78,8 @@ class OptionController extends Controller
 
     public function processOptionsForm(Request $request)
     {
-        $request ->validate([
-            'options'=> 'array', 'options']);
+        // $request ->validate([
+        //     'options'=> 'array', 'options']);
 
 
 
@@ -87,13 +87,15 @@ class OptionController extends Controller
 
         //save selected packs
         $selectedOptions = $request->input('options',[]);
+        
+        session(['selectedOptions' => $selectedOptions]);
 
-        foreach ($selectedOptions as $optionId) {
-            Option::create([
-                'idmoto' => $idmoto,
-                'idoption'=> $optionId
-            ]);
-        }
+        // foreach ($selectedOptions as $optionId) {
+        //     Option::create([
+        //         'idmoto' => $idmoto,
+        //         'idoption'=> $optionId
+        //     ]);
+        // }
 
         return redirect('/accessoires?id=' . $idmoto);
     }

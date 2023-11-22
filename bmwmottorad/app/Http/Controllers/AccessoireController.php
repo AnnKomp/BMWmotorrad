@@ -76,7 +76,10 @@ class AccessoireController extends Controller
 
         $idmoto = $request->input('id');
 
-        //save selected packs
+
+        $selectedAccessoires = $request->input('accessoires',[]);
+        session(['selectedPacks' => $selectedAccessoires]);
+
 
 
         return redirect('/moto-config?id=' . $idmoto);

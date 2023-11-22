@@ -108,31 +108,29 @@ class MotoController extends Controller
 
 
 
+    // public function downloadPDF(Request $request)
+    // {
+    //     $data = [
+    //     'selectedPacks' => $request->input('selectedPacks', []),
+    //     'selectedOptions' => $request->input('selectedOptions', []),
+    //     'selectedAccessoires' => $request->input('selectedAccessoires', []),
+    //     ];
 
+    //     $pdf = PDF::loadView('pdf.moto-configPDF', $data );
 
-    public function downloadPDF(Request $request)
-    {
-        $data = [
-        'selectedPacks' => $request->input('selectedPacks', []),
-        'selectedOptions' => $request->input('selectedOptions', []),
-        'selectedAccessoires' => $request->input('selectedAccessoires', []),
-        ];
-
-        $pdf = Pdf::loadView('pdf.moto-configPDF', $data );
-
-        return $pdf()->download('moto-config.pdf');
-    }
+    //     return $pdf()->download('moto-config.pdf');
+    // }
 
 
     function showMotoConfig(Request $request) {
 
         $idmoto = $request->input('id');
 
-        $selectedPacks = $this->getSelectedPacks($request->query('id'));
-        $selectedOptions = $this->getSelectedOptions($request->query('id'));
-        $selectedAccessoires = $this->getSelectedAccessoires($request->query('id'));
+        $selectedPacks = session('selectedPacks',[]);
+        $selectedOptions = session('selectedOptions',[]);
+        $selectedAccessoires = session('selectedAccessoires',[]);
 
-
+        //compact?
         return view ("moto-config", ['selectedPacks' => $selectedPacks,
                                     'idmoto' => $idmoto,
                                      "selectedOptions" => $selectedOptions,
@@ -140,18 +138,27 @@ class MotoController extends Controller
 
     }
 
-    private function getSelectedPacks($idmoto) {
-
-    }
-
-    private function getSelectedOptions($idmoto) {
-
-    }
-
-    private function getSelectedAccessoires($idmoto) {
+    // private function getSelectedPacks($idmoto) {
+        
+    //     return DB::table ("packs")
+    //     ->where('idmoto',$idmoto)
+    //     ->get();
 
 
-    }
+    //     // $moto = Moto::find($idmoto);
+    //     // return $moto ? $moto->packs() : collect();
+    // }
+
+    // private function getSelectedOptions($idmoto) {
+    //     $moto = Moto::find($idmoto);
+    //     return $moto ? $moto->options() : collect();
+    // }
+
+    // private function getSelectedAccessoires($idmoto) {
+    //     $moto = Moto::find($idmoto);
+    //     return $moto ? $moto->accessoires() : collect();
+
+    // }
 
 
 }

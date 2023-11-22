@@ -12,6 +12,9 @@ class PackController extends Controller
     public function info(Request $request) {
         $idpack = $request->input('id');
 
+        $idmoto = Pack::select('idmoto')->where('idpack', $idpack)->first();
+        $idmotoValue = $idmoto ? $idmoto->idmoto : null;
+
         $pack = Pack::where('idpack','=',$idpack)->get();
 
         // idmoto...
@@ -20,7 +23,7 @@ class PackController extends Controller
                                 ->where('secompose.idpack',"=", $idpack)->get();
 
 
-        return view("pack",['options'=>$options ],['pack'=>$pack ]);
+        return view("pack",['options'=>$options,'pack'=>$pack, 'idmoto'=>$idmotoValue]);
     }
 
     public function index() {
@@ -68,29 +71,29 @@ class PackController extends Controller
 
         $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
 
-        return view('moto-pack', ['packs' => $packs],['idmoto' => $idmoto ]);
+        return view('moto-pack', ['packs' => $packs,'idmoto' => $idmoto ]);
     }
 
     public function processPacksForm(Request $request)
     {
-        $request ->validate([
-            'packs'=> 'array', 'packs']);
+        // $request ->validate([
+        //     'packs'=> 'array', 'packs']);
 
-
+            #_SESSION["packs"] = $request->input("");
 
         $idmoto = $request->input('id');
 
-        //save selected packs
         $selectedPacks = $request->input('packs',[]);
+        session(['selectedPacks' => $selectedPacks]);
 
-        foreach ($selectedPacks as $packId) {
-            Pack::create([
-                'idmoto' => $idmoto,
-                'idpack'=> $packId
-            ]);
-        }
+        // foreach ($selectedPacks as $packId) {
+        //     Pack::create([
+        //         'idmoto' => $idmoto,
+        //         'idpack'=> $packId
+        //     ]);
+        // }
 
-
+        //return view('/options?id=' . $idmoto, ['packs' => $selectedPacks,'idmoto' => $idmoto ]);
         return redirect('/options?id=' . $idmoto);
     }
 
