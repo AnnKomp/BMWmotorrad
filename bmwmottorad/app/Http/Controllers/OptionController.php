@@ -73,32 +73,17 @@ class OptionController extends Controller
                         ->where('specifie.idmoto','=',$idmoto)
                         ->get();
 
-        return view('options', ['options' => $options],['idmoto' => $idmoto ]);
+        return view('optionSelection', ['options' => $options],['idmoto' => $idmoto ]);
     }
 
     public function processOptionsForm(Request $request)
-    {
-        // $request ->validate([
-        //     'options'=> 'array', 'options']);
+{
+    $idmoto = $request->input('id');
+    $selectedOptions = $request->input('options',[]);
+    session(['selectedOptions' => $selectedOptions]);
 
-
-
-        $idmoto = $request->input('id');
-
-        //save selected packs
-        $selectedOptions = $request->input('options',[]);
-        
-        session(['selectedOptions' => $selectedOptions]);
-
-        // foreach ($selectedOptions as $optionId) {
-        //     Option::create([
-        //         'idmoto' => $idmoto,
-        //         'idoption'=> $optionId
-        //     ]);
-        // }
-
-        return redirect('/accessoires?id=' . $idmoto);
-    }
+    return redirect('/accessoires?id=' . $idmoto);
+}
 
 
 }

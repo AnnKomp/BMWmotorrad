@@ -23,13 +23,19 @@
 <h2>Packs</h2>
 <table>
 
-    <form action="{{ route('options')}}?id={{$idmoto}}" method="post">
+    <form action="{{ route('processPacks')}}?id={{$idmoto}}" method="post" >
         @csrf
            @foreach ($packs as $pack)
         <tr>
-            <td class="pack"><input class="check" type="checkbox" name="packs[]"></td>
-            <td class="pack"><img src="{{ $pack->photopack }}" width=auto height=200px></td>
-            <td id="nom"><a href="/pack?id={{ $pack->idpack }}">{{ $pack->nompack }} </a></td>
+            <td class="pack">
+                <input class="check" type="checkbox" name="packs[]" value="{{ $pack->idpack }}" @if(in_array($pack->idpack, session('selectedPacks', []))) checked @endif>
+            </td>
+            <td class="pack">
+                <img src="{{ $pack->photopack }}" width=auto height=200px>
+            </td>
+            <td id="nom">
+                <a href="/pack?id={{ $pack->idpack }}">{{ $pack->nompack }} </a>
+            </td>
             @if ( $pack->prixpack =="")
                 <td class="pack">0.00 €</td>
             @else

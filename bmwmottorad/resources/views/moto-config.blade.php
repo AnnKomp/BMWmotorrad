@@ -5,6 +5,7 @@
 @section('content')
 <h1>Moto configurée</h1>
 
+<h2>*genre photo*</h2>
 
 <h2>Packs</h2>
     <ul>
@@ -22,7 +23,7 @@
 
     <h2>Accessoires</h2>
     <ul>
-        @foreach($selectedAccessories as $accessoire)
+        @foreach($selectedAccessoires as $accessoire)
             <li>{{ $accessoire->nomaccessoire }} - {{ $accessoire->prixaccessoire }}</li>
         @endforeach
     </ul>
@@ -30,10 +31,7 @@
 
 <h3>*Pas de style / couleur car pas fait*</h3>
 
-<form action="{{ route('download-pdf') }}" method="post">
-    @csrf
-    <button type="submit">Telecharger la configuration </button>
-</form>
+
 
 
 @endsection

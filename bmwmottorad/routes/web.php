@@ -42,7 +42,7 @@ Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 Route::get("/moto/color",[MotoController::class, "color" ]);
-Route::get("/moto/pack",[MotoController::class, "pack" ]);
+//Route::get("/moto/pack",[MotoController::class, "pack" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
@@ -69,25 +69,25 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-#Route::get('/moto/pack',  [PackController::class, 'showPacksForm']);
-#Route::post('/moto/pack', [PackController::class,'processPacksForm']);
-
-#Route::get('/options',  [OptionsController::class, 'showOptionsForm']);
-#Route::post('/options', [OptionsController::class,'processOptionsForm']);
-
-#Route::get('/accessoires',  [AccesoireController::class, 'showAccessoiresForm']);
-#Route::post('/accessoires', [AccessoireController::class,'processAccessoiresForm']);
-
-#Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 
 
+Route::get('/moto/pack',  [MotoController::class, 'showPacksForm']);
+Route::post('/moto/pack', [PackController::class,'processPacksForm'])->name('processPacks');
 
-Route::get('/options', [PackController::class, 'selectedOptions'])->name('options');
+Route::get('/options',  [OptionController::class, 'showOptionsForm'])->name('options');
+Route::post('/options', [OptionController::class,'processOptionsForm'])->name('processOptions');
+
+Route::get('/accessoires',  [AccessoireController::class, 'showAccessoiresForm']);
+Route::post('/accessoires', [AccessoireController::class,'processAccessoiresForm'])->name('processAccessoires');
+
+Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 
 
 
-Route::post('/options', [PackController::class, 'selectedOptions'])->name('options');
-Route::post('/accessories',[OptionController::class, 'selectedAccessories'])->name('accessories');
-Route::post('/moto-config',[AccessoireController::class, 'displayMotoConfig'])->name('moto-config');
-Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
+//Route::get('/options', [PackController::class, 'selectedOptions'])->name('options');
+
+// Route::post('/options', [PackController::class, 'selectedOptions'])->name('options');
+// Route::post('/accessories',[OptionController::class, 'selectedAccessories'])->name('accessories');
+// Route::post('/moto-config',[AccessoireController::class, 'displayMotoConfig'])->name('moto-config');
+// Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
 

@@ -130,35 +130,37 @@ class MotoController extends Controller
         $selectedOptions = session('selectedOptions',[]);
         $selectedAccessoires = session('selectedAccessoires',[]);
 
-        //compact?
-        return view ("moto-config", ['selectedPacks' => $selectedPacks,
-                                    'idmoto' => $idmoto,
-                                     "selectedOptions" => $selectedOptions,
-                                    "selectedAccessoires" => $selectedAccessoires ]);
+        $moto = Moto::with(['packs','options','accessoires'])
+                ->where('idmoto',$idmoto)
+                ->first();
+
+
+        //dd($selectedPacks, $selectedOptions, $selectedAccessoires);
+
+        return view ('moto-config',
+            ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
+            'idmoto' => $idmoto,
+            'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
+            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires) ]);
 
     }
 
-    // private function getSelectedPacks($idmoto) {
-        
-    //     return DB::table ("packs")
-    //     ->where('idmoto',$idmoto)
-    //     ->get();
 
 
-    //     // $moto = Moto::find($idmoto);
-    //     // return $moto ? $moto->packs() : collect();
-    // }
+    public function showPacksForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+        $packs = Pack::where('idmoto', $idmoto)->get();
 
-    // private function getSelectedOptions($idmoto) {
-    //     $moto = Moto::find($idmoto);
-    //     return $moto ? $moto->options() : collect();
-    // }
+        // Assuming you have the necessary data for $motos
+        $motos = DB::table('modelemoto')
+        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->whereColumn('idmediapresentation','idmedia')
+        ->where('modelemoto.idmoto', '=', $idmoto)
+        ->get();
 
-    // private function getSelectedAccessoires($idmoto) {
-    //     $moto = Moto::find($idmoto);
-    //     return $moto ? $moto->accessoires() : collect();
-
-    // }
+        return view('moto-pack', ['packs' => $packs, 'idmoto' => $idmoto, 'motos' => $motos]);
+    }
 
 
 }

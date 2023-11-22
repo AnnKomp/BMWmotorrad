@@ -68,7 +68,7 @@ class AccessoireController extends Controller
 
         $accessoires=  Accessoire::where('idmoto',"=", $idmoto)->get();
 
-        return view('accessoires', ['accessoires' => $accessoires],['idmoto' => $idmoto ]);
+        return view('accessoireSelection', ['accessoires' => $accessoires],['idmoto' => $idmoto ]);
     }
 
     public function processAccessoiresForm(Request $request)
@@ -78,7 +78,7 @@ class AccessoireController extends Controller
 
 
         $selectedAccessoires = $request->input('accessoires',[]);
-        session(['selectedPacks' => $selectedAccessoires]);
+        session(['selectedAccessoires' => $selectedAccessoires]);
 
 
 

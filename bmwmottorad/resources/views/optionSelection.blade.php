@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<form action="{{ route('accessories')}}?id={{$idmoto}}" method="post">
+<form action="{{ route('processOptions')}}?id={{$idmoto}}" method="post">
 @csrf
 <h2>Option (montées d'usine)</h2>
 <table>
@@ -23,8 +23,12 @@
 </tr>
    @foreach ($options as $option)
 <tr>
-    <td class="option"><input class="check" type="checkbox" name="options[]"></td>
-    <td class="option"><img src="{{ $option->photooption }}"></td>
+    <td class="option">
+        <input class="check" type="checkbox" name="options[]" value="{{ $option->idoption }}">
+    </td>
+    <td class="option">
+        <img src="{{ $option->photooption }}">
+    </td>
     <td id="nom">{{ $option->nomoption }}</td>
     <td class="option">{{ $option->prixoption }} €</td>
     <td class="option"><a href="/option?id={{ $option->idoption }}" >
