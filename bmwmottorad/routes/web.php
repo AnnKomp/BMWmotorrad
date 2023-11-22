@@ -82,6 +82,7 @@ Route::post('/accessoires', [AccessoireController::class,'processAccessoiresForm
 
 Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 
+Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
 
 
 //Route::get('/options', [PackController::class, 'selectedOptions'])->name('options');

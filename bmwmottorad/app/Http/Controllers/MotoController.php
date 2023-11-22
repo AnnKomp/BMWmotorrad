@@ -108,18 +108,27 @@ class MotoController extends Controller
 
 
 
-    // public function downloadPDF(Request $request)
-    // {
-    //     $data = [
-    //     'selectedPacks' => $request->input('selectedPacks', []),
-    //     'selectedOptions' => $request->input('selectedOptions', []),
-    //     'selectedAccessoires' => $request->input('selectedAccessoires', []),
-    //     ];
+    public function downloadPDF(Request $request)
+{
+    $idmoto = $request->input('id');
 
-    //     $pdf = PDF::loadView('pdf.moto-configPDF', $data );
+    $selectedPacks = session('selectedPacks', []);
+    $selectedOptions = session('selectedOptions', []);
+    $selectedAccessoires = session('selectedAccessoires', []);
 
-    //     return $pdf()->download('moto-config.pdf');
-    // }
+    $moto = Moto::with(['packs', 'options', 'accessoires'])
+        ->where('idmoto', $idmoto)
+        ->first();
+
+    $pdf = PDF::loadView('pdf.moto-config', [
+        'selectedPacks' => $moto->packs->whereIn('idpack', $selectedPacks),
+        'idmoto' => $idmoto,
+        'selectedOptions' => $moto->options->whereIn('idoption', $selectedOptions),
+        'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires),
+    ]);
+
+    return $pdf->download('moto-config.pdf');
+}
 
 
     function showMotoConfig(Request $request) {

@@ -31,7 +31,10 @@
 
 <h3>*Pas de style / couleur car pas fait*</h3>
 
-
+<form action="{{ route('download-pdf') }}" method="post">
+    @csrf
+    <button type="submit">Télécharger PDF</button>
+</form>
 
 
 @endsection
