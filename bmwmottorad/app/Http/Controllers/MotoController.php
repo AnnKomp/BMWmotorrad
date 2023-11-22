@@ -106,6 +106,10 @@ class MotoController extends Controller
 
     }
 
+
+
+
+
     public function downloadPDF(Request $request)
     {
         $data = [
@@ -118,5 +122,36 @@ class MotoController extends Controller
 
         return $pdf()->download('moto-config.pdf');
     }
+
+
+    function showMotoConfig(Request $request) {
+
+        $idmoto = $request->input('id');
+
+        $selectedPacks = $this->getSelectedPacks($request->query('id'));
+        $selectedOptions = $this->getSelectedOptions($request->query('id'));
+        $selectedAccessoires = $this->getSelectedAccessoires($request->query('id'));
+
+
+        return view ("moto-config", ['selectedPacks' => $selectedPacks,
+                                    'idmoto' => $idmoto,
+                                     "selectedOptions" => $selectedOptions,
+                                    "selectedAccessoires" => $selectedAccessoires ]);
+
+    }
+
+    private function getSelectedPacks($idmoto) {
+
+    }
+
+    private function getSelectedOptions($idmoto) {
+
+    }
+
+    private function getSelectedAccessoires($idmoto) {
+
+
+    }
+
 
 }

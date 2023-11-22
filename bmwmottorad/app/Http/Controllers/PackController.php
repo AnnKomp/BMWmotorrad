@@ -32,7 +32,7 @@ class PackController extends Controller
 
 
         return view ("packs", ['packs' => $packs],['idmoto' => $idmoto ]);
-    
+
     }
 
 
@@ -54,10 +54,44 @@ class PackController extends Controller
                         ->get();
 
 
-        return view('optionSelection', ['selectedPacks'=> $selectedPacks, 
+        return view('optionSelection', ['selectedPacks'=> $selectedPacks,
                                         'idmoto'=>$idmoto,
                                         'options'=>$options]);
     }
+
+
+    public function showPacksForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+
+        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
+
+        return view('moto-pack', ['packs' => $packs],['idmoto' => $idmoto ]);
+    }
+
+    public function processPacksForm(Request $request)
+    {
+        $request ->validate([
+            'packs'=> 'array', 'packs']);
+
+
+
+        $idmoto = $request->input('id');
+
+        //save selected packs
+        $selectedPacks = $request->input('packs',[]);
+
+        foreach ($selectedPacks as $packId) {
+            Pack::create([
+                'idmoto' => $idmoto,
+                'idpack'=> $packId
+            ]);
+        }
+
+
+        return redirect('/options?id=' . $idmoto);
+    }
+
 
 
 }

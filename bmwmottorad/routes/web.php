@@ -68,9 +68,26 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+
+#Route::get('/moto/pack',  [PackController::class, 'showPacksForm']);
+#Route::post('/moto/pack', [PackController::class,'processPacksForm']);
+
+#Route::get('/options',  [OptionsController::class, 'showOptionsForm']);
+#Route::post('/options', [OptionsController::class,'processOptionsForm']);
+
+#Route::get('/accessoires',  [AccesoireController::class, 'showAccessoiresForm']);
+#Route::post('/accessoires', [AccessoireController::class,'processAccessoiresForm']);
+
+#Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
+
+
+
 Route::get('/options', [PackController::class, 'selectedOptions'])->name('options');
+
+
 
 Route::post('/options', [PackController::class, 'selectedOptions'])->name('options');
 Route::post('/accessories',[OptionController::class, 'selectedAccessories'])->name('accessories');
 Route::post('/moto-config',[AccessoireController::class, 'displayMotoConfig'])->name('moto-config');
 Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
+
