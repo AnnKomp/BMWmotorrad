@@ -8,13 +8,18 @@
 @section('content')
 <table>
 @foreach ($accessoires as $accessoire)
-<tr>
-     <td id="nom">{{ $accessoire->nomaccessoire }}</td>
-     <td>{{ $accessoire->prixaccessoire }}</td>
-     <td>{{ $accessoire->detailaccessoire }}</td>
-     <td> <img src={{$accessoire->photoaccessoire}} width=100% height=100> </td>
-</tr>
-</table>
+<ul>
+    <h2>Option :</h2>
+    <h3 id="nom"> {{ $accessoire->nomaccessoire }} </h3>
+    <h3>Prix : &#xA0;</h3>
+    <li>  {{ $accessoire->prixaccessoire }}  €</li>
+    <h3>Description de l'option :</h3>
+    <p> {{ $accessoire->detailaccessoire }} </p>
+    <h3>Image de l'option :</h3>
+    <img src={{$accessoire->photoaccessoire}} >
+</ul>
 @endforeach
+</table>
+
 
 @endsection

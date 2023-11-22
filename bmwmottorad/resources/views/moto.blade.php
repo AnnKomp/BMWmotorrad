@@ -84,7 +84,7 @@
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>
 
 <h1>Les options</h1>
-<table>
+<table class = "options">
 @foreach ($moto_options as $option)
 <tr>
     <td class='caracteristics_name'>{{ $option->nomoption }}</td>

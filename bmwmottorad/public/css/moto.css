@@ -159,8 +159,9 @@ button.config {
 
 
 td.pack {
-    font-size: 35;
+    font-size: 25;
 }
+
 
 #lancerconfig {
     padding: 20px;
@@ -168,4 +169,8 @@ td.pack {
     margin-left: 15%;
     margin-top: 25px;
     text-size-adjust: 3%;
+}
+
+table.options {
+    margin-bottom: 5%;
 }

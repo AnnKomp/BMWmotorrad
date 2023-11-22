@@ -12,21 +12,25 @@
 
 <form action="{{ route('moto-config')}}?id={{$idmoto}}" method="post">
 @csrf
-<h2>Les accessoires concesionnaire</h2>
+<h2>Accessoires (installés chez votre Concessionnaire)</h2>
 <table>
   <tr>
-    <th></th>
-    <th>Nom</th>
-    <th>Prix</th>
+    <th> </th>
+    <th> Photo</th>
+    <th> Nom</th>
+    <th> Prix</th>
+    <th> Info </th>
 </tr>
-  @foreach ($accessoires as $accessoire)
-  <tr>
-     <td><input type="checkbox" name="accessories[]" value="{{$accessoire->idaccessoire}}"></td>
-     <td id="nom"> <a href="/accessoire?id={{ $accessoire->idaccessoire }}" @style(['color: black','text-decoration: none'])>
-     {{ $accessoire->nomaccessoire }}</a>
+@foreach ($accessoires as $accessoire)
+<tr>
+    <td class="option"><input class="check" type="checkbox" name="accessories[]" value="{{$accessoire->idaccessoire}}"></td>
+    <td class="option"><img src="{{ $accessoire->photoaccessoire }}" ></td>
+    <td id="nom">{{ $accessoire->nomaccessoire }}</td>
+    <td class="option">{{ $accessoire->prixaccessoire }} €</td>
+    <td class="option"><a href="/accessoire?id={{ $accessoire->idaccessoire }}">
+        <i class="fa fa-info-circle"></i>
+    </a></td>
 
-     </td>
-     <td>{{ $accessoire->prixaccessoire }}</td>
 </tr>
   @endforeach
 

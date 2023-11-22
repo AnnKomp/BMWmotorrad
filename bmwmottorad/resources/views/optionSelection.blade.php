@@ -12,21 +12,25 @@
 
 <form action="{{ route('accessories')}}?id={{$idmoto}}" method="post">
 @csrf
-<h2>Les options usine</h2>
+<h2>Option (montées d'usine)</h2>
 <table>
   <tr>
-    <th></th>
-    <th>Nom</th>
-    <th>Prix</th>
+    <th> </th>
+    <th> Photo </th>
+    <th> Nom </th>
+    <th> Prix </th>
+    <th> Info </th>
 </tr>
    @foreach ($options as $option)
 <tr>
-     <td><input type="checkbox" name="options[]"></td>
-     <td id="nom"> <a href="/option?id={{ $option->idoption }}" @style(['color: black','text-decoration: none'])>
-     {{ $option->nomoption }}</a>
+    <td class="option"><input class="check" type="checkbox" name="options[]"></td>
+    <td class="option"><img src="{{ $option->photooption }}"></td>
+    <td id="nom">{{ $option->nomoption }}</td>
+    <td class="option">{{ $option->prixoption }} €</td>
+    <td class="option"><a href="/option?id={{ $option->idoption }}" >
+        <i class="fa fa-info-circle"></i>
+    </a></td>
 
-     </td>
-     <td>{{ $option->prixoption }}</td>
 </tr>
   @endforeach
 
