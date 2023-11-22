@@ -41,7 +41,7 @@ class OptionController extends Controller
     {
 
         return redirect()->back();
-    } 
+    }
 
 
     public function getOptions($selectedOptions)
@@ -50,7 +50,7 @@ class OptionController extends Controller
     }
 
 
-    public function selectedAccessories(Request $request) 
+    public function selectedAccessories(Request $request)
     {
         $idmoto = $request->input('id');
         $selectedOptions = $request->input('options', []);
@@ -62,6 +62,40 @@ class OptionController extends Controller
                                     'selectedOptions'=> $selectedOptions,
                                     'idmoto' => $idmoto,
                                     'accessoires' => $accessoires ]);
+    }
+
+
+    public function showOptionsForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+
+        $options = Option::join('specifie','option.idoption','=','specifie.idoption')
+                        ->where('specifie.idmoto','=',$idmoto)
+                        ->get();
+
+        return view('options', ['options' => $options],['idmoto' => $idmoto ]);
+    }
+
+    public function processOptionsForm(Request $request)
+    {
+        $request ->validate([
+            'options'=> 'array', 'options']);
+
+
+
+        $idmoto = $request->input('id');
+
+        //save selected packs
+        $selectedOptions = $request->input('options',[]);
+
+        foreach ($selectedOptions as $optionId) {
+            Option::create([
+                'idmoto' => $idmoto,
+                'idoption'=> $optionId
+            ]);
+        }
+
+        return redirect('/accessoires?id=' . $idmoto);
     }
 
 
