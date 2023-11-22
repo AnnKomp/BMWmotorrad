@@ -6,7 +6,7 @@
 
         <!-- Account type -->
         <div>
-            <x-input-label for="accounttype" :value="__('Type de Compte')" />
+            <x-input-label for="accounttype" :value="__('Type de Compte*')" />
             <select id="accounttype" type="text" name="accounttype" :value="old('accounttype')" required autofocus class="block mt-1 w-full">
                 <option value="private">Privé</option>
                 <option value="professionnal">Professionnel</option>
@@ -15,14 +15,14 @@
 
         <!-- Company Name -->
         <div id="companynamediv" style="display: none;">
-            <x-input-label for="nomcompagnie" :value="__('Nom de la Compagnie')" />
+            <x-input-label for="nomcompagnie" :value="__('Nom de la Compagnie*')" />
             <x-text-input id="nomcompagnie" class="block mt-1 w-full" type="text" name="nomcompagnie" :value="old('nomcompagnie')" autofocus autocomplete="firstname" />
             <x-input-error :messages="$errors->get('nomcompagnie')" class="mt-2" />
         </div>
 
         <!-- Country -->
         <div>
-            <x-input-label for="nompays" :value="__('Pays')" />
+            <x-input-label for="nompays" :value="__('Pays*')" />
             <select id="nompays" type="text" name="nompays" :value="old('nompays')" required autofocus class="block mt-1 w-full">
                     <!-- Get all the countries for table Pays and put it into the dropdown list -->
                     @foreach ($pays as $pay)
@@ -33,7 +33,7 @@
 
         <!-- Address -->
         <div>
-            <x-input-label for="adresse" :value="__('Adresse')" />
+            <x-input-label for="adresse" :value="__('Adresse*')" />
             <x-text-input id="adresse" class="block mt-1 w-full" type="text" name="adresse" :value="old('adresse')" list="adress_list" onkeyup="findAdress()" required autofocus autocomplete="adresse" />
             <datalist id='adress_list'>
             
@@ -43,7 +43,7 @@
 
          <!-- Birthday -->
         <div>
-            <x-input-label for="datenaissanceclient" :value="__('Date de naissance')" />
+            <x-input-label for="datenaissanceclient" :value="__('Date de naissance*')" />
             <input type="date" id="datenaissanceclient" name="datenaissanceclient" class="block mt-1 w-full">
             <x-input-error :messages="$errors->get('datenaissanceclient')" class="mt-2" />
         </div>
@@ -82,3 +82,4 @@
         </div>
     </form>
 </x-guest-layout>
+
