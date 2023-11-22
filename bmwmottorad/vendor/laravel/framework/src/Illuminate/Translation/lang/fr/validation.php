@@ -115,10 +115,10 @@ return [
     'not_regex' => 'The :attribute field format is invalid.',
     'numeric' => 'The :attribute field must be a number.',
     'password' => [
-        'letters' => 'The :attribute field must contain at least one letter.',
+        'letters' => 'Le :attribute doit contenir au moins 12 lettres.',
         'mixed' => 'The :attribute field must contain at least one uppercase and one lowercase letter.',
-        'numbers' => 'The :attribute field must contain at least one number.',
-        'symbols' => 'The :attribute field must contain at least one symbol.',
+        'numbers' => 'Le :attribute doit contenir au moins un chiffre.',
+        'symbols' => 'Le :attribute doit contenir au moins un symbole.',
         'uncompromised' => 'The given :attribute has appeared in a data leak. Please choose a different :attribute.',
     ],
     'present' => 'Le champ :attribute doit être présent.',
