@@ -9,6 +9,6 @@ class Telephone extends Model
 {
     use HasFactory;
     protected $table = "telephone";
-    protected $primaryKey = "numtelephone";
+    protected $primaryKey = "idtelephone";
     public $timestamps = false;
 }

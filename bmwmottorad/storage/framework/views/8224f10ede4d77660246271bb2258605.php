@@ -21,7 +21,7 @@
             </a>
             <a href="<?php echo e(url("/motos")); ?>" class='menus'>Les motos</a>
             <a href="<?php echo e(url("/motos")); ?>" class='menus'>Les équipements</a>
-            <a href="<?php echo e(url("/login")); ?>" class='menus'>
+            <a href="<?php echo e(route('login')); ?>" class='menus'>
                 <img class="login" src="https://www.bmw-motorrad.fr/etc.clientlibs/mnm/mnmnsc/clientlibs/global/resources/images/new/customer-portal-login.svg">
             </a>
     	</header>

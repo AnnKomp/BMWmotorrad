@@ -1,3 +1,4 @@
+<script str="/js/profile.js" defer></script>
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -9,18 +10,18 @@
         </p>
     </header>
 
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
-
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
+        <!-- Civilite -->
         <div>
-            <x-input-label for="civilite" :value="__('Civilite')" />
-            <x-text-input id="civilite" name="civilite" type="text" class="mt-1 block w-full" :value="old('civilite', $user->civilite)" required autofocus autocomplete="civilite" />
-            <x-input-error class="mt-2" :messages="$errors->get('civilite')" />
+            <x-input-label for="civilite" :value="__('Civilité')" />
+            <select id="civilite" class="bloc mt-1 w-full" type="text" name="civilite" :value="old('civilite', $client->civilite)" required autofocus>
+                <option value="M" @if($client->civilite == 'M') selected @endif>M.</option>
+                <option value="Mme" @if($client->civilite == 'Mme') selected @endif>Mme</option>
+            </select>
+            <x-input-error :messages="$errors->get('civilite')" class="mt-2" />
         </div>
 
         <div>
@@ -37,8 +38,7 @@
 
         <div>
             <x-input-label for="datenaissanceclient" :value="__('Date de naissance')" />
-            <x-input-label for="datenaissanceclient" :value="$client->datenaissanceclient" />
-            <input type="date" id="datenaissanceclient" name="datenaissanceclient" class="block mt-1 w-full" value="old('datenaissanceclient, $client->datenaissanceclient)">
+            <input type="date" id="datenaissanceclient" name="datenaissanceclient" class="block mt-1 w-full" value="{{date('Y-m-d', strtotime($client->datenaissanceclient))}}">
             <x-input-error class="mt-2" :messages="$errors->get('datenaissanceclient')" />
         </div>
 

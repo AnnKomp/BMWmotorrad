@@ -6,8 +6,7 @@
 <h1>Moto configurée</h1>
 
 
-
-<h2>Packs</h2> 
+<h2>Packs</h2>
     <ul>
         @foreach($selectedPacks as $pack)
             <li>{{ $pack->nompack }} - {{ $pack->prixpack }}</li>

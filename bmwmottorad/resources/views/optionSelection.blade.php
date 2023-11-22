@@ -6,21 +6,25 @@
 
 @section('content')
 
+<link rel="stylesheet" type="text/css" href="{{asset('css/options.css')}}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
 <form action="{{ route('accessories')}}?id={{$idmoto}}" method="post">
 @csrf
 <h2>Les options usine</h2>
 <table>
-  <tr> 
+  <tr>
     <th></th>
-    <th>Nom</th> 
-    <th>Prix</th> 
+    <th>Nom</th>
+    <th>Prix</th>
 </tr>
    @foreach ($options as $option)
 <tr>
-     <td><input type="checkbox" name="options[]"></td> 
+     <td><input type="checkbox" name="options[]"></td>
      <td id="nom"> <a href="/option?id={{ $option->idoption }}" @style(['color: black','text-decoration: none'])>
-     {{ $option->nomoption }}</a> 
- 
+     {{ $option->nomoption }}</a>
+
      </td>
      <td>{{ $option->prixoption }}</td>
 </tr>
@@ -29,7 +33,7 @@
 </table>
 <br>
 
-<button type="submit">Suivant : accessoires concessionnaire</button>
+<button type="submit" id="config">Suivant : accessoires concessionnaire</button>
 
 </form>
 

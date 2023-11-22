@@ -9,6 +9,8 @@ use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
 
+use Barryvdh\DomPDF\Facade as PDF;
+
 class MotoController extends Controller
 {
     public function index() {
@@ -104,7 +106,7 @@ class MotoController extends Controller
 
     }
 
-    public function downloadPDF(Request $request) 
+    public function downloadPDF(Request $request)
     {
         $data = [
         'selectedPacks' => $request->input('selectedPacks', []),
@@ -112,7 +114,7 @@ class MotoController extends Controller
         'selectedAccessoires' => $request->input('selectedAccessoires', []),
         ];
 
-        $pdf = PDF::loadView('pdf.moto-configPDF', $data );
+        $pdf = Pdf::loadView('pdf.moto-configPDF', $data );
 
         return $pdf()->download('moto-config.pdf');
     }
