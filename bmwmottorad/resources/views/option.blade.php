@@ -21,4 +21,8 @@
 </table>
 @endforeach
 
+@if(session('lastUsedView') == 'pack')
+    <a href="{{ url('/' . session('lastUsedView') . '?id=' . $idpack)}}">Retour</a>
+@endif
+
 @endsection
