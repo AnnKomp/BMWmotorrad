@@ -41,7 +41,7 @@
             @else
                 <td class="pack">{{ $pack->prixpack }} €</td>
             @endif
-            <td class="pack"><a href="/pack?id={{ $pack->idpack }}"><i class="fa fa-info-circle"></i></a></td>
+            <td class="pack"><a href="/pack?id={{ $pack->idpack }}&idmoto={{$idmoto}}"><i class="fa fa-info-circle"></i></a></td>
 
         </tr>
           @endforeach

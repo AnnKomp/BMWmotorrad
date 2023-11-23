@@ -20,7 +20,8 @@ class AccessoireController extends Controller
 
         $accessoire = Accessoire::where('idaccessoire',"=", $idaccessoire)->get();
 
-        return view("accessoire",['accessoires'=>$accessoire ] );
+        $idmoto = $request->input('idmoto');
+        return view("accessoire",['accessoires'=>$accessoire, "idmoto" => $idmoto ] );
     }
 
     public function store(Request $request){

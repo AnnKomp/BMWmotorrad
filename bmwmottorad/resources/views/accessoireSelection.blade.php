@@ -29,7 +29,7 @@
     <td class="option"><img src="{{ $accessoire->photoaccessoire }}" ></td>
     <td id="nom">{{ $accessoire->nomaccessoire }}</td>
     <td class="option">{{ $accessoire->prixaccessoire }} €</td>
-    <td class="option"><a href="/accessoire?id={{ $accessoire->idaccessoire }}">
+    <td class="option"><a href="/accessoire?id={{ $accessoire->idaccessoire }}&idmoto={{$idmoto}}">
         <i class="fa fa-info-circle"></i>
     </a></td>
 

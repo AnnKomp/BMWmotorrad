@@ -22,7 +22,7 @@
 </table>
 
 
-{{-- <a  id="config" href="{{ url('/accessoires?id=' . $idmoto)}}"> Retour</a> --}}
+<a  id="config" href="{{ url('/accessoires?id=' . $idmoto)}}"> Retour</a>
 
 
 
