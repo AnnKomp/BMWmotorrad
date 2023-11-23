@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Moto;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
@@ -45,15 +46,23 @@ class PDFController extends Controller
 
     public function generatePdf(Request $request)
     {
-        $selectedOptions = $request->input('options', []);
-        $selectedPacks = $request->input('packs', []);
-        $selectedAccessoires = $request->input('accessoires', []);
+        $idmoto = $request->input('id');
 
-        $options = app(OptionController::class)->getOptions($selectedOptions);
-        $packs = app(PackController::class)->getPacks($selectedPacks);
-        $accessoires = app(AccessoireController::class)->getAccessoires($selectedAccessoires);
+        $moto = Moto::with(['packs','options','accessoires'])
+                ->where('idmoto',$idmoto)
+                ->first();
 
-        $pdf = PDF::loadView('pdf.moto-config', compact('options', 'packs', 'accessoires'));
+
+        $selectedPacks = session('selectedPacks', []);
+        $selectedOptions = session('selectedOptions', []);
+        $selectedAccessoires = session('selectedAccessoires', []);
+
+
+        $pdf = PDF::loadView('pdf.moto-config',  ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
+        'idmoto' => $idmoto,
+        'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
+        'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires) ]);
+
 
         return $pdf->download('moto_config.pdf');
     }

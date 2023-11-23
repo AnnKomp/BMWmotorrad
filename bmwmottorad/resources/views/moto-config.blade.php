@@ -32,7 +32,7 @@
 <h3>*Pas de style / couleur car pas fait*</h3>
 
 
-<form action="{{ route('pdf-download') }}" method="post">
+<form action="{{ route('pdf-download') . '?id=' . $idmoto }}" method="post">
     @csrf
     <button type="submit">Télécharger PDF</button>
 </form>
