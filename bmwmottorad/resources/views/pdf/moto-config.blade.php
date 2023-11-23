@@ -1,10 +1,16 @@
 <!-- resources/views/pdf/moto-config.blade.php -->
 
-{@extends('layouts.menus')
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moto configurée</title>
+</head>
+<body>
 
-@section('title', 'Moto Configurée')
 
-@section('content')
+
     <h1>Moto configurée</h1>
 
     <h2>Packs</h2>
@@ -36,7 +42,7 @@
         @foreach($selectedOptions as $option)
             <tr>
                 <td>{{ $option->nomoption }}</td>
-                <td>{{ $option->descriptionoption }}</td>
+                <td>{{ $option->detailoption }}</td>
                 <td>{{ $option->prixoption }}</td>
                 <td><img src="{{ $option->photooption }}" alt="Pack Photo" width="100"></td>
             </tr>
@@ -54,7 +60,7 @@
         @foreach($selectedAccessoires as $accessoire)
             <tr>
                 <td>{{ $accessoire->nomaccessoire }}</td>
-                <td>{{ $accessoire->descriptionaccessoire }}</td>
+                <td>{{ $accessoire->detailaccessoire }}</td>
                 <td>{{ $accessoire->prixaccessoire }}</td>
                 <td><img src="{{ $accessoire->photoaccessoire }}" alt="Pack Photo" width="100"></td>
             </tr>
@@ -63,4 +69,7 @@
 
     <h3>*Pas de style / couleur car pas encore fait*</h3>
 
-@endsection
+
+
+</body>
+</html>
