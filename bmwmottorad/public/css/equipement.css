@@ -1,0 +1,181 @@
+.caracteristics {
+    font-size: 1em;
+}
+
+
+.caracteristics_name {
+    font-size: 1.5em;
+    background-color: #999999;
+}
+
+
+.category_caracteristics {
+    font-size: 2em;
+}
+
+.top_caracteristics{
+    font-size: 2em;
+    border: solid;
+    text-align: center;
+}
+
+table {
+    border: solid #333;
+    vertical-align: center;
+    color: black;
+    margin:auto;
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 3%;
+}
+
+td,th {
+    padding-inline: 2%;
+    border-bottom: solid 1px;
+}
+
+
+
+h1 {
+    vertical-align: center;
+    color: black;
+    margin:auto;
+    padding: 2%;
+    text-align: center;
+  }
+
+th {
+    background-color: #666;
+}
+
+.slider-container {
+    max-width: 60%;
+    margin: 0 auto;
+    margin-top: 1%;
+    overflow: hidden;
+}
+
+.slider {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider img {
+    width: 100%;
+    height: auto;
+}
+.slick-prev,
+.slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: white;
+    background-color: #333;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+}
+.slick-prev {
+    left: 0;
+}
+
+.slick-next {
+    right: 0;
+}
+
+.slick-prev::before,
+.slick-next::before {
+    content: '\2190'; /* Code Unicode pour une flèche vers la gauche */
+    font-family: 'Arial', sans-serif; /* Utilisez une police qui prend en charge le symbole */
+}
+
+.slick-next::before {
+    content: '\2192'; /* Code Unicode pour une flèche vers la droite */
+}
+
+hr {
+    margin-block: 5%;
+    align : center;
+}
+
+
+.header_category{
+    background-color : grey;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    padding: auto;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    font-size: 2em;
+    height : 1%;
+}
+
+table.couleur {
+    max-width: 50%;
+}
+
+img.moto_color {
+    max-width: 40%;
+    height: auto;
+    margin: 2%;
+}
+
+div.couleur {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    padding: auto;
+    align-items: center;
+}
+
+td.couleur {
+    border-bottom: solid;
+}
+
+
+input.check {
+    width:30px;
+    height:30px;
+}
+
+button.config {
+    height: 5%;
+    width: 15%;
+    left: 50%;
+    top: 50%;
+    margin-top: 2.5%;   /* = -height / 2   */
+    margin-left: 42.5%; /* = -width / 2    */
+    font-size: 20;
+}
+
+
+td.pack {
+    font-size: 25;
+}
+
+
+#lancerconfig {
+    padding: 20px;
+    background-color: rgb(199, 195, 189);
+    margin-left: 15%;
+    margin-top: 25px;
+    text-size-adjust: 3%;
+}
+
+table.options {
+    margin-bottom: 5%;
+}
+
+
+.description {
+    text-align: justify;
+}

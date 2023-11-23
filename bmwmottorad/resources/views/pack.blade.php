@@ -15,6 +15,7 @@
 <p> {{ $thepack->descriptionpack }}</p>
 @endforeach
 
+@forelse($options as $option)
 <h2>Les options du pack :</h2>
 <table>
   <tr>
@@ -22,19 +23,23 @@
     <th>Detail</th>
     <th>Plus d'infos</th>
 </tr>
-   @foreach ($options as $option)
+   {{-- @foreach ($options as $option) --}}
 <tr>
     <td id="name">{{ $option->nomoption }}</td>
     <td>{{ $option->detailoption }}</td>
     <td><a href="/option?id={{ $option->idoption }}"><i class="fa fa-info-circle"></i></a></td>
 </tr>
-  @endforeach
+  {{-- @endforeach --}}
+
+</table>
+@empty
+<p>Ce pack ne comporte pas d'options ou ils n'etaient pas encore spécifiés</p>
+@endforelse
 
 <a  id="config" href="{{ url('/moto/pack?id=' . $idmoto)}}"> Retour</a>
 
 
 
-</table>
 
 
 @endsection

@@ -22,4 +22,8 @@
 </table>
 
 
+{{-- <a  id="config" href="{{ url('/accessoires?id=' . $idmoto)}}"> Retour</a> --}}
+
+
+
 @endsection
