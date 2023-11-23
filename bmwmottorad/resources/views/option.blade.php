@@ -3,7 +3,7 @@
 
 @section('title', 'Information Option:')
 
-
+<link rel="stylesheet" type="text/css" href="{{asset('css/option.css')}}"/>
 
 @section('content')
 <table>
@@ -25,7 +25,7 @@
     <a href="{{ url('/pack?id=' . $idpack)}}">Retour</a>
 
 @elseif($route == 'option')
-<a href="{{ url('/options?id=' . $idmoto)}}">Retour</a>
+<a id="retour" href="{{ url('/options?id=' . $idmoto)}}">Retour</a>
 
 @endif
 

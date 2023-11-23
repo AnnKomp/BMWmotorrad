@@ -3,6 +3,7 @@
 
 @section('title', 'Equipements moto :')
 
+<link rel="stylesheet" type="text/css" href="{{asset('css/option.css')}}"/>
 
 
 @section('content')
@@ -22,7 +23,7 @@
 </table>
 
 
-<a  id="config" href="{{ url('/accessoires?id=' . $idmoto)}}"> Retour</a>
+<a  id="retour" href="{{ url('/accessoires?id=' . $idmoto)}}"> Retour</a>
 
 
 

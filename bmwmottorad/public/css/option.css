@@ -1,13 +1,5 @@
-tr{
-    padding : 5%;
 
-}
-
-td{
-    padding: 2%;
-}
-
-#config {
+#retour {
     color: black;
     text-decoration: none;
     background-color: rgb(224, 224, 224);

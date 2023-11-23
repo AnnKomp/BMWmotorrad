@@ -107,7 +107,7 @@ class MotoController extends Controller
 
     // }
 
-
+/*
 
     public function downloadPDF(Request $request)
     {
@@ -136,7 +136,7 @@ class MotoController extends Controller
 
         return $pdf->download('moto-config.pdf');
     }
-
+*/
 
     function showMotoConfig(Request $request) {
 
