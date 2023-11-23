@@ -9,21 +9,21 @@
 
     <h2>Packs</h2>
     <ul>
-        @foreach($selectedPacks as $pack)
+        @foreach($packs as $pack)
             <li>{{ $pack->nompack }} - {{ $pack->prixpack }}</li>
         @endforeach
     </ul>
 
     <h2>Options</h2>
     <ul>
-        @foreach($selectedOptions as $option)
+        @foreach($options as $option)
             <li>{{ $option->nomoption }} - {{ $option->prixoption }}</li>
         @endforeach
     </ul>
 
     <h2>Accessoires</h2>
     <ul>
-        @foreach($selectedAccessoires as $accessoire)
+        @foreach($accessoires as $accessoire)
             <li>{{ $accessoire->nomaccessoire }} - {{ $accessoire->prixaccessoire }}</li>
         @endforeach
     </ul>

@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-////////////////////////////CONFIG MOTO///////////////////////////////
+///////////////////////////// CONFIG MOTO //////////////////////////////////
 ///choix packs
 Route::get('/moto/pack',  [MotoController::class, 'showPacksForm']);
 Route::post('/moto/pack', [PackController::class,'processPacksForm'])->name('processPacks');
@@ -93,7 +93,7 @@ Route::post('/colors', [MotoController::class,'processColorsForm'])->name('proce
 Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 
 ///ntm
-Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('download-pdf');
+Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('moto-download-pdf');
 
-Route::post('download-pdf', [PDFController::class, 'generatePdf']);
+Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-download');
 ///////////////////////////////////////////////////////////////////////////

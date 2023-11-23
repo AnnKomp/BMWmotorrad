@@ -9,7 +9,7 @@ use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
 
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class MotoController extends Controller
 {
@@ -91,21 +91,21 @@ class MotoController extends Controller
 
 
     //inutile?
-    function config(Request $request) {
-        $idmoto = $request->input('id');
+    // function config(Request $request) {
+    //     $idmoto = $request->input('id');
 
-        $moto_pic = DB::table('media')
-        ->select('*')
-        ->where('idmoto','=',$idmoto)
-        ->get();
+    //     $moto_pic = DB::table('media')
+    //     ->select('*')
+    //     ->where('idmoto','=',$idmoto)
+    //     ->get();
 
-        $packs = Pack::all();
-        $options = Option::all();
-        $accessoires = Accessoire::all();
+    //     $packs = Pack::all();
+    //     $options = Option::all();
+    //     $accessoires = Accessoire::all();
 
-        return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
+    //     return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
 
-    }
+    // }
 
 
 
@@ -120,6 +120,12 @@ class MotoController extends Controller
         $moto = Moto::with(['packs', 'options', 'accessoires'])
             ->where('idmoto', $idmoto)
             ->first();
+
+        PDF::setOptions([
+            "defaultFont" => "Courier",
+            "defaultPaperSize" => "a4",
+            "dpi" => 130
+         ]);
 
         $pdf = PDF::loadView('pdf.moto-config', [
             'selectedPacks' => $moto->packs->whereIn('idpack', $selectedPacks),

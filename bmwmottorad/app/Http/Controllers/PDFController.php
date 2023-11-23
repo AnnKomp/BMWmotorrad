@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+
 class PDFController extends Controller
 {
 
@@ -51,7 +53,7 @@ class PDFController extends Controller
         $packs = app(PackController::class)->getPacks($selectedPacks);
         $accessoires = app(AccessoireController::class)->getAccessoires($selectedAccessoires);
 
-        $pdf = PDF::loadView('pdf.moto_config', compact('options', 'packs', 'accessoires'));
+        $pdf = PDF::loadView('pdf.moto-config', compact('options', 'packs', 'accessoires'));
 
         return $pdf->download('moto_config.pdf');
     }
