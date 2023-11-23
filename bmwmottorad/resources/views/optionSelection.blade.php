@@ -12,7 +12,7 @@
 
 <form action="{{ route('processOptions')}}?id={{$idmoto}}" method="post">
 @csrf
-<h2>Option (montées d'usine)</h2>
+<h2>Options (montées d'usine)</h2>
 <table>
   <tr>
     <th> </th>
