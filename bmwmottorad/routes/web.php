@@ -9,6 +9,7 @@ use App\Http\Controllers\AccessoireController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\EquipementController;
+use App\Http\Controllers\PanierController;
 
 
 /*
@@ -47,6 +48,8 @@ Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/equipements",[EquipementController::class, "index" ]);
 Route::get("/equipement",[EquipementController::class,"detail" ]);
+
+Route::get('/panier', [PanierController::class, "info"]);
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
 
