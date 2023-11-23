@@ -21,11 +21,11 @@ class OptionController extends Controller
         $idmoto = $request->input('idmoto');
         $idpack = $request->input('idpack');
 
+        $route = $request->input('route');
+
         $option = Option::where('idoption', $idoption)->get();
 
-        //session(['lastUsedView' => 'pack']);
-
-        return view("option", ['options' => $option, 'idmoto' => $idmoto, 'idpack' => $idpack]);
+        return view("option", ['options' => $option, 'idmoto' => $idmoto, 'idpack' => $idpack, 'route'=> $route ] );
     }
 
     public function optionSelection(Request $request){
@@ -36,9 +36,7 @@ class OptionController extends Controller
                         ->where('specifie.idmoto','=',$idmoto)
                         ->get();
 
-        session(['lastUsedView' => 'options']);
-
-        return view ("optionSelection", ['options' => $options],['idmoto' => $idmoto ]);
+        return view ("optionSelection", ['options' => $options,'idmoto' => $idmoto ]);
     }
 
     public function save(Request $request)

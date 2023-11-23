@@ -32,6 +32,7 @@
 <h4> Coloris : {{$nomcoloris}}</h4>
 
 <h3>choix taille</h3>
+{{-- select -> option ->  --}}
 
 <h3>choix couleur (voir moto)</h3>
 

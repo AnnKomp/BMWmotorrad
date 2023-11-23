@@ -33,7 +33,7 @@
     <td id="name">{{ $option->nomoption }}</td>
     <td>{{ $option->detailoption }}</td>
     <td>
-        <a href="{{ url('/option?id=' . $option->idoption . '&idpack=' . $idpack) }}">
+        <a href="{{ url('/option?id=' . $option->idoption . '&idpack=' . $idpack) . '&route=pack'}}">
             <i class="fa fa-info-circle"></i>
         </a>
     </td>

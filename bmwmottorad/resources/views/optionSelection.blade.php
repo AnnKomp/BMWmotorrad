@@ -31,7 +31,7 @@
     </td>
     <td id="nom">{{ $option->nomoption }}</td>
     <td class="option">{{ $option->prixoption }} €</td>
-    <td class="option"><a href="/option?id={{ $option->idoption }}" >
+    <td class="option"><a href="{{ url('/option?id=' . $option->idoption . '&idmoto=' . $idmoto . '&route=option')}}" >
         <i class="fa fa-info-circle"></i>
     </a></td>
 
