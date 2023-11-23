@@ -8,6 +8,7 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\AccessoireController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\EquipementController;
 
 
 /*
@@ -44,6 +45,8 @@ Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 Route::get("/moto/color",[MotoController::class, "color" ]);
 //Route::get("/moto/pack",[MotoController::class, "pack" ]);
 Route::get("/pack",[PackController::class, "info" ]);
+
+Route::get("/equipements",[EquipementController::class, "index" ]);
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
 

@@ -20,7 +20,7 @@
                 <img class="header-image" src="https://www.bmw-motorrad.fr/content/dam/bmwmotorradnsc/common/mnm/graphics/bmw_motorrad_logo.svg.asset.1585209612412.svg">
             </a>
             <a href="{{ url("/motos") }}" class='menus'>Les motos</a>
-            <a href="{{ url("/motos") }}" class='menus'>Les équipements</a>
+            <a href="{{ url("/equipements") }}" class='menus'>Les équipements</a>
             <a href="{{ route('login') }}" class='menus'>
                 <img class="login" src="https://www.bmw-motorrad.fr/etc.clientlibs/mnm/mnmnsc/clientlibs/global/resources/images/new/customer-portal-login.svg">
             </a>

@@ -23,6 +23,11 @@
             {{ $moto->nommoto }}
         </div>
         <img width=100% height=100% src={{$moto->lienmedia}}>
+        <div class = 'moto_price'>
+            <hr NOSHADE ALIGN=CENTER WIDTH="40%" SIZE='5' @style(["margin-block: 5%"])>
+            A partir de
+            {{ $moto->prixmoto }} €
+        </div>
 
 
     </div>

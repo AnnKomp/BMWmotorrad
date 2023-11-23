@@ -1,0 +1,58 @@
+.categories {
+    color: black;
+    text-decoration: none;
+    font-size: 2em;
+    height : 1%;
+}
+
+.equipement_box{
+    background: #FAFAFA;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px #0000001c;
+    border : solid;
+    width : 100%;
+}
+
+.header_category{
+    background-color : grey;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    padding: auto;
+    align-items: center;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.equipement_name{
+    color : white;
+    font-size: 1.5em;
+    background-color: black;
+    text-align: center;
+    border-top-right-radius: .5rem;
+    border-top-left-radius: .5rem;
+}
+
+.equipement_display{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.equipement_lien{
+    color: black;
+    text-decoration: none;
+    margin: 30px;
+    width: 20%;
+}
+
+
+.equipement_price {
+    text-align: right;
+    padding-inline: 15%;
+    font-weight: bolder;
+    font-size: 20;
+}

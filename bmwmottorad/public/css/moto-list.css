@@ -29,9 +29,11 @@ a {
 
 .moto_name{
     color : white;
-    font-size: em;
+    font-size: 1.5em;
     background-color: black;
     text-align: center;
+    border-top-right-radius: .5rem;
+    border-top-left-radius: .5rem;
 }
 
 .moto_display{
@@ -45,4 +47,10 @@ a {
     text-decoration: none;
     margin: 30px;
     width: 27%;
+}
+
+.moto_price {
+    text-align: center;
+    margin-bottom: 3%;
+    font-weight: bold;
 }
