@@ -46,6 +46,7 @@ Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/equipements",[EquipementController::class, "index" ]);
+Route::get("/equipement",[EquipementController::class,"detail" ]);
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
 

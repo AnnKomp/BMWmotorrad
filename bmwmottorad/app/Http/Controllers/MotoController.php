@@ -89,6 +89,7 @@ class MotoController extends Controller
         return view ("moto-pack", ['packs' => $packs, 'idmoto' => $idmoto, "motos" => $motos ]);
     }
 
+
     //inutile?
     function config(Request $request) {
         $idmoto = $request->input('id');
@@ -109,26 +110,26 @@ class MotoController extends Controller
 
 
     public function downloadPDF(Request $request)
-{
-    $idmoto = $request->input('id');
+    {
+        $idmoto = $request->input('id');
 
-    $selectedPacks = session('selectedPacks', []);
-    $selectedOptions = session('selectedOptions', []);
-    $selectedAccessoires = session('selectedAccessoires', []);
+        $selectedPacks = session('selectedPacks', []);
+        $selectedOptions = session('selectedOptions', []);
+        $selectedAccessoires = session('selectedAccessoires', []);
 
-    $moto = Moto::with(['packs', 'options', 'accessoires'])
-        ->where('idmoto', $idmoto)
-        ->first();
+        $moto = Moto::with(['packs', 'options', 'accessoires'])
+            ->where('idmoto', $idmoto)
+            ->first();
 
-    $pdf = PDF::loadView('pdf.moto-config', [
-        'selectedPacks' => $moto->packs->whereIn('idpack', $selectedPacks),
-        'idmoto' => $idmoto,
-        'selectedOptions' => $moto->options->whereIn('idoption', $selectedOptions),
-        'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires),
-    ]);
+        $pdf = PDF::loadView('pdf.moto-config', [
+            'selectedPacks' => $moto->packs->whereIn('idpack', $selectedPacks),
+            'idmoto' => $idmoto,
+            'selectedOptions' => $moto->options->whereIn('idoption', $selectedOptions),
+            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires),
+        ]);
 
-    return $pdf->download('moto-config.pdf');
-}
+        return $pdf->download('moto-config.pdf');
+    }
 
 
     function showMotoConfig(Request $request) {

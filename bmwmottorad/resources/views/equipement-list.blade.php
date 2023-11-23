@@ -6,15 +6,15 @@
 
 @section('content')
 <div class = 'equipement_display'>
-   @foreach ($motos as $moto)
-   <a href="/moto?id={{ $moto->idequipement }}" class = "equipement_lien">
+   @foreach ($equipements as $equipement)
+   <a href="/equipement?id={{ $equipement->idequipement }}" class = "equipement_lien">
    <div class = 'equipement_box'>
         <div class = 'equipement_name'>
-        {{ $moto->nomequipement }}
+        {{ $equipement->nomequipement }}
         </div>
-        <img src={{$moto->lienmedia}} width=100% height=100%>
+        <img src={{$equipement->lienmedia}} width=100% height=100%>
         <div class ='equipement_price'>
-            <p>{{ $moto->prixequipement }}  €</p>
+            <p>{{ $equipement->prixequipement }}  €</p>
         </div>
         <hr NOSHADE WIDTH="80%" ALIGN=CENTER @style(["margin-block: 5%"])>
 
