@@ -15,6 +15,7 @@
 <p> {{ $thepack->descriptionpack }}</p>
 @endforeach
 
+{{--
 <h2>Les options du pack :</h2>
 <table>
     <tr>
@@ -28,7 +29,6 @@
 
 <table>
 
-   {{-- @foreach ($options as $option) --}}
 <tr>
     <td id="name">{{ $option->nomoption }}</td>
     <td>{{ $option->detailoption }}</td>
@@ -39,12 +39,11 @@
         </a>
     </td>
 </tr>
-  {{-- @endforeach --}}
 
 </table>
 @empty
 <p>Ce pack ne comporte pas d'options ou ils n'etaient pas encore spécifiés</p>
-@endforelse
+@endforelse --}}
 
 
 
