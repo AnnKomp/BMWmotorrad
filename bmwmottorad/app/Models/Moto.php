@@ -23,6 +23,11 @@ class Moto extends Model
     {
         return $this->hasMany(Accessoire::class, 'idmoto', 'idmoto');
     }
+    public function couleurs()
+    {
+        return $this->hasMany(Color::class, 'idmoto', 'idmoto');
+    }
+
 
     protected $table = "modelemoto";
     protected $primaryKey = "idmoto";

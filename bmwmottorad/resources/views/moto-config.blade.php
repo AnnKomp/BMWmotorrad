@@ -29,6 +29,12 @@
     </ul>
 
 
+    <h2>Couleur :</h2>
+        @foreach($selectedColor as $color)
+            <h3>{{ $color->nomcouleur }}</h3>
+            <img src={{ $color->motocouleur }} >
+        @endforeach
+
 <h3>*Pas de style / couleur car pas fait*</h3>
 
 

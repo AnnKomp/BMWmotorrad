@@ -8,6 +8,7 @@ use App\Models\Moto;
 use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
+use App\Models\Color;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
@@ -145,8 +146,9 @@ class MotoController extends Controller
         $selectedPacks = session('selectedPacks',[]);
         $selectedOptions = session('selectedOptions',[]);
         $selectedAccessoires = session('selectedAccessoires',[]);
+        $selectedColor = session('selectedColor',[]);
 
-        $moto = Moto::with(['packs','options','accessoires'])
+        $moto = Moto::with(['packs','options','accessoires','couleurs'])
                 ->where('idmoto',$idmoto)
                 ->first();
 
@@ -157,7 +159,8 @@ class MotoController extends Controller
             ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
             'idmoto' => $idmoto,
             'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
-            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires) ]);
+            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires),
+            'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor) ]);
 
     }
 
@@ -177,6 +180,22 @@ class MotoController extends Controller
 
         return view('moto-pack', ['packs' => $packs, 'idmoto' => $idmoto, 'motos' => $motos]);
     }
+
+    public function showColorsForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+        $colors = Color::where('idmoto', $idmoto)->get();
+
+        // Assuming you have the necessary data for $motos
+        $motos = DB::table('modelemoto')
+        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->whereColumn('idmediapresentation','idmedia')
+        ->where('modelemoto.idmoto', '=', $idmoto)
+        ->get();
+
+        return view('moto-color', ['colors' => $colors, 'idmoto' => $idmoto, 'motos' => $motos]);
+    }
+
 
 
 }

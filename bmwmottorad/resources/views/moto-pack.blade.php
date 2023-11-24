@@ -9,13 +9,6 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/moto.css')}}"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-@section('categories')
-    <div class = 'header_category'>
-        <a href="/moto?id={{$idmoto}}" class = "categories">{{ $motoname }}</a>
-        <a href="/moto/color?idmoto={{$idmoto}}&idcouleur=0" class = "categories">Couleurs</a>
-        <a href="/moto/pack?id={{$idmoto}}" class = "categories">Packs</a>
-    </div>
-@endsection
 
 @section('content')
 
@@ -50,8 +43,9 @@
 
         <br>
         </table>
+        <a id="lancerconfig" href="{{ url('/moto/color?idmoto=' . $idmoto) }}">Précedent</a>
 
-        <button id="lancerconfig" type="submit">Lancer la configuration</button>
+        <button id="lancerconfig" type="submit">Suivant : options</button>
 
         </form>
 </table>

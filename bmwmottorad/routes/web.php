@@ -10,6 +10,7 @@ use App\Http\Controllers\PackController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\EquipementController;
 use App\Http\Controllers\PanierController;
+use App\Http\Controllers\ColorController;
 
 
 /*
@@ -90,7 +91,7 @@ Route::post('/accessoires', [AccessoireController::class,'processAccessoiresForm
 
 ///choix couleurs
 Route::get('/colors', [MotoController::class,'showColorsForm']);
-Route::post('/colors', [MotoController::class,'processColorsForm'])->name('processColors');
+Route::post('/colors', [ColorController::class,'processColorsForm'])->name('processColors');
 
 ///fin de config
 Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
