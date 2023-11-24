@@ -7,6 +7,16 @@ td{
     padding: 2%;
 }
 
+table {
+    border: solid #333;
+    vertical-align: center;
+    color: black;
+    margin:auto;
+    border-collapse: collapse;
+    width: 80%;
+    margin-top: 3%;
+}
+
 #config {
     color: black;
     text-decoration: none;
