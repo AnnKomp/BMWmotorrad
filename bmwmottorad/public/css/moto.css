@@ -124,7 +124,7 @@ table.couleur {
 }
 
 img.moto_color {
-    max-width: 40%;
+    width: 100%;
     height: auto;
     margin: 2%;
 }
@@ -169,8 +169,17 @@ td.pack {
     margin-left: 15%;
     margin-top: 25px;
     text-size-adjust: 3%;
+    border: solid;
+    font-size: 1em;
 }
 
 table.options {
     margin-bottom: 5%;
+}
+
+
+.lanceconfig {
+    width: 40%;
+    border: none;
+    align-items: center;
 }
