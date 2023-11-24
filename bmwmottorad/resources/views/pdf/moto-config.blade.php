@@ -75,7 +75,7 @@
     <h2 id=nom>Couleur :
         @foreach($selectedColor as $color)
             <h3>{{ $color->nomcouleur }}</h3>
-            <img src={{ $color->motocouleur }} >
+            <img width="60%" src={{ $color->motocouleur }} >
         @endforeach
     </h2>
 
