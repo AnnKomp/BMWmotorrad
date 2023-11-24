@@ -22,12 +22,6 @@ class EquipementController extends Controller
 
     public function detail(Request $request ) {
         $idequipement = $request->input('id');
-        // $equipement_infos = DB::table('equipement')
-        //     ->select('*')
-        //     ->join('caracteristique','caracteristique.idmoto','=','modelemoto.idmoto')
-        //     ->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')
-        //     ->where('caracteristique.idequipement','=',$idequipement)
-        //     ->get();
 
         $equipement=DB::table('equipement')->select('*')->where('idequipement',$idequipement)->first();
 
