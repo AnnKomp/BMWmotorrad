@@ -153,11 +153,25 @@ class MotoController extends Controller
                 ->first();
 
 
+        $totalPrice = $moto->prixmoto;
+
+        $totalPrice += $moto->packs->whereIn('idpack', $selectedPacks)->sum('prixpack');
+
+        $totalPrice += $moto->options->whereIn('idoption', $selectedOptions)->sum('prixoption');
+
+        $totalPrice += $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires)->sum('prixaccessoire');
+
+        $totalPrice += $moto->couleurs->whereIn('idcouleur', $selectedColor)->sum('prixcouleur');
+
+
+
         //dd($selectedPacks, $selectedOptions, $selectedAccessoires);
 
         return view ('moto-config',
             ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
             'idmoto' => $idmoto,
+            'moto' => $moto,
+            'totalPrice' => $totalPrice,
             'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
             'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires),
             'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor) ]);

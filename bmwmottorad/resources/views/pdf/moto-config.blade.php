@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pdf.css')}}"/> --}}
     <title>Moto configurée</title>
 </head>
 <body>
 
 
 
-    <h1>Moto configurée</h1>
+
+    <h1>Votre configuration de la moto {{ $moto->nommoto }}</h1>
+
+    <h2 id=price>Prix total : {{ $totalPrice}} €</h2>
 
     <h2>Packs</h2>
     <table border="1">
@@ -67,8 +71,13 @@
         @endforeach
     </table>
 
-    <h3>*Pas de style / couleur car pas encore fait*</h3>
 
+    <h2 id=nom>Couleur :
+        @foreach($selectedColor as $color)
+            <h3>{{ $color->nomcouleur }}</h3>
+            <img src={{ $color->motocouleur }} >
+        @endforeach
+    </h2>
 
 
 </body>
