@@ -31,9 +31,25 @@
 
 {{-- select -> option ->  --}}
 <h3>choix taille</h3>
+<section>
+    <h3>Choix taille</h3>
+    <select name="taille" id="taille">
+        @foreach ($tailleOptions as $tailleOption)
+            <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
+        @endforeach
+    </select>
+</section>
 
 {{-- select -> option -> --}}
 <h3>choix coloris (voir moto)</h3>
+<section>
+    <h3>Choix coloris (voir moto)</h3>
+    <select name="coloris" id="coloris">
+        @foreach ($colorisOptions as $colorisOption)
+            <option value="{{ $colorisOption->idcoloris }}">{{ $colorisOption->nomcoloris }}</option>
+        @endforeach
+    </select>
+</section>
 
 <h3>Prix : {{$prixequipement}} €</h3>
 
