@@ -29,14 +29,27 @@
 </script>
 
 
-<h4> Coloris : {{$nomcoloris}}</h4>
+<div class="options-container">
+    <div class="option-section">
+        <h3>Choix taille</h3>
+        <select name="taille" id="taille">
+            @foreach ($tailleOptions as $tailleOption)
+                <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
+            @endforeach
+        </select>
+    </div>
 
-<h3>choix taille</h3>
-{{-- select -> option ->  --}}
+    <div class="option-section">
+        <h3>Choix coloris</h3>
+        <select name="coloris" id="coloris">
+            @foreach ($colorisOptions as $colorisOption)
+                <option value="{{ $colorisOption->idcoloris }}">{{ $colorisOption->nomcoloris }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
 
-<h3>choix couleur (voir moto)</h3>
-
-<h3>{{$prixequipement}} €</h3>
+<h3>Prix : {{$prixequipement}} €</h3>
 
 <h4>*bouton pour mettre dans le panier*</h4>
 

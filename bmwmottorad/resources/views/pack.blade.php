@@ -32,6 +32,7 @@
 <tr>
     <td id="name">{{ $option->nomoption }}</td>
     <td>{{ $option->detailoption }}</td>
+    <td><img src="{{ $option->photooption }}"></td>
     <td>
         <a href="{{ url('/option?id=' . $option->idoption . '&idpack=' . $idpack) . '&route=pack'}}">
             <i class="fa fa-info-circle"></i>
@@ -44,6 +45,41 @@
 @empty
 <p>Ce pack ne comporte pas d'options ou ils n'etaient pas encore spécifiés</p>
 @endforelse
+
+
+
+
+<h2>Les options du pack :</h2>
+
+@if(count($options) > 0)
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Detail</th>
+            <th>Photo</th>
+            <th>Plus d'infos</th>
+        </tr>
+
+        @foreach ($options as $option)
+            <tr>
+                <td id="name">{{ $option->nomoption }}</td>
+                <td>{{ $option->detailoption }}</td>
+                <td><img src="{{ $option->photooption }}"></td>
+                <td>
+                    <a href="{{ url('/option?id=' . $option->idoption . '&idpack=' . $idpack) . '&route=pack'}}">
+                        <i class="fa fa-info-circle"></i>
+                    </a>
+                </td>
+            </tr>
+        @endforeach
+
+    </table>
+@else
+    <p>Ce pack ne comporte pas d'options ou ils n'étaient pas encore spécifiés</p>
+@endif
+
+
+
 
 <a  id="config" href="{{ url('/moto/pack?id=' . $idmoto) .'&idmoto=' . $idmoto}}"> Retour</a>
 

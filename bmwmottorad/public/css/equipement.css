@@ -179,3 +179,12 @@ table.options {
 .description {
     text-align: justify;
 }
+
+.options-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.option-section{
+    width: 78%;
+}

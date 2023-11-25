@@ -22,32 +22,32 @@ class EquipementController extends Controller
 
     public function detail(Request $request ) {
         $idequipement = $request->input('id');
-        // $equipement_infos = DB::table('equipement')
-        //     ->select('*')
-        //     ->join('caracteristique','caracteristique.idmoto','=','modelemoto.idmoto')
-        //     ->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')
-        //     ->where('caracteristique.idequipement','=',$idequipement)
-        //     ->get();
 
-        $equipement=DB::table('equipement')->select('*')->where('idequipement',$idequipement)->first();
+        $equipement = DB::table('equipement')->select('*')->where('idequipement', $idequipement)->first();
 
-        $coloris = DB::table('coloris')
-        ->select('nomcoloris')
-        ->where('idcoloris','=',$equipement->idcoloris)
-        ->value('nomcoloris');
+        $colorisIds = DB::table('stock')->select('idcoloris')->where('idequipement', $idequipement)->pluck('idcoloris')->toArray();
+        $tailleIds = DB::table('stock')->select('idtaille')->where('idequipement', $idequipement)->pluck('idtaille')->toArray();
+
+        //where
+        $colorisOptions = DB::table('coloris')->select('idcoloris', 'nomcoloris')->whereIn('idcoloris', $colorisIds)->get();
+
+        $tailleOptions = DB::table('taille')->select('idtaille', 'libelletaille')->whereIn('idtaille', $tailleIds)->get();
+
+
 
         $equipement_pics = DB::table('media')
             ->select('lienmedia')
-            ->where('idequipement','=',$idequipement)
+            ->where('idequipement', '=', $idequipement)
             ->get();
 
-        return view ("equipement", [
+        return view("equipement", [
             "equipement_pics" => $equipement_pics,
             "idequipement" => $idequipement,
-            "nomcoloris" => $coloris,
+            "colorisOptions" => $colorisOptions,
+            "tailleOptions" => $tailleOptions,
             "descriptionequipement" => $equipement->descriptionequipement,
             "nomequipement" => $equipement->nomequipement,
             "prixequipement" => $equipement->prixequipement,
         ]);
-    }
+        }
 }
