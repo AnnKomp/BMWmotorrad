@@ -15,7 +15,7 @@ class EquipementController extends Controller
         $equipements = DB::table('equipement')
             ->select('*')
             ->join('media', 'media.idequipement','=','equipement.idequipement')
-//            ->whereColumn('idmediapresentation','idmedia')
+            ->whereColumn('idmediapresentation','idmedia')
             ->get();
         return view ("equipement-list", ['equipements'=>$equipements]);
     }
