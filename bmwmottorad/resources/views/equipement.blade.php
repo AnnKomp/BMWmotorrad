@@ -14,7 +14,9 @@
     @foreach ($equipement_pics as $pic)
         <img src={{$pic->lienmedia}}>
     @endforeach
-    </div></div>
+    </div>
+</div>
+
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -25,7 +27,42 @@
             prevArrow: '<button type="button" class="slick-prev"></button>',
             nextArrow: '<button type="button" class="slick-next"></button>',
         });
+
+
+// Add this section for fetching equipment photos dynamically
+    $('#coloris').change(function () {
+        var selectedColor = $(this).val();
+
+        /*
+        var currentUrl = window.location.href;
+        var separator = currentUrl.includes('?') ? '&' : '?';
+        var newUrl = currentUrl + separator + 'idcoloris=' + selectedColor;
+
+        // Redirect to the updated URL
+        window.location.href = newUrl;
+        */
+
+        $.ajax({
+            url: '{{ route('fetch-equipment-photos') }}',
+            method: 'POST',
+            data: {
+                idequipement: {{ $idequipement }},
+                idcoloris: selectedColor
+                },
+            success: function (data) {
+                $('#equipment-photos').html(data);
+                },
+            error: function () {
+                console.error('Error fetching equipment photos.');
+                }
+            });
+
+        });
+
+
     });
+
+
 </script>
 
 
@@ -47,9 +84,17 @@
             @endforeach
         </select>
     </div>
+
+
 </div>
 
 <h3>Prix : {{$prixequipement}} €</h3>
+
+
+<div id="equipment-photos-partial">
+    @include('partial-views.equipment-photos', ['equipement_pics' => $equipement_pics])
+</div>
+
 
 <h4>*bouton pour mettre dans le panier*</h4>
 

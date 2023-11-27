@@ -50,6 +50,9 @@ Route::get("/pack",[PackController::class, "info" ]);
 Route::get("/equipements",[EquipementController::class, "index" ]);
 Route::get("/equipement",[EquipementController::class,"detail" ]);
 
+Route::post('/fetch-equipment-photos', [EquipementController::class, 'fetchEquipmentPhotos'])
+    ->name('fetch-equipment-photos');
+
 Route::get('/panier', [PanierController::class, "info"]);
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
@@ -96,8 +99,6 @@ Route::post('/colors', [ColorController::class,'processColorsForm'])->name('proc
 ///fin de config
 Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 
-///ntm
 Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('moto-download-pdf');
-
 Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-download');
 ///////////////////////////////////////////////////////////////////////////
