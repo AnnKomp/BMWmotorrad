@@ -51,7 +51,8 @@ Route::get("/pack",[PackController::class, "info" ]);
 Route::get("/equipements",[EquipementController::class, "index" ]);
 Route::post('/equipements', [EquipementController::class, 'index'])->name('equipements.index');
 
-Route::get('/equipement',[EquipementController::class,'detail']);
+Route::get("/equipement", [EquipementController::class, "detail"]);
+
 
 Route::post('/fetch-equipment-photos', [EquipementController::class, 'fetchEquipmentPhotos'])
     ->name('fetch-equipment-photos');
