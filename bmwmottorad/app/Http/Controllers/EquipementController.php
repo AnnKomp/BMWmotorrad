@@ -83,4 +83,27 @@ class EquipementController extends Controller
             "prixequipement" => $equipement->prixequipement,
         ]);
         }
+
+
+        public function fetchEquipmentPhotos(Request $request)
+        {
+            $idequipement = $request->input('idequipement');
+            $idcoloris = $request->input('idcoloris');
+
+
+            \Log::info('idequipement' . $idequipement);
+            \Log::info('idcoloris'. $idcoloris);
+
+            // Fetch images based on $idequipement and $idcoloris
+            $equipement_pics = DB::table('presentation_eq')
+                ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                ->select('media.lienmedia')
+                ->where('presentation_eq.idequipement', $idequipement)
+                ->where('presentation_eq.idcoloris', $idcoloris)
+                ->get();
+
+            dd(DB::getQueryLog());
+
+            return view('partial-views.equipment-photos', ['equipement_pics' => $equipement_pics]);
+        }
 }

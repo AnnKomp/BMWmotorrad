@@ -30,34 +30,35 @@
 
 
 // Add this section for fetching equipment photos dynamically
-    $('#coloris').change(function () {
-        var selectedColor = $(this).val();
+        $('#coloris').change(function () {
+            var selectedColor = $(this).val();
+            console.log(selectedColor);
 
-        /*
-        var currentUrl = window.location.href;
-        var separator = currentUrl.includes('?') ? '&' : '?';
-        var newUrl = currentUrl + separator + 'idcoloris=' + selectedColor;
+            /*
+            var currentUrl = window.location.href;
+            var separator = currentUrl.includes('?') ? '&' : '?';
+            var newUrl = currentUrl + separator + 'idcoloris=' + selectedColor;
 
-        // Redirect to the updated URL
-        window.location.href = newUrl;
-        */
+            // Redirect to the updated URL
+            window.location.href = newUrl;
+            */
 
-        $.ajax({
-            url: '{{ route('fetch-equipment-photos') }}',
-            method: 'POST',
-            data: {
-                idequipement: {{ $idequipement }},
-                idcoloris: selectedColor
-                },
-            success: function (data) {
-                $('#equipment-photos').html(data);
-                },
-            error: function () {
-                console.error('Error fetching equipment photos.');
-                }
+            $.ajax({
+                url: '{{ route('fetch-equipment-photos') }}',
+                method: 'POST',
+                data: {
+                    idequipement: {{ $idequipement }},
+                    idcoloris: selectedColor
+                    },
+                success: function (data) {
+                    $('#equipment-photos').html(data);
+                    },
+                error: function () {
+                    console.error('Error fetching equipment photos.');
+                    }
+                });
+
             });
-
-        });
 
 
     });
@@ -92,7 +93,7 @@
 
 
 <div id="equipment-photos-partial">
-    @include('partial-views.equipment-photos', ['equipement_pics' => $equipement_pics])
+    @include('partial-views.equipment-photos' , ['equipement_pics' => $equipement_pics])
 </div>
 
 
