@@ -42,6 +42,7 @@ class EquipementController extends Controller
 
     public function detail(Request $request ) {
         $idequipement = $request->input('id');
+        $idcoloris = $request->input('idcoloris');
 
         $equipement = DB::table('equipement')->select('*')->where('idequipement', $idequipement)->first();
 
@@ -70,8 +71,8 @@ class EquipementController extends Controller
                     ->get();
 
 
-
-        $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
+        if ($idcoloris == null)
+            $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
 
 /*
         $equipement_pics = DB::table('media')
@@ -80,7 +81,6 @@ class EquipementController extends Controller
                     ->get();
 */
 
-        //casse tout
         $equipement_pics = DB::table('presentation_eq')
         ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
         ->select('media.lienmedia')
@@ -122,7 +122,32 @@ class EquipementController extends Controller
 
         public function fetchEquipmentPhotos(Request $request)
         {
+
             try {
+                $idequipement = $request->input('idequipement');
+                $idcoloris = $request->input('idcoloris');
+
+                // Fetch images based on $idequipement and $idcoloris
+                $equipement_pics = DB::table('presentation_eq')
+                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                    ->select('media.lienmedia')
+                    ->where('presentation_eq.idequipement', $idequipement)
+                    ->where('presentation_eq.idcoloris', $idcoloris)
+                    ->get();
+
+                $html = '';
+                foreach ($equipement_pics as $pic) {
+                    $html .= '<img src="' . $pic->lienmedia . '">';
+                }
+
+                return response()->json(['html' => $html]); // Return HTML content as JSON
+            } catch (\Exception $e) {
+                Log::error('Error fetching equipment photos' . $e->getMessage());
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+
+                    /*
+                    try {
                 $idequipement = $request->input('idequipement');
                 $idcoloris = $request->input('idcoloris');
 
@@ -139,7 +164,7 @@ class EquipementController extends Controller
                 } catch (\Exception $e) {
                     Log::error('Error fetching equipment photos'. $e->getMessage());
                     return response()->json(['error' => 'Internal Server Error'], 500);
-                }
+                }*/
 
         }
 }

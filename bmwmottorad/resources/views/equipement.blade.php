@@ -26,6 +26,8 @@
 
 
 <script>
+    console.log('Script is running !');
+
 
     $(document).ready(function(){
 
@@ -34,10 +36,27 @@
             nextArrow: '<button type="button" class="slick-next"></button>',
         });
 
+        $('#coloris').change(function () {
+            var selectedColor = $(this).val();
+            var idequipement = $('.slider-container').data('idequipement');
+
+            console.log((selectedColor));
+
+            var newUrl = window.location.href.split('?')[0] + '?id=' + idequipement + '&idcoloris=' +selectedColor;
+            history.replaceState(null,null,newUrl);
+
+            location.reload();
+
+        });
+
+
+
     });
 
 // Add this section for fetching equipment photos dynamically
+/*
         $('#coloris').change(function () {
+            console.log("we are alse in here ! ");
             var selectedColor = $(this).val();
             var idequipement = $('.slider-container').data('idequipement');
 
@@ -50,12 +69,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    idequipement: {{ $idequipement }},
+                    idequipement: idequipement,
                     idcoloris: selectedColor
                     },
                 success: function (data) {
                     $('.slider').slick('unslick');
-                    $('.slider').html(data);
+                    $('.slider').html(data.html);
                     $('.slider').slick({
                         prevArrow: '<button type="button" class="slick-prev"></button>',
                         nextArrow: '<button type="button" class="slick-next"></button>',
@@ -70,28 +89,7 @@
 
             });
 
-/*
-            16 equipement:124:21
-XHRPOST
-http://51.83.36.122:1705/fetch-equipment-photos
-[HTTP/1.1 419 unknown status 75ms]
-
-Uncaught ReferenceError: $idequipement is not defined
-    error http://51.83.36.122:1705/equipement?id=1:146
-    jQuery 6
-        c
-        fireWith
-        l
-        o
-        send
-        ajax
-    <anonymous> http://51.83.36.122:1705/equipement?id=1:126
-    jQuery 2
-        dispatch
-        handle
-equipement:146:21
 */
-
 
 </script>
 
