@@ -4,6 +4,9 @@
 
 <link rel="stylesheet" type="text/css" href="{{asset('css/equipement.css')}}"/>
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 @section('content')
 <h1>{{$nomequipement}}</h1>
 
@@ -23,6 +26,7 @@
 
 <script>
     $(document).ready(function(){
+
         $('.slider').slick({
             prevArrow: '<button type="button" class="slick-prev"></button>',
             nextArrow: '<button type="button" class="slick-next"></button>',
@@ -32,20 +36,14 @@
 // Add this section for fetching equipment photos dynamically
         $('#coloris').change(function () {
             var selectedColor = $(this).val();
-            console.log(selectedColor);
 
-            /*
-            var currentUrl = window.location.href;
-            var separator = currentUrl.includes('?') ? '&' : '?';
-            var newUrl = currentUrl + separator + 'idcoloris=' + selectedColor;
-
-            // Redirect to the updated URL
-            window.location.href = newUrl;
-            */
 
             $.ajax({
                 url: '{{ route('fetch-equipment-photos') }}',
                 method: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 data: {
                     idequipement: {{ $idequipement }},
                     idcoloris: selectedColor
@@ -53,8 +51,8 @@
                 success: function (data) {
                     $('#equipment-photos').html(data);
                     },
-                error: function () {
-                    console.error('Error fetching equipment photos.');
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error('Error fetching equipment photos.', textStatus, errorThrown);
                     }
                 });
 

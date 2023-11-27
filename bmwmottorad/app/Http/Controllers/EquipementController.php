@@ -9,6 +9,7 @@ use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
 use App\Models\CategorieEquipement;
+use Illuminate\Support\Facades\Log;
 
 class EquipementController extends Controller
 {
@@ -88,23 +89,24 @@ class EquipementController extends Controller
 
         public function fetchEquipmentPhotos(Request $request)
         {
-            $idequipement = $request->input('idequipement');
-            $idcoloris = $request->input('idcoloris');
+            try {
+                $idequipement = $request->input('idequipement');
+                $idcoloris = $request->input('idcoloris');
+
+                // Fetch images based on $idequipement and $idcoloris
+                $equipement_pics = DB::table('presentation_eq')
+                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                    ->select('media.lienmedia')
+                    ->where('presentation_eq.idequipement', $idequipement)
+                    ->where('presentation_eq.idcoloris', $idcoloris)
+                    ->get();
 
 
-            \Log::info('idequipement' . $idequipement);
-            \Log::info('idcoloris'. $idcoloris);
+                    return view('partial-views.equipment-photos', ['equipement_pics' => $equipement_pics]);
+                } catch (\Exception $e) {
+                    Log::error('Error fetching equipment photos'. $e->getMessage());
+                    return response()->json(['error' => 'Internal Server Error'], 500);
+                }
 
-            // Fetch images based on $idequipement and $idcoloris
-            $equipement_pics = DB::table('presentation_eq')
-                ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
-                ->select('media.lienmedia')
-                ->where('presentation_eq.idequipement', $idequipement)
-                ->where('presentation_eq.idcoloris', $idcoloris)
-                ->get();
-
-            dd(DB::getQueryLog());
-
-            return view('partial-views.equipment-photos', ['equipement_pics' => $equipement_pics]);
         }
 }
