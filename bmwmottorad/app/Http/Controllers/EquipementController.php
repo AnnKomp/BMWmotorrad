@@ -45,11 +45,13 @@ class EquipementController extends Controller
 
         $equipement = DB::table('equipement')->select('*')->where('idequipement', $idequipement)->first();
 
+        // rajouter une jointure avec presentation_eq ?
         $colorisIds = DB::table('stock')
                     ->select('idcoloris')
                     ->where('idequipement', $idequipement)
                     ->pluck('idcoloris')
                     ->toArray();
+
         $tailleIds = DB::table('stock')
                     ->select('idtaille')
                     ->where('idequipement', $idequipement)
@@ -69,22 +71,53 @@ class EquipementController extends Controller
 
 
 
+        $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
+
+/*
         $equipement_pics = DB::table('media')
                     ->select('lienmedia')
                     ->where('idequipement', '=', $idequipement)
                     ->get();
+*/
+
+        //casse tout
+        $equipement_pics = DB::table('presentation_eq')
+        ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+        ->select('media.lienmedia')
+        ->where('presentation_eq.idequipement', $idequipement)
+        ->where('presentation_eq.idcoloris', $idcoloris)
+        ->get();
+
+
+        //echo $idcoloris;
+        //echo $equipement_pics;
 
         return view("equipement", [
             "equipement_pics" => $equipement_pics,
             "idequipement" => $idequipement,
             "colorisOptions" => $colorisOptions,
             "tailleOptions" => $tailleOptions,
-            /*"selectedColor" => $selectedColor,*/
             "descriptionequipement" => $equipement->descriptionequipement,
             "nomequipement" => $equipement->nomequipement,
             "prixequipement" => $equipement->prixequipement,
+            "selectedColor" => $colorisOptions->first()->idcoloris,
         ]);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public function fetchEquipmentPhotos(Request $request)
