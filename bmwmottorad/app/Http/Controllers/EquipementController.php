@@ -18,20 +18,21 @@ class EquipementController extends Controller
         $categoryId = $request->input('category');
 
         $equipements = DB::table('equipement')
-            ->select('*')
-            ->join('media', 'media.idequipement', '=', 'equipement.idequipement')
-            ->join('categorieequipement','equipement.idcatequipement','=','categorieequipement.idcatequipement')
-            ->where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
-                    ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
-            })
-            ->when($categoryId, function ($queryBuilder) use ($categoryId) {
-                $queryBuilder->where('equipement.idcatequipement', $categoryId);
-            })
-            ->whereColumn('idmediapresentation', '=', 'idmedia')
-            ->get();
-        return view ("equipement-list", ['equipements'=>$equipements]);
-    }
+                    ->select('*')
+                    ->join('media', 'media.idequipement', '=', 'equipement.idequipement')
+                    ->join('categorieequipement','equipement.idcatequipement','=','categorieequipement.idcatequipement')
+                    ->where(function ($queryBuilder) use ($query) {
+                        $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
+                            ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
+                    })
+                    ->when($categoryId, function ($queryBuilder) use ($categoryId) {
+                        $queryBuilder->where('equipement.idcatequipement', $categoryId);
+                    })
+                    ->whereColumn('idmediapresentation', '=', 'idmedia')
+                    ->get();
+
+        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories]);
+        }
 
 
 
