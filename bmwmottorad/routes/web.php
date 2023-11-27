@@ -13,6 +13,7 @@ use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,7 +49,9 @@ Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/equipements",[EquipementController::class, "index" ]);
-Route::get("/equipement",[EquipementController::class,"detail" ]);
+Route::post('/equipements', [EquipementController::class, 'index'])->name('equipements.index');
+
+
 
 Route::get('/panier', [PanierController::class, "info"]);
 
