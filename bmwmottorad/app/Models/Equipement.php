@@ -12,6 +12,10 @@ class Equipement extends Model
     protected $primaryKey = "idequipement";
     public $timestamps = false;
 
-
     use HasFactory;
+
+    public function category()
+    {
+        return $this->belongsTo(CategorieEquipement::class, 'idcategorieequipement');
+    }
 }
