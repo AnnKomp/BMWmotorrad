@@ -36,6 +36,12 @@
             nextArrow: '<button type="button" class="slick-next"></button>',
         });
 
+        var urlParams = new URLSearchParams(window.location.search);
+        var selectedColorFromUrl = urlParams.get('idcoloris');
+
+        $('#coloris').val(selectedColorFromUrl);
+
+
         $('#coloris').change(function () {
             var selectedColor = $(this).val();
             var idequipement = $('.slider-container').data('idequipement');
@@ -45,7 +51,9 @@
             var newUrl = window.location.href.split('?')[0] + '?id=' + idequipement + '&idcoloris=' +selectedColor;
             history.replaceState(null,null,newUrl);
 
+
             location.reload();
+
 
         });
 

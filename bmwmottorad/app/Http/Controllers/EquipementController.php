@@ -135,10 +135,11 @@ class EquipementController extends Controller
                     ->where('presentation_eq.idcoloris', $idcoloris)
                     ->get();
 
-                $html = '';
-                foreach ($equipement_pics as $pic) {
-                    $html .= '<img src="' . $pic->lienmedia . '">';
-                }
+                    $html = '<div class="slider">';
+                    foreach ($equipement_pics as $pic) {
+                        $html .= '<img src="' . $pic->lienmedia . '">';
+                    }
+                    $html .= '</div>';
 
                 return response()->json(['html' => $html]); // Return HTML content as JSON
             } catch (\Exception $e) {
