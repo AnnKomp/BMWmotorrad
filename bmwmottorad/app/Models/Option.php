@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Option extends Model
 {
-    
+
     protected $table = "option";
     protected $primaryKey = "idoption";
     public $timestamps = false;

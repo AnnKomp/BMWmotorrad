@@ -8,8 +8,9 @@ use App\Models\Moto;
 use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
+use App\Models\Color;
 
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class MotoController extends Controller
 {
@@ -89,34 +90,126 @@ class MotoController extends Controller
         return view ("moto-pack", ['packs' => $packs, 'idmoto' => $idmoto, "motos" => $motos ]);
     }
 
+
     //inutile?
-    function config(Request $request) {
-        $idmoto = $request->input('id');
+    // function config(Request $request) {
+    //     $idmoto = $request->input('id');
 
-        $moto_pic = DB::table('media')
-        ->select('*')
-        ->where('idmoto','=',$idmoto)
-        ->get();
+    //     $moto_pic = DB::table('media')
+    //     ->select('*')
+    //     ->where('idmoto','=',$idmoto)
+    //     ->get();
 
-        $packs = Pack::all();
-        $options = Option::all();
-        $accessoires = Accessoire::all();
+    //     $packs = Pack::all();
+    //     $options = Option::all();
+    //     $accessoires = Accessoire::all();
 
-        return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
+    //     return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
 
-    }
+    // }
+
+/*
 
     public function downloadPDF(Request $request)
     {
-        $data = [
-        'selectedPacks' => $request->input('selectedPacks', []),
-        'selectedOptions' => $request->input('selectedOptions', []),
-        'selectedAccessoires' => $request->input('selectedAccessoires', []),
-        ];
+        $idmoto = $request->input('id');
 
-        $pdf = Pdf::loadView('pdf.moto-configPDF', $data );
+        $selectedPacks = session('selectedPacks', []);
+        $selectedOptions = session('selectedOptions', []);
+        $selectedAccessoires = session('selectedAccessoires', []);
 
-        return $pdf()->download('moto-config.pdf');
+        $moto = Moto::with(['packs', 'options', 'accessoires'])
+            ->where('idmoto', $idmoto)
+            ->first();
+
+        PDF::setOptions([
+            "defaultFont" => "Courier",
+            "defaultPaperSize" => "a4",
+            "dpi" => 130
+         ]);
+
+        $pdf = PDF::loadView('pdf.moto-config', [
+            'selectedPacks' => $moto->packs->whereIn('idpack', $selectedPacks),
+            'idmoto' => $idmoto,
+            'selectedOptions' => $moto->options->whereIn('idoption', $selectedOptions),
+            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires),
+        ]);
+
+        return $pdf->download('moto-config.pdf');
     }
+*/
+
+    function showMotoConfig(Request $request) {
+
+        $idmoto = $request->input('id');
+
+        $selectedPacks = session('selectedPacks',[]);
+        $selectedOptions = session('selectedOptions',[]);
+        $selectedAccessoires = session('selectedAccessoires',[]);
+        $selectedColor = session('selectedColor',[]);
+
+        $moto = Moto::with(['packs','options','accessoires','couleurs'])
+                ->where('idmoto',$idmoto)
+                ->first();
+
+
+        $totalPrice = $moto->prixmoto;
+
+        $totalPrice += $moto->packs->whereIn('idpack', $selectedPacks)->sum('prixpack');
+
+        $totalPrice += $moto->options->whereIn('idoption', $selectedOptions)->sum('prixoption');
+
+        $totalPrice += $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires)->sum('prixaccessoire');
+
+        $totalPrice += $moto->couleurs->whereIn('idcouleur', $selectedColor)->sum('prixcouleur');
+
+
+
+        //dd($selectedPacks, $selectedOptions, $selectedAccessoires);
+
+        return view ('moto-config',
+            ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
+            'idmoto' => $idmoto,
+            'moto' => $moto,
+            'totalPrice' => $totalPrice,
+            'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
+            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires),
+            'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor) ]);
+
+    }
+
+
+
+    public function showPacksForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+        $packs = Pack::where('idmoto', $idmoto)->get();
+
+        // Assuming you have the necessary data for $motos
+        $motos = DB::table('modelemoto')
+        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->whereColumn('idmediapresentation','idmedia')
+        ->where('modelemoto.idmoto', '=', $idmoto)
+        ->get();
+
+        return view('moto-pack', ['packs' => $packs, 'idmoto' => $idmoto, 'motos' => $motos]);
+    }
+
+    public function showColorsForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+        $colors = Color::where('idmoto', $idmoto)->get();
+
+        // Assuming you have the necessary data for $motos
+        $motos = DB::table('modelemoto')
+        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->whereColumn('idmediapresentation','idmedia')
+        ->where('modelemoto.idmoto', '=', $idmoto)
+        ->get();
+
+        return view('moto-color', ['colors' => $colors, 'idmoto' => $idmoto, 'motos' => $motos]);
+    }
+
+
 
 }

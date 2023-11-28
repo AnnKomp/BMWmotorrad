@@ -6,7 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+<<<<<<< HEAD
         "barryvdh/laravel-dompdf": "^2.0.1",
+=======
+        "barryvdh/laravel-dompdf": "^2.0",
+>>>>>>> 7ee9470d93d656fc8b44a1e2317bee21769841e0
         "doctrine/dbal": "^3.7",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/breeze": "1.26.1",

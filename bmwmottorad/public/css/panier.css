@@ -1,0 +1,21 @@
+tr{
+    padding : 5%;
+
+}
+
+td{
+    padding: 2%;
+}
+
+#name{
+    width: 230px;
+}
+
+#price{
+    width: 200px;
+}
+
+#info{
+    width: 200px;
+    text-align: center;
+}

@@ -18,11 +18,14 @@ class OptionController extends Controller
 
     public function info(Request $request) {
         $idoption = $request->input('id');
+        $idmoto = $request->input('idmoto');
+        $idpack = $request->input('idpack');
 
-        $option = Option::where('idoption',"=", $idoption)->get();
+        $route = $request->input('route');
 
+        $option = Option::where('idoption', $idoption)->get();
 
-        return view("option",['options'=>$option ] );
+        return view("option", ['options' => $option, 'idmoto' => $idmoto, 'idpack' => $idpack, 'route'=> $route ] );
     }
 
     public function optionSelection(Request $request){
@@ -33,15 +36,14 @@ class OptionController extends Controller
                         ->where('specifie.idmoto','=',$idmoto)
                         ->get();
 
-
-        return view ("optionSelection", ['options' => $options],['idmoto' => $idmoto ]);
+        return view ("optionSelection", ['options' => $options,'idmoto' => $idmoto ]);
     }
 
     public function save(Request $request)
     {
 
         return redirect()->back();
-    } 
+    }
 
 
     public function getOptions($selectedOptions)
@@ -50,7 +52,7 @@ class OptionController extends Controller
     }
 
 
-    public function selectedAccessories(Request $request) 
+    public function selectedAccessories(Request $request)
     {
         $idmoto = $request->input('id');
         $selectedOptions = $request->input('options', []);
@@ -63,6 +65,27 @@ class OptionController extends Controller
                                     'idmoto' => $idmoto,
                                     'accessoires' => $accessoires ]);
     }
+
+
+    public function showOptionsForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+
+        $options = Option::join('specifie','option.idoption','=','specifie.idoption')
+                        ->where('specifie.idmoto','=',$idmoto)
+                        ->get();
+
+        return view('optionSelection', ['options' => $options],['idmoto' => $idmoto ]);
+    }
+
+    public function processOptionsForm(Request $request)
+{
+    $idmoto = $request->input('id');
+    $selectedOptions = $request->input('options',[]);
+    session(['selectedOptions' => $selectedOptions]);
+
+    return redirect('/accessoires?id=' . $idmoto);
+}
 
 
 }

@@ -20,7 +20,8 @@ class AccessoireController extends Controller
 
         $accessoire = Accessoire::where('idaccessoire',"=", $idaccessoire)->get();
 
-        return view("accessoire",['accessoires'=>$accessoire ] );
+        $idmoto = $request->input('idmoto');
+        return view("accessoire",['accessoires'=>$accessoire, "idmoto" => $idmoto ] );
     }
 
     public function store(Request $request){
@@ -31,7 +32,7 @@ class AccessoireController extends Controller
         return view ("accessoireSelection", ['accessoires' => $accessoires],['idmoto' => $idmoto ]);
     }
 
-    
+
     public function detail (Request $request) {
         $idmoto = $request->input('id');
 
@@ -58,6 +59,31 @@ class AccessoireController extends Controller
             'idmoto' => $idmoto
         ]);
 
+    }
+
+
+    public function showAccessoiresForm(Request $request)
+    {
+        $idmoto = $request->input('id');
+
+
+        $accessoires=  Accessoire::where('idmoto',"=", $idmoto)->get();
+
+        return view('accessoireSelection', ['accessoires' => $accessoires],['idmoto' => $idmoto ]);
+    }
+
+    public function processAccessoiresForm(Request $request)
+    {
+
+        $idmoto = $request->input('id');
+
+
+        $selectedAccessoires = $request->input('accessoires',[]);
+        session(['selectedAccessoires' => $selectedAccessoires]);
+
+
+
+        return redirect('/moto-config?id=' . $idmoto);
     }
 
 
