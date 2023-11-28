@@ -63,6 +63,7 @@ class MotoController extends Controller
     function color(Request $request) {
         $idmoto = $request->input('idmoto');
         $idcouleur = $request->input('idcouleur');
+        $typeselec = $request->input('type');
         $moto_colors = DB::table('couleur')
             ->select('*')
             ->where('idmoto', '=', $idmoto)
@@ -72,11 +73,23 @@ class MotoController extends Controller
             ->join('media', 'media.idmoto','=','modelemoto.idmoto')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
+        if ($type = "couleur") {
         $source = DB::table('couleur')
             ->select('motocouleur')
             ->where('idcouleur', '=', $idcouleur)
+            ->get();}
+        else{
+        $source = DB::table('style')
+            ->select('motocouleur')
+            ->where('idstyle', '=', $idcouleur)
+            ->get();}
+        $styles = DB::table('style')
+            ->select('*')
+            ->where('idmoto','=',$idmoto)
             ->get();
-        return view("moto-color",["moto_colors" => $moto_colors, "idmoto" => $idmoto, "motos" => $motos, "source" => $source,"idcouleur" => $idcouleur]);
+
+        // TODO : changer la BD pour avoir la photo
+        return view("moto-color",["moto_colors" => $moto_colors, "idmoto" => $idmoto, "motos" => $motos, "source" => $source,"idcouleur" => $idcouleur,"styles" => $styles,"type" => $typeselec ]);
     }
 
     function pack(Request $request) {

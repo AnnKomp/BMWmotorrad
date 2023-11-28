@@ -61,49 +61,11 @@
 
     });
 
-// Add this section for fetching equipment photos dynamically
-/*
-        $('#coloris').change(function () {
-            console.log("we are alse in here ! ");
-            var selectedColor = $(this).val();
-            var idequipement = $('.slider-container').data('idequipement');
-
-            console.log((selectedColor));
-
-            $.ajax({
-                url: '{{ route('fetch-equipment-photos') }}',
-                method: 'POST',
-                headers : {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    idequipement: idequipement,
-                    idcoloris: selectedColor
-                    },
-                success: function (data) {
-                    $('.slider').slick('unslick');
-                    $('.slider').html(data.html);
-                    $('.slider').slick({
-                        prevArrow: '<button type="button" class="slick-prev"></button>',
-                        nextArrow: '<button type="button" class="slick-next"></button>',
-                    });
-                },
-
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log ($idequipement);
-                    console.error('Error fetching equipment photos.', textStatus, errorThrown);
-                    }
-                });
-
-            });
-
-*/
-
 </script>
 
 <div class="options-container">
     <div class="option-section">
-        <h3>Choix taille</h3>
+        <h3>Choix taille :</h3>
         <select name="taille" id="taille">
             @foreach ($tailleOptions as $tailleOption)
                 <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
@@ -112,7 +74,7 @@
     </div>
 
     <div class="option-section">
-        <h3>Choix coloris</h3>
+        <h3>Choix coloris :</h3>
         <select name="coloris" id="coloris">
             @foreach ($colorisOptions as $colorisOption)
                 <option value="{{ $colorisOption->idcoloris }}" {{ $colorisOption->idcoloris == $selectedColor ? 'selected' : '' }}>
@@ -133,7 +95,7 @@
 </div>
 --}}
 
-<h4>*bouton pour mettre dans le panier*</h4>
+<a href="www.google.com">*bouton pour mettre dans le panier*</a>
 
 
 

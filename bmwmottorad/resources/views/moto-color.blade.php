@@ -24,18 +24,24 @@
     @csrf
     <div class="couleur">
         <table class="lanceconfig">
-            <tr><td class="lanceconfig">
-            @if ($idcouleur == 0 )
-                <div><img class="moto_color" src="{{ $motos[0]->lienmedia }}"></div>
+            <tr><td class="lanceconfig"><div>
+            @if ( $type == "style")
+                <img class="moto_color" src="{{ $motos[0]->lienmedia }}">
             @else
-            <div><img class="moto_color" src="{{ $source[0]->motocouleur }}"></div>
+                @if ($idcouleur == 0 )
+                    <img class="moto_color" src="{{ $motos[0]->lienmedia }}">
+                @else
+                <img class="moto_color" src="{{ $source[0]->motocouleur }}">
+                @endif
             @endif
+            </div>
                 <div>
                     <button id="lancerconfig" type="submit">Lancer la configuration</button>
                 </div>
             </td></tr>
         </table>
         <table class="couleur">
+            <tr><td><h3>Couleurs</h3></td></tr>
             @foreach ($moto_colors as $color)
             <tr>
                 <td><input type="radio" id="option1" name="color[]" value={{ $color->idcouleur }} checked @if(in_array($color->idcouleur, session('selectedColor', []))) checked @endif></td>
@@ -43,6 +49,16 @@
                 <td class="couleur">{{ $color->nomcouleur }}</td>
                 <td class="pack">{{ $color->prixcouleur }} €</td>
                 <td class="couleur"><a href="/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}" style="font-size:24px"><i class="fa fa-info-circle"></i></a></td>
+            </tr>
+            @endforeach
+            <tr><td><h3>Styles</h3></td></tr>
+            @foreach ($styles as $style)
+          <tr>
+                <td><input type="radio" id="option1" name="color[]" value={{ $style->idstyle }} checked @if(in_array($style->idstyle, session('selectedColor', []))) checked @endif></td>
+                <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $style->idstyle }}&type=style"><img src="{{$style->photostyle}}"></a></td>
+                <td class="couleur">{{ $style->nomstyle }}</td>
+                <td class="pack">{{ $style->prixstyle }} €</td>
+                <td class="couleur"><a href="/color?idmoto={{$idmoto}}&idcouleur={{ $style->idstyle }}" style="font-size:24px"><i class="fa fa-info-circle"></i></a></td>
             </tr>
             @endforeach
 
