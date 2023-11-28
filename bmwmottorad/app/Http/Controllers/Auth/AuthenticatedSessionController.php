@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -49,5 +53,34 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+
+    // -------------------------- GOOGLE AUTHENTIFICATION ------------------
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+
+        $user = Socialite::driver('google')->user();
+
+        // You can now use $user->getId(), $user->getName(), $user->getEmail(), etc.
+
+        $current_user = User::where('email', '=' ,$user->getEmail())->first();
+
+        if($current_user){
+
+            Auth::login($current_user);
+
+            return redirect()->intended(RouteServiceProvider::HOME);
+
+        }else{
+
+            return view('auth.register')->withErrors(['email'=>'L\'authentification google requiert un compte créé avec l\'adresse du compte']);
+        }
     }
 }

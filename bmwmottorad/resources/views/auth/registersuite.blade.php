@@ -1,5 +1,6 @@
 <x-guest-layout>
     <script src="/js/register_suite_script.js" defer></script>
+    <script src="/js/adresssyntax.js" defer></script>
     <link rel="stylesheet" href="/css/registersuite.css">
     <form method="POST" action="{{ route('registersuite') }}">
         @csrf
@@ -8,9 +9,10 @@
         <div>
             <x-input-label for="accounttype" :value="__('Type de Compte*')" />
             <select id="accounttype" type="text" name="accounttype" :value="old('accounttype')" required autofocus class="block mt-1 w-full">
-                <option value="private">Privé</option>
-                <option value="professionnal">Professionnel</option>
+                <option value="private" {{ old('accounttype') == 'private' ? 'selected' : '' }}>Privé</option>
+                <option value="professionnal" {{ old('accounttype') == 'professionnal' ? 'selected' : '' }}>Professionnel</option>
             </select>
+            <x-input-error :messages="$errors->get('accounttype')" class="mt-2" />
         </div>
 
         <!-- Company Name -->
@@ -26,9 +28,10 @@
             <select id="nompays" type="text" name="nompays" :value="old('nompays')" required autofocus class="block mt-1 w-full">
                     <!-- Get all the countries for table Pays and put it into the dropdown list -->
                     @foreach ($pays as $pay)
-                        <option value="{{ $pay->nompays}}"> {{$pay->nompays}}</option>
+                        <option value="{{ $pay->nompays}}" {{ $pay->nompays == old('nompays') ? 'selected' : '' }}> {{$pay->nompays}}</option>
                     @endforeach
             </select>
+            <x-input-error :messages="$errors->get('nompays')" class="mt-2" />
         </div>
 
         <!-- Address -->

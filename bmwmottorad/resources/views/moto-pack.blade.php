@@ -12,8 +12,6 @@
 
 @section('content')
 
-
-<h2>Packs</h2>
 <table>
 
     <form action="{{ route('processPacks')}}?id={{$idmoto}}" method="post" >
