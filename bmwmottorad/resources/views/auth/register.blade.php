@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <!-- First form for the account creation -->
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

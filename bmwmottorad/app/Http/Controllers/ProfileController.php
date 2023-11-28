@@ -30,6 +30,7 @@ class ProfileController extends Controller
         $company = DB::table('professionnel')->select('nomcompagnie')->where('idclient', '=', $user->idclient)->first();
         $phone = Telephone::where('idclient', '=', $user->idclient)->get();
         $adress = DB::table('adresse')->select('nompays','adresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', "=", $user->idclient)->first();
+        // Return the edit view with the necessary data in parameter
         return view('profile.edit', [
             'user' => $user,
             'company' => $company,
@@ -45,13 +46,14 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        
+        // The email format is checked only if it was modifie because of the unique clause
         if($request->email != $request->user()->email){
             $request->validate([
                 'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             ]);
         }
 
+        // Check if the format of the new data is valid
         $request->validate([
             'civilite' => ['required', 'string', 'max:255'],
             'firstname' => ['required', 'string', 'max:255'],
@@ -67,8 +69,10 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+        // Save the data
         $request->user()->save();
 
+        // Reflecting the data update on the client table (TODO: Remove the client table and make the users table the new client table)
         Client::where('idclient', $request->user()->idclient)->update([
             'civilite'=>$request->civilite,
             'nomclient'=>$request->lastname,
@@ -77,12 +81,14 @@ class ProfileController extends Controller
             'datenaissanceclient'=>$request->datenaissanceclient,
         ]);
 
+        // Redirect to the same view with a status update
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     // Update de user's adress information
     public function updateadress(Request $request): RedirectResponse
     {
+        // Validating the data format
         $request->validate([
             'adresse' => ['required', 'string', 'max:100'],
             'telephonepvmb' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],
@@ -91,23 +97,29 @@ class ProfileController extends Controller
             'telephonepffx' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],
         ]);
 
+        // ---------------------------------------------------- Adress update ----------------------------------------------------------------------
+
+        // Updating the Adress
         $adress = DB::table('adresse')->select('adresse.numadresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', '=', auth()->user()->idclient)->first();
         Adresse::where('numadresse', $adress->numadresse)->update([
             'nompays'=>$request->nompays,
             'adresse'=>$request->adresse,
         ]);
 
+        // Updating the company name of the account
         if($request->nomcompagnie){
             Professionnel::where('idclient', $request->user()->idclient)->update([
                 'nomcompagnie'=>$request->nomcompagnie
             ]);
         }
 
+        // ---------------------------------------------------- Phone number update ----------------------------------------------------------------------
+
+        // Make sure that there is at least one phone number
         if(empty($request->MobilePrivé) && empty($request->MobileProfessionnel) && empty($request->FixePrivé) && empty($request->FixeProfessionnel)){
             return redirect('/profile');
         }
-
-
+        // Update the phone numbers
         Telephone::where('idclient', $request->user()->idclient)->where('type', 'Mobile')->where('fonction', 'Privé')->update([
             'numtelephone' => $request->MobilePrivé
         ]);
@@ -120,7 +132,7 @@ class ProfileController extends Controller
         Telephone::where('idclient', $request->user()->idclient)->where('type', 'Fixe')->where('fonction', 'Professionnel')->update([
             'numtelephone' => $request->FixeProfessionnel
         ]);
-
+        // Redirect to the same view with a status update
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

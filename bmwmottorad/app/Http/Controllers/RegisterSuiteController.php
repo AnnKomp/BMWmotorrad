@@ -26,11 +26,12 @@ class RegisterSuiteController extends Controller
 
     public function store(Request $request): RedirectResponse{
 
-
+        // Check if at least one phone number was given 
         if(empty($request->telephonepvmb) && empty($request->telephonepvfx) && empty($request->telephonepfmb) && empty($request->telephonepffx)){
             return redirect('registersuite');
         }
 
+        // Check the data format
         $request->validate([
             'adresse' => ['required', 'string', 'max:100'],
             'nomcompagnie' => ['required_if:accounttype,professionnal'],
@@ -41,6 +42,7 @@ class RegisterSuiteController extends Controller
             'telephonepffx' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],
         ]);
 
+        // ---------------------------------------------------- Adress creation  ----------------------------------------------------------------------
         // Creating the adress for the new user
 
         $b = new Adresse;
@@ -49,8 +51,8 @@ class RegisterSuiteController extends Controller
 
         $b->save();
 
-        // Creating a new client for the new user
-
+        // ---------------------------------------------------- Client creation ----------------------------------------------------------------------
+        // Creating a new client for the new user (TODO : Remove client table and replace by users table)
         $c = new Client;
         $c->civilite = $request->user()->civilite;
         $c->mdpclient = $request->user()->password;
@@ -63,8 +65,9 @@ class RegisterSuiteController extends Controller
 
         $c->save();
 
-        // Creating the four phone numbers for the new user
 
+        // ---------------------------------------------------- Phone number creation ----------------------------------------------------------------------
+        // Creating the four phone numbers for the new user
         $t = new Telephone;
         $t->numtelephone = $request->telephonepvmb;
         $t->fonction = 'Privé';
@@ -97,11 +100,14 @@ class RegisterSuiteController extends Controller
 
         $t->save();
 
+        // ---------------------------------------------------- User update ----------------------------------------------------------------------
+        // Linking user and client table (To be removed)
         User::where('id', auth()->user()->id)->update([
             'idclient'=>$c->idclient,
             'iscomplete'=>true,
         ]);
 
+        // ---------------------------------------------------- Account type linking ----------------------------------------------------------------------
         if($request->input("accounttype") == "private"){
             $p = new Prive;
             $p->idclient = $c->idclient;
@@ -113,6 +119,7 @@ class RegisterSuiteController extends Controller
             $p->save();
         }
 
+        // Redirect to the registerfinished view
         return redirect('registerfinished');
     }
 }

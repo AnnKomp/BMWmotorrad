@@ -2,6 +2,7 @@
     <script src="/js/register_suite_script.js" defer></script>
     <script src="/js/adresssyntax.js" defer></script>
     <link rel="stylesheet" href="/css/register.css">
+    <!-- Second form for the account creation -->
     <form method="POST" action="{{ route('registersuite') }}">
         @csrf
 

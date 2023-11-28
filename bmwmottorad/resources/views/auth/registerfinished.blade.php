@@ -1,6 +1,8 @@
 <x-guest-layout>
     <link rel="stylesheet" href="/css/register.css">
         
+        <!-- Redirection page after creating a new account -->
+
         <h2>Votre compte BMW Motorrad a été créé avec succès!</h2>
 
         <div class="flex items-center justify-center mt-4">
