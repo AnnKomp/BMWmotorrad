@@ -25,6 +25,8 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
 
+    <a href="<?php echo e(url("/login/google")); ?>">Se connecter avec google</a>
+
     <form method="POST" action="<?php echo e(route('login')); ?>">
         <?php echo csrf_field(); ?>
 

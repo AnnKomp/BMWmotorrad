@@ -8,7 +8,7 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\AccessoireController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\PDFController;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +54,11 @@ Route::get('/dashboard', function () {
     }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// --------------------------- Google authentification Routes ----------------------------------------------------
+
+Route::get('/login/google', [AuthenticatedSessionController::class, "redirectToGoogle"]);
+Route::get('/login/google/callback', [AuthenticatedSessionController::class, "handleGoogleCallback"]);
 
 
 Route::middleware('auth')->group(function () {
