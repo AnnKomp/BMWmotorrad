@@ -24,6 +24,11 @@
 
         </div>
         <img src=<?php echo e($moto->lienmedia); ?> width=100% height=100%>
+        <div class = 'moto_price'>
+            <hr NOSHADE ALIGN=CENTER WIDTH="40%" SIZE='5' style="<?php echo \Illuminate\Support\Arr::toCssStyles(["margin-block: 5%"]) ?>">
+            A partir de
+            <?php echo e($moto->prixmoto); ?> €
+        </div>
 
 
     </div>

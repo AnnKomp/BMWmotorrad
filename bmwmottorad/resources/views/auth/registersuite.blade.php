@@ -1,7 +1,7 @@
 <x-guest-layout>
     <script src="/js/register_suite_script.js" defer></script>
     <script src="/js/adresssyntax.js" defer></script>
-    <link rel="stylesheet" href="/css/registersuite.css">
+    <link rel="stylesheet" href="/css/register.css">
     <form method="POST" action="{{ route('registersuite') }}">
         @csrf
 
@@ -76,7 +76,12 @@
             <x-text-input minlength="10" maxlength="10" id="telephonepffx" class="block mt-1 w-full" type="tel" name="telephonepffx" :value="old('telephonepffx')"  autofocus autocomplete="telephonepffx" />
             <x-input-error :messages="$errors->get('telephonepffx')" class="mt-2" />
         </div>
+
         <h2>Merci de fournir au moins un numéro de téléphone</h2>
+
+        <div class="mt-4">
+            <p>* : champ obligatoire</p>
+        </div>
 
         <div class="flex items-center justify-end mt-4">
             <x-primary-button class="ms-4">

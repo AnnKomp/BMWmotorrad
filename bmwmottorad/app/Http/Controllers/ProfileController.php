@@ -45,11 +45,17 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        
+        if($request->email != $request->user()->email){
+            $request->validate([
+                'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            ]);
+        }
+
         $request->validate([
             'civilite' => ['required', 'string', 'max:255'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'datenaissanceclient' => ['required', 'date', 'before:' . now()->subYears(18)->format('Y-m-d')],
         ]);
 

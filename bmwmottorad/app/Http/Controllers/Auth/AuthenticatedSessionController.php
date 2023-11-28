@@ -80,7 +80,7 @@ class AuthenticatedSessionController extends Controller
 
         }else{
 
-            return view('auth.register')->withErrors(['email'=>'L\'authentification google requiert un compte créé avec l\'adresse du compte']);
+            return view('auth.register')->withErrors(['google'=>'L\'authentification google requiert un compte créé avec l\'adresse du compte']);
         }
     }
 }

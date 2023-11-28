@@ -113,6 +113,6 @@ class RegisterSuiteController extends Controller
             $p->save();
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect('registerfinished');
     }
 }
