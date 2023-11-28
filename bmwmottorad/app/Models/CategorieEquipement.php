@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CategorieEquipement extends Model
@@ -10,4 +11,5 @@ class CategorieEquipement extends Model
     protected $primaryKey = 'idcatequipement';
     protected $fillable = ['libellecatequipement'];
 
+    use HasFactory;
 }

@@ -16,6 +16,7 @@ class EquipementController extends Controller
         $query = $request->input('search');
         $categories = CategorieEquipement::all();
         $categoryId = $request->input('category');
+        $sex = $request->input('sex');
 
         $equipements = DB::table('equipement')
                     ->select('*')
@@ -27,6 +28,9 @@ class EquipementController extends Controller
                     })
                     ->when($categoryId, function ($queryBuilder) use ($categoryId) {
                         $queryBuilder->where('equipement.idcatequipement', $categoryId);
+                    })
+                    ->when($sex, function ($queryBuilder) use ($sex) {
+                        $queryBuilder->where('equipement.sexeequipement', $sex);
                     })
                     ->whereColumn('idmediapresentation', '=', 'idmedia')
                     ->get();
