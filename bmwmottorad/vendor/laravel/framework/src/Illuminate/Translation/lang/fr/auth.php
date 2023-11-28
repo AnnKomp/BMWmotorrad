@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Aucun compte ne correspond à cette adresse.',
+    'failed' => 'Aucun compte ne correspond à cette adresse email.',
     'password' => 'Le mot de passe est incorrect.',
     'throttle' => 'Trop de tentatives de connexion, merci de réessayer dans :seconds secondes.',
 

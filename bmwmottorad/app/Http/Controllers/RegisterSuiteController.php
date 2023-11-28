@@ -26,12 +26,14 @@ class RegisterSuiteController extends Controller
 
     public function store(Request $request): RedirectResponse{
 
+
         if(empty($request->telephonepvmb) && empty($request->telephonepvfx) && empty($request->telephonepfmb) && empty($request->telephonepffx)){
             return redirect('registersuite');
         }
 
         $request->validate([
             'adresse' => ['required', 'string', 'max:100'],
+            'nomcompagnie' => ['required_if:accounttype,professionnal'],
             'datenaissanceclient' => ['required', 'date', 'before:' . now()->subYears(18)->format('Y-m-d')],
             'telephonepvmb' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],
             'telephonepfmb' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],

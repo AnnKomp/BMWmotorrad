@@ -23,7 +23,7 @@ return [
     'alpha_num' => 'The :attribute field must only contain letters and numbers.',
     'array' => 'The :attribute field must be an array.',
     'ascii' => 'The :attribute field must only contain single-byte alphanumeric characters and symbols.',
-    'before' => 'The :attribute field must be a date before :date.',
+    'before' => 'Vous devez avoir au moins 18 ans pour créer un compte',
     'before_or_equal' => 'The :attribute field must be a date before or equal to :date.',
     'between' => [
         'array' => 'The :attribute field must have between :min and :max items.',
@@ -172,6 +172,16 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'email' => [
+            'unique' => 'Cette adresse est déjà prise'
+        ],
+        'password' => [
+            'confirmed' => 'Les Mots de passe ne correspondent pas',
+            'min' => 'Le Mot de passe doit faire au moins 12 caractères',
+        ],
+        'nomcompagnie' => [
+            'required_if' => 'Il est nécessaire de fournir le nom de la compagnie pour un compte professionnel',
+        ],
     ],
 
     /*
@@ -185,6 +195,20 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'adresse' => 'Adresse',
+        'datenaissanceclient' => 'Date de naissance',
+        'password' => 'Mot de passe',
+        'telephonepvmw' => 'Numéro de téléphone mobile privé',
+        'telephonepfmb' => 'Numéro de téléphone mobile professionnel',
+        'telephonepvfx' => 'Numéro de téléphone fixe privé',
+        'telephonepffx' => 'Numéro de téléphone fixe professionnel',
+        'nompays' => 'Pays',
+        'civilite' => 'Civilité',
+        'lastname' => 'Nom',
+        'firstname' => 'Prénom',
+        'email' => 'Adresse email',
+
+    ],
 
 ];

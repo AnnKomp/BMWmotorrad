@@ -299,7 +299,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="<?php echo e(route('login')); ?>">
-                <?php echo e(__('Already registered?')); ?>
+                <?php echo e(__('Déjà inscrit?')); ?>
 
             </a>
 
@@ -312,7 +312,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['class' => 'ms-4']); ?>
-                <?php echo e(__('Register')); ?>
+                <?php echo e(__('S\'inscrire')); ?>
 
              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
