@@ -173,7 +173,8 @@ return [
             'rule-name' => 'custom-message',
         ],
         'email' => [
-            'unique' => 'Cette adresse est déjà prise'
+            'unique' => 'Cette adresse est déjà prise',
+            'lowercase' => 'L\'adresse email doit être en lettres minuscules',
         ],
         'password' => [
             'confirmed' => 'Les Mots de passe ne correspondent pas',
