@@ -16,6 +16,9 @@ use App\Http\Controllers\ColorController;
 
 
 
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
