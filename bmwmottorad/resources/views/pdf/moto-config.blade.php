@@ -10,9 +10,6 @@
 </head>
 <body>
 
-
-
-
     <h1>Votre configuration de la moto {{ $moto->nommoto }}</h1>
 
     <h2 id=price>Prix total : {{ $totalPrice}} €</h2>
