@@ -27,10 +27,6 @@ class Moto extends Model
     {
         return $this->hasMany(Color::class, 'idmoto', 'idmoto');
     }
-    public function styles()
-    {
-        return $this->hasMany(Style::class, 'idmoto', 'idmoto');
-    }
 
 
     protected $table = "modelemoto";

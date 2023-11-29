@@ -11,9 +11,6 @@
 
 <h2 id=price>Prix total : {{ $totalPrice}} €</h2>
 
-
-@if ( $selectedPacks->isNotEmpty())
-
 <h2 id=nom>Packs : </h2>
 <table>
     <tr>
@@ -31,11 +28,6 @@
         </tr>
     @endforeach
 </table>
-
-@endif
-
-@if ( $selectedOptions->isNotEmpty())
-
 
 <h2 id=nom>Options : </h2>
 <table>
@@ -55,10 +47,6 @@
     @endforeach
 </table>
 
-@endif
-
-@if ( $selectedAccessoires->isNotEmpty())
-
 <h2 id=nom>Accessoires : </h2>
 <table>
     <tr>
@@ -77,37 +65,17 @@
     @endforeach
 </table>
 
-@endif
 
-@if ( $selectedColor->isNotEmpty())
 
     <h2 id=nom>Couleur :
         @foreach($selectedColor as $color)
-            <h3 id=nom>{{ $color->nomcouleur }}</h3>
-
+            <h3>{{ $color->nomcouleur }}</h3>
 
     <div style="text-align: center;">
             <img width="80%" src={{ $color->motocouleur }} >
             </div>
         @endforeach
     </h2>
-
-@endif
-
-@if ( $selectedStyle->isNotEmpty())
-
-    <h2 id=nom>Style :
-        @foreach($selectedStyle as $style)
-            <h3 id=nom>{{ $style->nomstyle }}</h3>
-
-
-    <div style="text-align: center;">
-            <img width="80%" src={{ $style->photomoto }} >
-            </div>
-        @endforeach
-    </h2>
-
-@endif
 
 <form action="{{ route('pdf-download') . '?id=' . $idmoto }}" method="post">
     @csrf

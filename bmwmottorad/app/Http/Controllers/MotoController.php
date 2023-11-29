@@ -73,22 +73,22 @@ class MotoController extends Controller
             ->join('media', 'media.idmoto','=','modelemoto.idmoto')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
-        if ($typeselec != "style") {
-            $source = DB::table('couleur')
-                ->select('motocouleur')
-                ->where('idcouleur', '=', $idcouleur)
-                ->get();
-        }
+        if ($type = "couleur") {
+        $source = DB::table('couleur')
+            ->select('motocouleur')
+            ->where('idcouleur', '=', $idcouleur)
+            ->get();}
         else{
-            $source = DB::table('style')
-                ->select('*')
-                ->where('idstyle', '=', $idcouleur)
-                ->get();
-        }
+        $source = DB::table('style')
+            ->select('motocouleur')
+            ->where('idstyle', '=', $idcouleur)
+            ->get();}
         $styles = DB::table('style')
             ->select('*')
             ->where('idmoto','=',$idmoto)
             ->get();
+
+        // TODO : changer la BD pour avoir la photo
         return view("moto-color",["moto_colors" => $moto_colors, "idmoto" => $idmoto, "motos" => $motos, "source" => $source,"idcouleur" => $idcouleur,"styles" => $styles,"type" => $typeselec ]);
     }
 
@@ -160,9 +160,8 @@ class MotoController extends Controller
         $selectedOptions = session('selectedOptions',[]);
         $selectedAccessoires = session('selectedAccessoires',[]);
         $selectedColor = session('selectedColor',[]);
-        $selectedStyle = session('selectedStyle',[]);
 
-        $moto = Moto::with(['packs','options','accessoires','couleurs','styles'])
+        $moto = Moto::with(['packs','options','accessoires','couleurs'])
                 ->where('idmoto',$idmoto)
                 ->first();
 
@@ -177,11 +176,10 @@ class MotoController extends Controller
 
         $totalPrice += $moto->couleurs->whereIn('idcouleur', $selectedColor)->sum('prixcouleur');
 
-        $totalPrice += $moto->styles->whereIn('idstyle', $selectedStyle)->sum('prixstyle');
 
 
+        //dd($selectedPacks, $selectedOptions, $selectedAccessoires);
 
-        //dd($selectedPacks, $selectedOptions, $selectedAccessoires,$selectedStyle);
         return view ('moto-config',
             ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
             'idmoto' => $idmoto,
@@ -189,8 +187,7 @@ class MotoController extends Controller
             'totalPrice' => $totalPrice,
             'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
             'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires),
-            'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor),
-            'selectedStyle' => $moto->styles->whereIn('idstyle',$selectedStyle) ]);
+            'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor) ]);
 
     }
 
@@ -218,11 +215,10 @@ class MotoController extends Controller
 
         // Assuming you have the necessary data for $motos
         $motos = DB::table('modelemoto')
-            ->select('*')
-            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
-            ->where('modelemoto.idmoto', '=', $idmoto)
-            ->get();
+        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->whereColumn('idmediapresentation','idmedia')
+        ->where('modelemoto.idmoto', '=', $idmoto)
+        ->get();
 
         return view('moto-color', ['colors' => $colors, 'idmoto' => $idmoto, 'motos' => $motos]);
     }
