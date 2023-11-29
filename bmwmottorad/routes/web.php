@@ -8,15 +8,12 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\AccessoireController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\PDFController;
-<<<<<<< HEAD
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-=======
 use App\Http\Controllers\EquipementController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
 
 
->>>>>>> 7ee9470d93d656fc8b44a1e2317bee21769841e0
 
 /*
 |--------------------------------------------------------------------------
