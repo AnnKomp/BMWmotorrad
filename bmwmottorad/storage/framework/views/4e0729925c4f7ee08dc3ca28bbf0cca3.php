@@ -8,7 +8,8 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
     <script src="/js/register_suite_script.js" defer></script>
-    <link rel="stylesheet" href="/css/registersuite.css">
+    <script src="/js/adresssyntax.js" defer></script>
+    <link rel="stylesheet" href="/css/register.css">
     <form method="POST" action="<?php echo e(route('registersuite')); ?>">
         <?php echo csrf_field(); ?>
 
@@ -30,9 +31,24 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
             <select id="accounttype" type="text" name="accounttype" :value="old('accounttype')" required autofocus class="block mt-1 w-full">
-                <option value="private">Privé</option>
-                <option value="professionnal">Professionnel</option>
+                <option value="private" <?php echo e(old('accounttype') == 'private' ? 'selected' : ''); ?>>Privé</option>
+                <option value="professionnal" <?php echo e(old('accounttype') == 'professionnal' ? 'selected' : ''); ?>>Professionnel</option>
             </select>
+            <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('accounttype'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('accounttype')),'class' => 'mt-2']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
         </div>
 
         <!-- Company Name -->
@@ -104,9 +120,24 @@
             <select id="nompays" type="text" name="nompays" :value="old('nompays')" required autofocus class="block mt-1 w-full">
                     <!-- Get all the countries for table Pays and put it into the dropdown list -->
                     <?php $__currentLoopData = $pays; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($pay->nompays); ?>"> <?php echo e($pay->nompays); ?></option>
+                        <option value="<?php echo e($pay->nompays); ?>" <?php echo e($pay->nompays == old('nompays') ? 'selected' : ''); ?>> <?php echo e($pay->nompays); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
+            <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('nompays'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('nompays')),'class' => 'mt-2']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
         </div>
 
         <!-- Address -->
@@ -389,7 +420,12 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
         </div>
+
         <h2>Merci de fournir au moins un numéro de téléphone</h2>
+
+        <div class="mt-4">
+            <p>* : champ obligatoire</p>
+        </div>
 
         <div class="flex items-center justify-end mt-4">
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>

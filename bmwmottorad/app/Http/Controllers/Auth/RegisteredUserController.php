@@ -32,14 +32,16 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Check if the data is in a valid format
         $request->validate([
             'civilite' => ['required', 'string', 'max:255'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', 'min:12', Rules\Password::defaults()],
         ]);
 
+        // Creates a new user
         $user = User::create([
             'civilite' => $request->civilite,
             'firstname' => $request->firstname,
@@ -48,10 +50,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // The user is logged in
         event(new Registered($user));
 
         Auth::login($user);
 
+        // Redirects to the next part of the account registration
         return redirect('registersuite');
     }
 }

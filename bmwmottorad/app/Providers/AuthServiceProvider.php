@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Socialite::extend('google', function ($app) {
+            return Socialite::buildProvider(\Laravel\Socialite\Two\GoogleProvider::class, config('services.google'));
+        });
     }
 }
