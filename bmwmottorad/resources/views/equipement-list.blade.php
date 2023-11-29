@@ -15,6 +15,12 @@
             <option value="{{ $category->idcatequipement }}">{{ $category->libellecatequipement }}</option>
         @endforeach
     </select>
+    <select name="sex">
+        <option value="">Tous les sexes</option>
+        <option value="h">Homme</option>
+        <option value="f">Femme</option>
+        <option value="uni">Unique</option>
+    </select>
     <button type="submit">Rechercher</button>
 </form>
 

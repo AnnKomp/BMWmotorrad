@@ -1,12 +1,12 @@
 <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            <?php echo e(__('Delete Account')); ?>
+            <?php echo e(__('Supprimer le compte')); ?>
 
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            <?php echo e(__('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.')); ?>
+            <?php echo e(__('Une fois votre compte supprimé, toutes ses données seront supprimées et vous ne pourrez plus accéder à votre compte.')); ?>
 
         </p>
     </header>
@@ -19,7 +19,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['x-data' => '','x-on:click.prevent' => '$dispatch(\'open-modal\', \'confirm-user-deletion\')']); ?><?php echo e(__('Delete Account')); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['x-data' => '','x-on:click.prevent' => '$dispatch(\'open-modal\', \'confirm-user-deletion\')']); ?><?php echo e(__('Supprimer le compte')); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
@@ -40,12 +40,12 @@
             <?php echo method_field('delete'); ?>
 
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                <?php echo e(__('Are you sure you want to delete your account?')); ?>
+                <?php echo e(__('Êtes vous sûr de vouloir supprimer votre compte ?')); ?>
 
             </h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                <?php echo e(__('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.')); ?>
+                <?php echo e(__('Une fois votre compte supprimée, toutes ses données seront supprimées et vous ne pourrez plus accéder à votre compte. Veuillez entrer votre mot de passe si vous souhaitez confirmer la suppression de votre compte BMW Motorrad.')); ?>
 
             </p>
 
@@ -109,7 +109,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['x-on:click' => '$dispatch(\'close\')']); ?>
-                    <?php echo e(__('Cancel')); ?>
+                    <?php echo e(__('Annuler')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -127,7 +127,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['class' => 'ms-3']); ?>
-                    <?php echo e(__('Delete Account')); ?>
+                    <?php echo e(__('Supprimer le compte')); ?>
 
                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

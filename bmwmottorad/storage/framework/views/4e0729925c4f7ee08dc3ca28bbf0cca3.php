@@ -9,7 +9,8 @@
 <?php $component->withAttributes([]); ?>
     <script src="/js/register_suite_script.js" defer></script>
     <script src="/js/adresssyntax.js" defer></script>
-    <link rel="stylesheet" href="/css/registersuite.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <!-- Second form for the account creation -->
     <form method="POST" action="<?php echo e(route('registersuite')); ?>">
         <?php echo csrf_field(); ?>
 
@@ -420,7 +421,12 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
         </div>
+
         <h2>Merci de fournir au moins un numéro de téléphone</h2>
+
+        <div class="mt-4">
+            <p>* : champ obligatoire</p>
+        </div>
 
         <div class="flex items-center justify-end mt-4">
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>

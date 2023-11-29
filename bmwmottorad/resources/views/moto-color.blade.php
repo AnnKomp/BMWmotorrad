@@ -24,29 +24,44 @@
     @csrf
     <div class="couleur">
         <table class="lanceconfig">
-            <tr><td class="lanceconfig">
+            <tr><td class="lanceconfig"><div>
             @if ($idcouleur == 0 )
-                <div><img class="moto_color" src="{{ $motos[0]->lienmedia }}"></div>
+                <img class="moto_color" src="{{ $motos[0]->lienmedia }}">
+            @elseif ( $type != "style")
+                <img class="moto_color" src="{{ $source[0]->motocouleur }}">
             @else
-            <div><img class="moto_color" src="{{ $source[0]->motocouleur }}"></div>
+                <img class="moto_color" src="{{ $source[0]->photomoto }}">
             @endif
+            </div>
                 <div>
                     <button id="lancerconfig" type="submit">Lancer la configuration</button>
                 </div>
             </td></tr>
         </table>
+
+
         <table class="couleur">
+            <tr><td><h3>Couleurs</h3></td></tr>
             @foreach ($moto_colors as $color)
             <tr>
-                <td><input type="radio" id="option1" name="color[]" value={{ $color->idcouleur }} checked @if(in_array($color->idcouleur, session('selectedColor', []))) checked @endif></td>
+                <td><input type="radio" name="option[]" value="{!! 'color_' . $color->idcouleur !!}" checked @if(in_array("color_{$color->idcouleur}", session('selectedOption', []))) checked @endif></td>
                 <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}"><img src="{{$color->photocouleur}}"></a></td>
                 <td class="couleur">{{ $color->nomcouleur }}</td>
                 <td class="pack">{{ $color->prixcouleur }} €</td>
-                <td class="couleur"><a href="/color?idmoto={{$idmoto}}&idcouleur={{ $color->idcouleur }}" style="font-size:24px"><i class="fa fa-info-circle"></i></a></td>
+                </tr>
+            @endforeach
+            <tr><td><h3>Styles</h3></td></tr>
+            @foreach ($styles as $style)
+            <tr>
+                <td><input type="radio" name="option[]" value="{!! 'style_' . $style->idstyle !!}" checked @if(in_array("style_{$style->idstyle}", session('selectedOption', []))) checked @endif></td>
+                <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $style->idstyle }}&type=style"><img src="{{$style->photostyle}}"></a></td>
+                <td class="couleur">{{ $style->nomstyle }}</td>
+                <td class="pack">{{ $style->prixstyle }} €</td>
+                {{--<td class="couleur"><i class="fa fa-info-circle"></i></a></td> TODO--}}
             </tr>
             @endforeach
-
         </table>
+
 
 
     </div>

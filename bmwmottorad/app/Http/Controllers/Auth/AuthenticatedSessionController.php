@@ -58,29 +58,38 @@ class AuthenticatedSessionController extends Controller
 
     // -------------------------- GOOGLE AUTHENTIFICATION ------------------
 
+    /**
+     * Display the google authentification view
+     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * Handle the google authentification request
+     */
     public function handleGoogleCallback()
     {
 
         $user = Socialite::driver('google')->user();
 
-        // You can now use $user->getId(), $user->getName(), $user->getEmail(), etc.
+        //to get a google user data : $user->getId(), $user->getName(), $user->getEmail(), etc.
 
+        // Check if an account with the google account email exists
         $current_user = User::where('email', '=' ,$user->getEmail())->first();
 
         if($current_user){
 
+            // If a user corresponds, the user is logged in
             Auth::login($current_user);
 
             return redirect()->intended(RouteServiceProvider::HOME);
 
         }else{
 
-            return view('auth.register')->withErrors(['email'=>'L\'authentification google requiert un compte créé avec l\'adresse du compte']);
+            // If no user corresponds, redirects to the register page to create an account with an error message
+            return view('auth.register')->withErrors(['google'=>'L\'authentification google requiert un compte créé avec l\'adresse du compte']);
         }
     }
 }

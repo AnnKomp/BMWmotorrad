@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\RegisterSuiteController;
+use App\Http\Controllers\RegisterFinishedController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\AccessoireController;
@@ -12,6 +13,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\EquipementController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
+
+
+
 
 
 
@@ -74,12 +78,14 @@ Route::get('/dashboard', function () {
 
 Route::get('/login/google', [AuthenticatedSessionController::class, "redirectToGoogle"]);
 Route::get('/login/google/callback', [AuthenticatedSessionController::class, "handleGoogleCallback"]);
-
+// ---------------------------------------------------------------------------------------------------------------
 
 Route::middleware('auth')->group(function () {
     //Controller for the second part of the account creation
     Route::get('registersuite', [RegisterSuiteController::class, 'create']);
     Route::post('registersuite', [RegisterSuiteController::class, 'store'])->name('registersuite');
+    //Controller for the redirection page after creating a new account
+    Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
