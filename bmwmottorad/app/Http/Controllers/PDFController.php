@@ -20,6 +20,7 @@ class PDFController extends Controller
         $selectedOptions = session('selectedOptions', []);
         $selectedAccessoires = session('selectedAccessoires', []);
         $selectedColor = session('selectedColor',[]);
+        $selectedStyle = session('selectedStyle',[]);
 
         $moto = Moto::with(['packs','options','accessoires'])
                 ->where('idmoto',$idmoto)
@@ -36,6 +37,8 @@ class PDFController extends Controller
 
         $totalPrice += $moto->couleurs->whereIn('idcouleur', $selectedColor)->sum('prixcouleur');
 
+        $totalPrice += $moto->styles->whereIn('idstyle', $selectedStyle)->sum('prixstyle');
+
 
 
         $pdf = PDF::loadView('pdf.moto-config',  [
@@ -45,7 +48,8 @@ class PDFController extends Controller
             'totalPrice' => $totalPrice,
             'selectedOptions' => $moto->options->whereIn('idoption',$selectedOptions),
             'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire',$selectedAccessoires),
-            'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor) ]);
+            'selectedColor' => $moto->couleurs->whereIn('idcouleur',$selectedColor),
+            'selectedStyle' => $moto->styles->whereIn('idstyle',$selectedStyle) ]);
 
 
         return $pdf->download('moto_config.pdf');
