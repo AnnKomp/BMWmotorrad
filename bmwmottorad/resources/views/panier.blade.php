@@ -12,16 +12,16 @@
 @if(count($equipements) > 0)
     <table>
         <tr>
-            <th>Nom</th>
-            <th>Prix</th>
-            <th>Quantité</th>
+            <th id=name>Nom</th>
+            <th id=price>Prix</th>
+            <th id=quantity>Quantité</th>
         </tr>
 
         @foreach($equipements as $equipement)
             <tr>
-                <td>{{ $equipement->nomequipement }}</td>
-                <td>{{ $equipement->prixequipement }}</td>
-                <td>{{ $cart[$equipement->idequipement]}}</td>
+                <td id=name>{{ $equipement->nomequipement }}</td>
+                <td id=price>{{ $equipement->prixequipement }}</td>
+                <td id=quantity>{{ $cart[$equipement->idequipement]}}</td>
                 {{--<td>
                     <a href="{{ url('/equipement?id=' . $equipement->idequipement) }}">
                         <i class="fa fa-info-circle"></i>

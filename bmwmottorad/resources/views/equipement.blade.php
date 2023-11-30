@@ -91,8 +91,8 @@
 
 <form action="{{ route('panier.add-to-cart', ['id'=> $idequipement]) }}" method="post">
     @csrf
-    <label for="quanity"> Quantité :</label>
-    <input type="number" name=quantity value=1 min=1>
+    <label for="quantity"> Quantité :</label>
+    <input type="number" name="quantity" value="1" min="1">
     <button type="submit">Ajouter dans le panier</button>
 
 </form>

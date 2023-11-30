@@ -21,34 +21,13 @@ class PanierController extends Controller
     public function addToCart(Request $request, $id){
         $cart = $request->session()->get('cart', []);
 
-        $cart[$id] = isset($cart[$id]) ? $cart[$id] +1 : 1;
+        $cart[$id] = isset($cart[$id]) ? $cart[$id] + $request->input('quantity') : $request->input('quantity',1);
 
         $request->session()->put('cart', $cart);
 
-        return redirect()->back()->with('succes', 'Equipement');
+        return redirect()->back()->with('succes', 'Equipement ajouté');
 
     }
 
 
-    public function info(Request $request) {
-        $idpanier = $request->input('id');
-
-        //sachant que pour commander il faut un idclient?
-        $idclient= $request->input('idclient');
-
-        $panier = Panier::where('idpanier', $idpanier)->first();
-
-        $equipementsIDs = DB::table('contient')
-                        ->where('idpanier', $idpanier)
-                        ->pluck('idequipement');
-
-        $equipements = Equipement::whereIn('idequipement', $equipementsIDs)->get();
-
-        return view('panier', [
-            'idpanier' => $idpanier,
-            'panier' => $panier,
-            'equipements' => $equipements
-        ]);
-
-    }
 }
