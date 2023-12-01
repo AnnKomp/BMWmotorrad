@@ -24,7 +24,6 @@ class ColorController extends Controller
             session()->forget('selectedColor');
         }
 
-
         //$selectedColor = session('selectedColor');
         //$selectedStyle = session('selectedStyle');
 
