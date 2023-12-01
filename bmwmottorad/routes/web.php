@@ -70,6 +70,7 @@ Route::get('/panier', [PanierController::class, "info"])->name('panier');
 */
 Route::get('/panier', [PanierController::class, "index"])->name('panier');
 ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->name('panier.add-to-cart');
+Route::delete('/panier/remove-item/{id}/{index}', [PanierController::class, 'removeItem'])->name('panier.remove-item');
 
 
 
