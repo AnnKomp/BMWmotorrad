@@ -53,16 +53,25 @@ Route::get("/moto/color",[MotoController::class, "color" ]);
 //Route::get("/moto/pack",[MotoController::class, "pack" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
+
+///////////////////////////  EQUIPEMENT  /////////////////////////////////////
 Route::get("/equipements",[EquipementController::class, "index" ]);
 Route::post('/equipements', [EquipementController::class, 'index'])->name('equipements.index');
 
 Route::get("/equipement", [EquipementController::class, "detail"]);
 
-
 Route::post('/fetch-equipment-photos', [EquipementController::class, 'fetchEquipmentPhotos'])
     ->name('fetch-equipment-photos');
 
-Route::get('/panier', [PanierController::class, "info"]);
+//////////////////////////////////////////////////////////////////////////////
+
+/*
+Route::get('/panier', [PanierController::class, "info"])->name('panier');
+*/
+Route::get('/panier', [PanierController::class, "index"])->name('panier');
+ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->name('panier.add-to-cart');
+
+
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
 

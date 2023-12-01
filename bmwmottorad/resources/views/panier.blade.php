@@ -7,36 +7,38 @@
 
 @section('content')
 
-<h2>Les équipements dans le panier :</h2>
+<h2>Le panier :</h2>
 
 @if(count($equipements) > 0)
     <table>
         <tr>
-            <th>Nom</th>
-            <th>Prix</th>
-            <th>Plus d'infos</th>
+            <th id=name>Nom</th>
+            <th id=price>Prix</th>
+            <th id=quantity>Quantité</th>
         </tr>
 
         @foreach($equipements as $equipement)
             <tr>
-                <td>{{ $equipement->nomequipement }}</td>
-                <td>{{ $equipement->prixequipement }}</td>
-                <td>
-                    <a href="{{ url('/equipement?id=' . $equipement->idequipement . '&idpanier=' . $idpanier) }}">
+                <td id=name>{{ $equipement->nomequipement }}</td>
+                <td id=price>{{ $equipement->prixequipement }}</td>
+                <td id=quantity>{{ $cart[$equipement->idequipement]}}</td>
+                {{--<td>
+                    <a href="{{ url('/equipement?id=' . $equipement->idequipement) }}">
                         <i class="fa fa-info-circle"></i>
                     </a>
-                </td>
+                </td>--}}
             </tr>
         @endforeach
 
         <!-- Commander link, displayed only once -->
-        <tr>
+        {{--<tr>
             <td colspan="3">
                 <a href="{{ url('/commander?id=' . $equipements[0]->idequipement . '&idpanier=' . $idpanier) }}">
                     Commander
                 </a>
             </td>
         </tr>
+        --}}
     </table>
 @else
     <p>Pour le moment, il n'y a rien dans le panier.</p>

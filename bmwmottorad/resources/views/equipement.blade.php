@@ -89,17 +89,24 @@
 
 <h3>Prix : {{$prixequipement}} €</h3>
 
-{{--
-<div id="equipment-photos-partial">
-    @include('partial-views.equipment-photos' , ['equipement_pics' => $equipement_pics])
+<form action="{{ route('panier.add-to-cart', ['id'=> $idequipement]) }}" method="post">
+    @csrf
+    <label for="quantity"> Quantité :</label>
+    <input type="number" name="quantity" value="1" min="1">
+    <button type="submit">Ajouter dans le panier</button>
+
+</form>
+
+{{-- <div class="quantity-section">
+    <input type="text" id=quantity placeholder="Quantité:">
 </div>
---}}
 
 <a href="www.google.com">*bouton pour mettre dans le panier*</a>
 
+The GET method is not supported for route panier/add-to-cart/7%20method=. Supported methods: POST.
 
 
-
+ --}}
 
 
 

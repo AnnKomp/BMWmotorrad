@@ -7,7 +7,7 @@
 
         <div class="flex items-center justify-center mt-4">
             <a class="finishbutton" href="{{ url("/") }}">Continuer la visite du site</a>
-            <a class="finishbutton" href="{{ url("/dashboard") }}">Home BMWM Motorrad</a>
+            <a class="finishbutton" href="{{ url("/dashboard") }}">Home BMW Motorrad</a>
         </div>
     </form>
 </x-guest-layout>
