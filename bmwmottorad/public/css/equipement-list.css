@@ -54,5 +54,25 @@ a {
     text-align: right;
     padding-inline: 15%;
     font-weight: bolder;
-    font-size: 20;
+    font-size: 18;
+}
+
+.notavailable {
+    color:red;
+    font-size: 16;
+}
+
+.page {
+    display: flex;
+}
+
+.filters {
+    position: sticky;
+    top: 30px;
+    left: 30px;
+
+}
+
+tr {
+    border: solid;
 }
