@@ -8,15 +8,24 @@ td{
 }
 
 #name{
-    width: 300px;
+    width: 25%;
 }
 
 #price{
-    width: 250px;
+    width: 15%;
+}
+
+#coloris{
+    width: 25%
+}
+
+#taille{
+    width: 15%;
+
 }
 
 #quantity{
-    width: 250px;
+    width: 15%;
 }
 
 #info{

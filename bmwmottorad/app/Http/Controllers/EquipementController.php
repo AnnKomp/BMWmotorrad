@@ -105,6 +105,7 @@ class EquipementController extends Controller
             "nomequipement" => $equipement->nomequipement,
             "prixequipement" => $equipement->prixequipement,
             "selectedColor" => $colorisOptions->first()->idcoloris,
+            "selectedTaille" => $tailleOptions->first()->idtaille,
         ]);
         }
 
