@@ -71,10 +71,19 @@ a {
     position: sticky;
     top: 10px;
     left: 10px;
-    width: 20%;
+    width: 100%;
+    border-right: 3px solid grey; /* Ajout de la bordure à droite */
+}
 
+
+.filters select {
+    width: 100%; /* Définir la largeur du select à 100% */
 }
 
 tr {
     border: solid;
+}
+
+.tendency {
+    display: flex;
 }
