@@ -6,10 +6,13 @@
 
 @section('content')
 
+<script src='js/equipement-list.js' defer></script>
+
+
 <div class="page">
     <form id="filterForm" action="{{ url('/equipements') }}" method="post">
         @csrf
-        <table class="filters">
+        <div class="filters">
             <tr><input type="text" name="search" placeholder="Rechercher des équipements" value="{{ old('search', session('search')) }}"></tr>
             <tr><select name="category">
                 <option value="">Toutes les catégories</option>
@@ -27,34 +30,10 @@
             </select></tr>
             <tr><input class="check" type="checkbox"><p>Tendances</p></tr>
             <tr><button type="submit">Rechercher</button></tr>
-        </table>
+        </div>
     </form>
 
-    <script>
-        // Restaure les valeurs du formulaire depuis le stockage local lors du chargement de la page
-        window.onload = function() {
-            var form = document.getElementById('filterForm');
-            var inputs = form.getElementsByTagName('select');
 
-            for (var i = 0; i < inputs.length; i++) {
-                var name = inputs[i].name;
-                var value = localStorage.getItem(name);
-
-                if (value !== null) {
-                    inputs[i].value = value;
-                }
-            }
-        };
-
-        // Sauvegarde les valeurs du formulaire dans le stockage local lorsqu'il est soumis
-        document.getElementById('filterForm').addEventListener('submit', function() {
-            var inputs = this.getElementsByTagName('select');
-
-            for (var i = 0; i < inputs.length; i++) {
-                localStorage.setItem(inputs[i].name, inputs[i].value);
-            }
-        });
-    </script>
 
 
 <div class = 'equipement_display'>
