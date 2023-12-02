@@ -84,6 +84,10 @@
             <p>* : champ obligatoire</p>
         </div>
 
+        <div class="mt-4">
+            <input type="checkbox"><p>En créant un compte My BMW, vous acceptez notre <a href="">Politique de confidentialité</a></p></input> 
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <x-primary-button class="ms-4">
                 {{ __('Créer') }}

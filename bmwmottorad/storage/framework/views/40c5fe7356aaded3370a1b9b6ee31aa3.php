@@ -55,6 +55,10 @@
 
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>
 
+<a href="/moto/essai?idmoto=<?php echo e($idmoto); ?>">
+    <button>Demander un essai</button>
+</a>
+
 
 <h1>Fiche technique</h1>
 <table>

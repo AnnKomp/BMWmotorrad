@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\EquipementController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\EssaiController;
 
 
 
@@ -53,6 +54,7 @@ Route::get("/moto/color",[MotoController::class, "color" ]);
 //Route::get("/moto/pack",[MotoController::class, "pack" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
+Route::get("/moto/essai",[EssaiController::class, "create"]);
 
 ///////////////////////////  EQUIPEMENT  /////////////////////////////////////
 Route::get("/equipements",[EquipementController::class, "index" ]);
