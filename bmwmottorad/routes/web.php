@@ -15,11 +15,6 @@ use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EssaiController;
 
-
-
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,6 +50,7 @@ Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/moto/essai",[EssaiController::class, "create"]);
+Route::post("/moto/essai", [EssaiController::class, "store"])->name('essaipost');
 
 ///////////////////////////  EQUIPEMENT  /////////////////////////////////////
 Route::get("/equipements",[EquipementController::class, "index" ]);

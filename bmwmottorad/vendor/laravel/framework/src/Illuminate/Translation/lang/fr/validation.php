@@ -183,6 +183,9 @@ return [
         'nomcompagnie' => [
             'required_if' => 'Il est nécessaire de fournir le nom de la compagnie pour un compte professionnel',
         ],
+        'datenaissance' => [
+            'before' => 'vous devez avoir au moins 18 ans pour faire une demande d\'essai'
+        ]
     ],
 
     /*
