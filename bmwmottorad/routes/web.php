@@ -14,6 +14,7 @@ use App\Http\Controllers\EquipementController;
 use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EssaiController;
+use App\Http\Controllers\CommandeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +70,7 @@ Route::get('/panier', [PanierController::class, "info"])->name('panier');
 Route::get('/panier', [PanierController::class, "index"])->name('panier');
 ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->name('panier.add-to-cart');
 Route::delete('/panier/remove-item/{id}/{index}', [PanierController::class, 'removeItem'])->name('panier.remove-item');
-
+Route::get('/panier/commande', [CommandeController::class, 'create']);
 
 
 Route::post("/moto/config",[MotoController::class, "config" ]);

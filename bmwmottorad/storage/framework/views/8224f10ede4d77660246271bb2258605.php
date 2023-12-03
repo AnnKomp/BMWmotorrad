@@ -33,7 +33,7 @@
 
         <div><?php echo $__env->yieldContent('categories'); ?></div>
 
-            <?php echo $__env->yieldContent('content'); ?>
+        <?php echo $__env->yieldContent('content'); ?>
     </body>
 </html>
 <?php /**PATH /home/turart/public_html/SAE301_TD2_G5/bmwmottorad/resources/views/layouts/menus.blade.php ENDPATH**/ ?>
