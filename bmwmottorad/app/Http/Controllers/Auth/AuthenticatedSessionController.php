@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
             return redirect('registersuite');
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect('/login/phoneverification');
     }
 
     /**

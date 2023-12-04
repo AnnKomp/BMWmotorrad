@@ -53,6 +53,10 @@ class EssaiController extends Controller
 
         $c->save();
 
-        return redirect('/motos');
+        return redirect('/moto/essai/confirmation');
+    }
+
+    public function confirm(){
+        return view('essaiconfirmation');
     }
 }
