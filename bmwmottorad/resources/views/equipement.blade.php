@@ -64,41 +64,37 @@
             });
 
 
-
-
-
-
-            /*
-            $('#coloris').change(function () {
-                var selectedColor = $(this).val();
+            $('#coloris, #taille').change(function () {
+                var selectedColor = $('#coloris').val();
+                var selectedTaille = $('#taille').val();
                 var idequipement = $('.slider-container').data('idequipement');
 
-                console.log(selectedColor);
+                // Make an AJAX request to get updated stock based on the selected coloris and taille
+                $.get("/equipement-stock/" + idequipement + "/" + selectedColor + "/" + selectedTaille)
+                    .done(function(data) {
+                        // Log the data to the console to check if the response is as expected
+                        console.log(data);
 
-                // Use AJAX to send the form data to the server
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('panier.add-to-cart', ['id' => $idequipement]) }}",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        coloris: selectedColor,
-                        taille: $('#taille').val(),
-                        quantity: $('#quantity').val(),
-                    },
-                    success: function (response) {
-                        // Update the cart dynamically if needed
-                        console.log(response);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            });*/
+                        // Update the stock and quantity input
+                        $('#stock').text('Stock: ' + data.stock);
+                        $('#quantity').attr('max', data.stock).val(1);
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        // Log detailed error information
+                        console.error("Failed to fetch equipement stock.", jqXHR.status, textStatus, errorThrown);
+
+                        // Display an error message to the user
+                        alert("Failed to fetch equipement stock. Please try again later.");
+                    });
+            });
+
         });
 
     </script>
 
-    <h3>Prix : {{ $prixequipement }} €</h3>
+    <h3 id=price>Prix : {{ $prixequipement }} €</h3>
+    {{-- faire en sorte de le stock change en tant que les photos --}}
+    <h3 id=stock>Stock : {{ $stock }}</h3>
 
     <form id="addToCartForm">
         @csrf
@@ -123,7 +119,8 @@
         </div>
 
         <label for="quantity">Quantité :</label>
-        <input type="number" name="quantity" id="quantity" value="1" min="1">
+        {{-- faire en sorte de le stock change en tant que les photos et redevient 1--}}
+        <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}">
 
         <button type="button" id="addToCartButton">Ajouter dans le panier</button>
     </form>

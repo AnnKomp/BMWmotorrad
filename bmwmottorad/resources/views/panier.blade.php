@@ -27,9 +27,9 @@
             <tr>
                 <td id=name>{{ $equipement->nomequipement }}</td>
                 <!-- Make the price equal to the unitary price times the quantity -->
-                <td id=price>{{ $equipement->prixequipement * $cartItem['quantity']  }}</td>
-                <td id=coloris>{{ isset($cartItem['coloris']) ? $cartItem['coloris'] : '' }}</td>
-                <td id=taille>{{ isset($cartItem['taille']) ? $cartItem['taille'] : '' }}</td>
+                <td id=price>{{ $equipement->prixequipement * $cartItem['quantity']  }} €</td>
+                <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
+                <td id=taille>{{ $cartItem['taille_name'] }}</td>
                 <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
                 <td>
                     <form action="{{ route('panier.remove-item', ['id' => $equipement->idequipement, 'index' => $loop->index]) }}" method="post">
@@ -53,7 +53,6 @@
 @endsection
 
 {{-- <td id=price>{{ $equipement->prixequipement }}</td>
-                        <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
-                        <td id=taille>{{ $cartItem['taille_name'] }}</td>
+
                         <td id=quantity>{{ $cartItem['quantity'] }}</td>
                         --}}
