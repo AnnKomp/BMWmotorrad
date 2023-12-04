@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/css/essai.css">
 
 <div id="form">
+    <img src="" alt="">
     <form action="{{ route('essaipost') }}" method="POST">
     @csrf
         <!-- Personnal informations part -->

@@ -15,6 +15,7 @@ use App\Http\Controllers\PanierController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\PhoneVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,7 @@ Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/moto/essai",[EssaiController::class, "create"]);
 Route::post("/moto/essai", [EssaiController::class, "store"])->name('essaipost');
+Route::get("/moto/essai/confirmation", [EssaiController::class, "confirm"]);
 
 ///////////////////////////  EQUIPEMENT  /////////////////////////////////////
 Route::get("/equipements",[EquipementController::class, "index" ]);
@@ -71,6 +73,7 @@ Route::get('/panier', [PanierController::class, "index"])->name('panier');
 ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->name('panier.add-to-cart');
 Route::delete('/panier/remove-item/{id}/{index}', [PanierController::class, 'removeItem'])->name('panier.remove-item');
 Route::get('/panier/commande', [CommandeController::class, 'create']);
+Route::post('/panier/commande', [CommandeController::class, 'pay'])->name('payment');
 
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
@@ -99,6 +102,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
+    Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
 });
 
 require __DIR__.'/auth.php';
