@@ -72,8 +72,6 @@ Route::get('/panier', [PanierController::class, "info"])->name('panier');
 Route::get('/panier', [PanierController::class, "index"])->name('panier');
 ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->name('panier.add-to-cart');
 Route::delete('/panier/remove-item/{id}/{index}', [PanierController::class, 'removeItem'])->name('panier.remove-item');
-Route::get('/panier/commande', [CommandeController::class, 'create']);
-Route::post('/panier/commande', [CommandeController::class, 'pay'])->name('payment');
 
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
@@ -104,6 +102,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
+    Route::get('/panier/commande', [CommandeController::class, 'create']);
+    Route::post('/panier/commande', [CommandeController::class, 'pay'])->name('payment');
+    Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
 });
 
 require __DIR__.'/auth.php';

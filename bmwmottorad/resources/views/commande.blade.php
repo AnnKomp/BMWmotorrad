@@ -33,7 +33,7 @@
             <tr>
                 <td id=name>{{ $equipement->nomequipement }}</td>
                 <!-- Make the price equal to the unitary price times the quantity -->
-                <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }}</td>
+                <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
                 <td id=coloris>{{ isset($cartItem['coloris']) ? $cartItem['coloris'] : '' }}</td>
                 <td id=taille>{{ isset($cartItem['taille']) ? $cartItem['taille'] : '' }}</td>
                 <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
@@ -43,13 +43,11 @@
         @endforeach
     </table>
 
-
+    <h1>Total</h1>
+    <p name="total">{{ $total}} €</p>
 
     <form method="POST" action="{{ route('payment') }}">
         @csrf
-
-    <h1>Total</h1>
-    <p name="total">{{ $total}}</p>
         <!-- Card number -->
         <div>
             <x-input-label for="numerocarte" :value="__('Numéro de carte bancaire*')" />

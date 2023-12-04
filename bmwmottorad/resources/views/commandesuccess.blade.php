@@ -1,14 +1,21 @@
-@extends('layouts.menus')
+<?php
+    $total = 0;
+    foreach($equipements as $equipement){
+        foreach($cart[$equipement->idequipement] as $cartItem){
+            $total += $equipement->prixequipement * $cartItem['quantity'];
+        }
+    }
 
-@section('title', 'Panier')
+?>
 
-<link rel="stylesheet" type="text/css" href="{{ asset('css/panier.css') }}" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<x-guest-layout>
+    <link rel="stylesheet" href="/css/register.css">
+        
+        <!-- Redirection page after creating a new account -->
 
-@section('content')
-    <h2>Le panier :</h2>
+        <h2>Votre commande a été validée avec succès!</h2>
+        <h3>Récapitulatif de votre commande : </h3>
 
-    @if (count($equipements) > 0)
         <table>
             <tr>
                 <th id=name>Nom</th>
@@ -16,7 +23,6 @@
                 <th id=coloris>xColoris</th>
                 <th id=taille>Taille</th>
                 <th id=quantity>Quantité</th>
-                <th>Supprimer</th>
             </tr>
 
 
@@ -31,23 +37,18 @@
                 <td id=coloris>{{ isset($cartItem['coloris']) ? $cartItem['coloris'] : '' }}</td>
                 <td id=taille>{{ isset($cartItem['taille']) ? $cartItem['taille'] : '' }}</td>
                 <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
-                <td>
-                    <form action="{{ route('panier.remove-item', ['id' => $equipement->idequipement, 'index' => $loop->index]) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"><i class="fa fa-times"></i></button>
-                    </form>
-                </td>
             </tr>
             @endforeach
 
         @endforeach
         </table>
 
-        <a href="/panier/commande">
-            <button>Valider mon panier</button>
-        </a>
-    @else
-        <p>Pour le moment, votre panier est vide.</p>
-    @endif
-@endsection
+        <h1>Total</h1>
+        <p name="total">{{ $total}} €</p>
+
+        <div class="flex items-center justify-center mt-4">
+            <a class="finishbutton" href="{{ url("/") }}">Continuer la visite du site</a>
+            <a class="finishbutton" href="{{ url("/dashboard") }}">Home BMW Motorrad</a>
+        </div>
+    </form>
+</x-guest-layout>
