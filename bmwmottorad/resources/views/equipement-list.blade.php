@@ -14,6 +14,7 @@
         @csrf
         <div class="filters">
             <input type="text" name="search" placeholder="Rechercher des équipements" value="{{ old('search', session('search')) }}">
+
             <select name="category">
                 <option value="">Toutes les catégories</option>
                 @foreach($categories as $category)
@@ -22,17 +23,29 @@
                     </option>
                 @endforeach
             </select>
+
             <select name="sex">
                 <option value="">Tous les sexes</option>
                 <option value="h" {{ old('sex') == 'h' ? 'selected' : '' }}>Homme</option>
                 <option value="f" {{ old('sex') == 'f' ? 'selected' : '' }}>Femme</option>
                 <option value="uni" {{ old('sex') == 'uni' ? 'selected' : '' }}>Unique</option>
             </select>
+
             <select name="price">
                 <option value="">Tous les prix</option>
                 <option value="asc" {{ old('price') == 'asc' ? 'selected' : '' }}>Prix croissant</option>
                 <option value="desc" {{ old('price') == 'desc' ? 'selected' : '' }}>Prix décroissant</option>
             </select>
+
+            <select name="segment">
+                <option value="">Tous les segments</option>
+                @foreach(['Adventure', 'Heritage', 'M', 'Roadster', 'Sport', 'Tour', 'Urban Mobility'] as $segment)
+                    <option value="{{ $segment }}" {{ old('segment') == $segment ? 'selected' : '' }}>
+                        {{ $segment }}
+                    </option>
+                @endforeach
+            </select>
+
             <div class="tendency">
                 <input class="check" type="checkbox" name="tendencies" {{ old('tendencies') || session('tendencies') ? 'checked' : '' }}>
                 <p>Tendances</p>
@@ -40,9 +53,9 @@
 
             <button type="reset">Réinitialiser</button>
             <button type="submit">Rechercher</button>
-
         </div>
     </form>
+
 
 
 
@@ -62,11 +75,11 @@
 
         <div class ='equipement_price'>
             @if ( $equipement->totalquantite > 0)
-            <p >Stock : {{ 	$equipement->stockequipement}}</p>
+            <p >Stock : {{ 	$equipement->totalquantite}}</p>
             @else
             <p class='notavailable'>Actuellement indisponible</p>
             @endif
-            <p>{{ $equipement->totalquantite }}  €</p>
+            <p>{{ $equipement->prixequipement }}  €</p>
         </div>
 
         <hr NOSHADE WIDTH="80%" ALIGN=CENTER @style(["margin-block: 5%"])>
