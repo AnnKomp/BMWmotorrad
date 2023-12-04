@@ -18,6 +18,9 @@ class EquipementController extends Controller
         $categories = CategorieEquipement::all();
         $categoryId = $request->input('category');
         $sex = $request->input('sex');
+        $tendencies = $request->has('tendencies');
+        $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
+
 
         $equipements = DB::table('equipement')
                     ->select('*')
@@ -33,10 +36,16 @@ class EquipementController extends Controller
                     ->when($sex, function ($queryBuilder) use ($sex) {
                         $queryBuilder->where('equipement.sexeequipement', $sex);
                     })
+                    ->when(request('tendencies'), function ($queryBuilder) {
+                        $queryBuilder->where('equipement.tendance', true);
+                    })
                     ->whereColumn('idmediapresentation', '=', 'idmedia')
+                    ->when(request('price'), function ($queryBuilder) {
+                        $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
+                        $queryBuilder->orderBy('prixequipement', $priceOrder);
+                    })
                     ->get();
-
-        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories]);
+                        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories]);
         }
 
 

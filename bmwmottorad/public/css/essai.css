@@ -1,0 +1,10 @@
+#form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#datenaissance, #objet, #concessionnaire{
+    border-radius: 5px;
+    border: 1px solid #d3dce6;
+}

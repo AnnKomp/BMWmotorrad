@@ -428,6 +428,10 @@
             <p>* : champ obligatoire</p>
         </div>
 
+        <div class="mt-4">
+            <input type="checkbox"><p>En créant un compte My BMW, vous acceptez notre <a href="">Politique de confidentialité</a></p></input> 
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.primary-button','data' => ['class' => 'ms-4']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>

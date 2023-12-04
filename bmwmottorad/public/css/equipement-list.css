@@ -11,6 +11,7 @@
     box-shadow: 0 0 5px #0000001c;
     border : solid;
     width : 100%;
+
 }
 
 .header_category{
@@ -54,5 +55,35 @@ a {
     text-align: right;
     padding-inline: 15%;
     font-weight: bolder;
-    font-size: 20;
+    font-size: 18;
+}
+
+.notavailable {
+    color:red;
+    font-size: 16;
+}
+
+.page {
+    display: flex;
+}
+
+.filters {
+    position: sticky;
+    top: 10px;
+    left: 10px;
+    width: 100%;
+    border-right: 3px solid grey; /* Ajout de la bordure à droite */
+}
+
+
+.filters select {
+    width: 100%; /* Définir la largeur du select à 100% */
+}
+
+tr {
+    border: solid;
+}
+
+.tendency {
+    display: flex;
 }

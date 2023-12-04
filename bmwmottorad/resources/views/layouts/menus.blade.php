@@ -33,10 +33,6 @@
 
         <div>@yield('categories')</div>
 
-        <div class="container">
-            @yield('content')
-
-
-        </div>
+        @yield('content')
     </body>
 </html>
