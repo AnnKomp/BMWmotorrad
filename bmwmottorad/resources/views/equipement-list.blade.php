@@ -61,12 +61,12 @@
         <img src={{$equipement->lienmedia}} width=100% height=100%>
 
         <div class ='equipement_price'>
-            @if ( $equipement->stockequipement > 0)
+            @if ( $equipement->totalquantite > 0)
             <p >Stock : {{ 	$equipement->stockequipement}}</p>
             @else
             <p class='notavailable'>Actuellement indisponible</p>
             @endif
-            <p>{{ $equipement->prixequipement }}  €</p>
+            <p>{{ $equipement->totalquantite }}  €</p>
         </div>
 
         <hr NOSHADE WIDTH="80%" ALIGN=CENTER @style(["margin-block: 5%"])>
@@ -78,8 +78,5 @@
   @endforeach
 </div>
 </div>
+
 @endsection
-
-
-{{--<script src="{{ asset('js/equipement-list.js') }}"></script>--}}
-

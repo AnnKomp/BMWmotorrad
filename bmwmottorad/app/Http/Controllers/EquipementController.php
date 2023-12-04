@@ -23,9 +23,10 @@ class EquipementController extends Controller
 
 
         $equipements = DB::table('equipement')
-                    ->select('*')
-                    ->join('media', 'media.idequipement', '=', 'equipement.idequipement')
-                    ->join('categorieequipement','equipement.idcatequipement','=','categorieequipement.idcatequipement')
+                    ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
+                    ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
+                    ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
+                    ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
                     ->where(function ($queryBuilder) use ($query) {
                         $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
                             ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
@@ -44,8 +45,10 @@ class EquipementController extends Controller
                         $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
                         $queryBuilder->orderBy('prixequipement', $priceOrder);
                     })
+                    ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
                     ->get();
-                        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories]);
+
+            return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories,]);
         }
 
 
