@@ -78,12 +78,7 @@ class EquipementController extends Controller
         if ($idcoloris == null)
             $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
 
-/*
-        $equipement_pics = DB::table('media')
-                    ->select('lienmedia')
-                    ->where('idequipement', '=', $idequipement)
-                    ->get();
-*/
+
 
         $equipement_pics = DB::table('presentation_eq')
         ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
@@ -92,9 +87,6 @@ class EquipementController extends Controller
         ->where('presentation_eq.idcoloris', $idcoloris)
         ->get();
 
-
-        //echo $idcoloris;
-        //echo $equipement_pics;
 
         return view("equipement", [
             "equipement_pics" => $equipement_pics,
@@ -110,7 +102,25 @@ class EquipementController extends Controller
         }
 
 
+        public function getEquipementPhotos($idequipement, $idcoloris)
+        {
+            try {
+                $equipement_pics = DB::table('presentation_eq')
+                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                    ->select('media.lienmedia')
+                    ->where('presentation_eq.idequipement', $idequipement)
+                    ->where('presentation_eq.idcoloris', $idcoloris)
+                    ->get();
 
+                return response()->json(['equipement_pics' => $equipement_pics]);
+            } catch (\Exception $e) {
+                // Log the error for debugging purposes
+                \Log::error('Error fetching equipement photos: ' . $e->getMessage());
+
+                // Return an error response
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        }
 
 
 

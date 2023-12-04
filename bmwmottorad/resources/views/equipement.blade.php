@@ -30,29 +30,77 @@
                 nextArrow: '<button type="button" class="slick-next"></button>',
             });
 
-            var urlParams = new URLSearchParams(window.location.search);
-            var selectedColorFromUrl = urlParams.get('idcoloris');
-
-            $('#coloris').val(selectedColorFromUrl);
-
             $('#coloris').change(function () {
                 var selectedColor = $(this).val();
                 var idequipement = $('.slider-container').data('idequipement');
 
-                console.log((selectedColor));
+                // Make an AJAX request to get updated photos based on the selected coloris
+                $.get("/equipement-photos/" + idequipement + "/" + selectedColor)
+                    .done(function(data) {
+                        // Log the data to the console to check if the response is as expected
+                        console.log(data);
 
+                        // Update the slider with the new photos
+                        $('.slider').slick('unslick').empty();
+                        data.equipement_pics.forEach(function(pic) {
+                            $('.slider').append('<img src="' + pic.lienmedia + '">');
+                        });
+                        $('.slider').slick({
+                            prevArrow: '<button type="button" class="slick-prev"></button>',
+                            nextArrow: '<button type="button" class="slick-next"></button>',
+                        });
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        // Log detailed error information
+                        console.error("Failed to fetch equipement photos.", jqXHR.status, textStatus, errorThrown);
+
+                        // Display an error message to the user
+                        alert("Failed to fetch equipement photos. Please try again later.");
+                    });
+
+                // Update the URL
                 var newUrl = window.location.href.split('?')[0] + '?id=' + idequipement + '&idcoloris=' + selectedColor;
                 history.replaceState(null, null, newUrl);
-
-                location.reload();
             });
+
+
+
+
+
+
+            /*
+            $('#coloris').change(function () {
+                var selectedColor = $(this).val();
+                var idequipement = $('.slider-container').data('idequipement');
+
+                console.log(selectedColor);
+
+                // Use AJAX to send the form data to the server
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('panier.add-to-cart', ['id' => $idequipement]) }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        coloris: selectedColor,
+                        taille: $('#taille').val(),
+                        quantity: $('#quantity').val(),
+                    },
+                    success: function (response) {
+                        // Update the cart dynamically if needed
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });*/
         });
 
     </script>
 
     <h3>Prix : {{ $prixequipement }} €</h3>
 
-    <form action="{{ route('panier.add-to-cart', ['id' => $idequipement]) }}" method="post">
+    <form id="addToCartForm">
         @csrf
         <div class="options-container">
             <div class="option-section">
@@ -75,9 +123,28 @@
         </div>
 
         <label for="quantity">Quantité :</label>
-        <input type="number" name="quantity" value="1" min="1">
+        <input type="number" name="quantity" id="quantity" value="1" min="1">
 
-        <button type="submit">Ajouter dans le panier</button>
+        <button type="button" id="addToCartButton">Ajouter dans le panier</button>
     </form>
 
+    <script>
+        $(document).ready(function () {
+            $('#addToCartButton').click(function () {
+                // Use AJAX to send the form data to the server
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('panier.add-to-cart', ['id' => $idequipement]) }}",
+                    data: $('#addToCartForm').serialize(),
+                    success: function (response) {
+                        // Update the cart dynamically if needed
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

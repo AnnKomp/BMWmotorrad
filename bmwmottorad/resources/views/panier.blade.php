@@ -13,7 +13,7 @@
             <tr>
                 <th id=name>Nom</th>
                 <th id=price>Prix</th>
-                <th id=coloris>xColoris</th>
+                <th id=coloris>Coloris</th>
                 <th id=taille>Taille</th>
                 <th id=quantity>Quantité</th>
                 <th>Supprimer</th>
@@ -23,24 +23,24 @@
 
 
             @foreach ($equipements as $equipement)
-            @foreach ($cart[$equipement->idequipement] as $cartItem)
-            <tr>
-                <td id=name>{{ $equipement->nomequipement }}</td>
-                <td id=price>{{ $equipement->prixequipement }}</td>
-                <td id=coloris>{{ isset($cartItem['coloris']) ? $cartItem['coloris'] : '' }}</td>
-                <td id=taille>{{ isset($cartItem['taille']) ? $cartItem['taille'] : '' }}</td>
-                <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
-                <td>
-                    <form action="{{ route('panier.remove-item', ['id' => $equipement->idequipement, 'index' => $loop->index]) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"><i class="fa fa-times"></i></button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-
+                @foreach ($cart[$equipement->idequipement] as $cartItem)
+                    <tr>
+                        <td id=name>{{ $equipement->nomequipement }}</td>
+                        <td id=price>{{ $equipement->prixequipement }}</td>
+                        <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
+                        <td id=taille>{{ $cartItem['taille_name'] }}</td>
+                        <td id=quantity>{{ $cartItem['quantity'] }}</td>
+                        <td>
+                            <form action="{{ route('panier.remove-item', ['id' => $equipement->idequipement, 'index' => $loop->index]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"><i class="fa fa-times"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             @endforeach
+
         </table>
     @else
         <p>Pour le moment, votre panier est vide.</p>
