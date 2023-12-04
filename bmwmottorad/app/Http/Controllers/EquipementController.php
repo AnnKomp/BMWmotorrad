@@ -87,12 +87,7 @@ class EquipementController extends Controller
         if ($idcoloris == null)
             $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
 
-/*
-        $equipement_pics = DB::table('media')
-                    ->select('lienmedia')
-                    ->where('idequipement', '=', $idequipement)
-                    ->get();
-*/
+
 
         $equipement_pics = DB::table('presentation_eq')
         ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
@@ -101,9 +96,17 @@ class EquipementController extends Controller
         ->where('presentation_eq.idcoloris', $idcoloris)
         ->get();
 
+        $equipement = DB::table('equipement')
+        ->select('*')
+        ->where('idequipement', $idequipement)
+        ->first();
 
-        //echo $idcoloris;
-        //echo $equipement_pics;
+        $stock = DB::table('stock')
+        ->where('idequipement', $idequipement)
+        ->where('idcoloris', $idcoloris)
+        ->where('idtaille', $tailleOptions->first()->idtaille)
+        ->value('quantite');
+
 
         return view("equipement", [
             "equipement_pics" => $equipement_pics,
@@ -115,13 +118,51 @@ class EquipementController extends Controller
             "prixequipement" => $equipement->prixequipement,
             "selectedColor" => $colorisOptions->first()->idcoloris,
             "selectedTaille" => $tailleOptions->first()->idtaille,
+            "equipement" => $equipement,
+            "stock" => $stock,""
         ]);
         }
 
 
+        public function getEquipementPhotos($idequipement, $idcoloris)
+        {
+            try {
+                $equipement_pics = DB::table('presentation_eq')
+                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                    ->select('media.lienmedia')
+                    ->where('presentation_eq.idequipement', $idequipement)
+                    ->where('presentation_eq.idcoloris', $idcoloris)
+                    ->get();
+
+                return response()->json(['equipement_pics' => $equipement_pics]);
+            } catch (\Exception $e) {
+                // Log the error for debugging purposes
+                \Log::error('Error fetching equipement photos: ' . $e->getMessage());
+
+                // Return an error response
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        }
 
 
+        public function getEquipementStock($idequipement, $idcoloris, $idtaille)
+        {
+            try {
+                $stock = DB::table('stock')
+                    ->where('idequipement', $idequipement)
+                    ->where('idcoloris', $idcoloris)
+                    ->where('idtaille', $idtaille)
+                    ->value('quantite');
 
+                return response()->json(['stock' => $stock]);
+            } catch (\Exception $e) {
+                // Log the error for debugging purposes
+                \Log::error('Error fetching equipement stock: ' . $e->getMessage());
+
+                // Return an error response
+                return response()->json(['error' => 'Internal Server Error'], 500);
+            }
+        }
 
 
 

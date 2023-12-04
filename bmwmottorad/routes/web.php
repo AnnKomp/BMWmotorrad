@@ -64,6 +64,10 @@ Route::get("/equipement", [EquipementController::class, "detail"]);
 Route::post('/fetch-equipment-photos', [EquipementController::class, 'fetchEquipmentPhotos'])
     ->name('fetch-equipment-photos');
 
+Route::get('/equipement-stock/{idequipement}/{idcoloris}/{idtaille}', [EquipementController::class, 'getEquipementStock']);
+
+Route::get('/equipement-photos/{idequipement}/{idcoloris}', [EquipementController::class, 'getEquipementPhotos'])->name('equipement.get-photos');
+
 //////////////////////////////////////////////////////////////////////////////
 
 /*
