@@ -9,13 +9,18 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BMW Motorrad Paiement Stripe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+      
+<div class="container">
+      
+    <h1>BMW Motorrad - Paiement Stripe</h1>
+    
     <table>
             <tr>
                 <th id=name>Nom</th>
@@ -34,8 +39,8 @@
                 <td id=name>{{ $equipement->nomequipement }}</td>
                 <!-- Make the price equal to the unitary price times the quantity -->
                 <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
-                <td id=coloris>{{ isset($cartItem['coloris']) ? $cartItem['coloris'] : '' }}</td>
-                <td id=taille>{{ isset($cartItem['taille']) ? $cartItem['taille'] : '' }}</td>
+                <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
+                <td id=taille>{{ $cartItem['taille_name'] }}</td>
                 <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
             </tr>
             @endforeach
@@ -45,42 +50,74 @@
 
     <h1>Total</h1>
     <p name="total">{{ $total}} €</p>
-
-    <form method="POST" action="{{ route('payment') }}">
-        @csrf
-        <!-- Card number -->
-        <div>
-            <x-input-label for="numerocarte" :value="__('Numéro de carte bancaire*')" />
-            <x-text-input minlength="16" maxlength="16" id="numerocarte" class="block mt-1 w-full" type="tel" name="numerocarte" :value="old('numerocarte')"  autofocus/>
-            <x-input-error :messages="$errors->get('numerocarte')" class="mt-2" />
+      
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default credit-card-box">
+                <div class="panel-heading display-table" >
+                    <h2 class="panel-title" >Checkout Forms</h2>
+                </div>
+                <div class="panel-body">
+      
+                    @if (Session::has('success'))
+                        <div class="alert alert-success text-center">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <p>{{ Session::get('success') }}</p>
+                        </div>
+                    @endif
+  
+                     <form id='checkout-form' method='post' action="{{ route('payment') }}">   
+                        @csrf             
+                        <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
+                        <br>
+                        <div id="card-element" class="form-control" ></div>
+                        <button 
+                            id='pay-btn'
+                            class="btn btn-success mt-3"
+                            type="button"
+                            style="margin-top: 20px; width: 100%;padding: 7px;"
+                            onclick="createToken()">Payer {{ $total }} €
+                        </button>
+                    <form>
+      
+                </div>
+            </div>        
         </div>
-
-        <!-- Card owner -->
-        <div>
-            <x-input-label for="titulaire" :value="__('Titulaire de la carte*')" />
-            <x-text-input id="titulaire" class="block mt-1 w-full" type="text" name="titulaire" :value="old('titulaire')" autofocus/>
-            <x-input-error :messages="$errors->get('titulaire')" class="mt-2" />
-        </div>
-
-         <!-- Expiration date -->
-        <div>
-            <x-input-label for="dateexpiration" :value="__('Date d\'expiration*')" />
-            <input type="month" id="dateexpiration" name="dateexpiration" class="block mt-1 w-full">
-            <x-input-error :messages="$errors->get('dateexpiration')" class="mt-2" />
-        </div>
-
-        <!-- CVV -->
-        <div>
-            <x-input-label for="secret" :value="__('CVV')" />
-            <x-text-input minlength="3" maxlength="3" id="secret" class="block mt-1 w-full" type="number" name="secret"  autofocus/>
-            <x-input-error :messages="$errors->get('secret')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-4">
-                {{ __('Payer la commande') }}
-            </x-primary-button>
-        </div>
-    </form>
+    </div>
+          
+</div>
+      
 </body>
+     
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+  
+    var stripe = Stripe('{{ env('STRIPE_KEY') }}')
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+  
+    /*------------------------------------------
+    --------------------------------------------
+    Create Token Code
+    --------------------------------------------
+    --------------------------------------------*/
+    function createToken() {
+        document.getElementById("pay-btn").disabled = true;
+        stripe.createToken(cardElement).then(function(result) {
+   
+            if(typeof result.error != 'undefined') {
+                document.getElementById("pay-btn").disabled = false;
+                alert(result.error.message);
+            }
+  
+            /* creating token success */
+            if(typeof result.token != 'undefined') {
+                document.getElementById("stripe-token-id").value = result.token.id;
+                document.getElementById('checkout-form').submit();
+            }
+        });
+    }
+</script>
+ 
 </html>

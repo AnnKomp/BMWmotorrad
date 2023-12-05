@@ -61,7 +61,6 @@ class RegisterSuiteController extends Controller
         $c->datenaissanceclient = $request->input("datenaissanceclient");
         $c->emailclient = $request->user()->email;
         $c->numadresse = $b->numadresse;
-        $c->photoclient = '/img/null.png';
 
         $c->save();
 

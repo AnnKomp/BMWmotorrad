@@ -72,12 +72,12 @@ a {
     top: 10px;
     left: 10px;
     width: 100%;
-    border-right: 3px solid grey; /* Ajout de la bordure à droite */
+    border-right: 3px solid grey; /* Ajout de la bordure à droite /
 }
 
 
 .filters select {
-    width: 100%; /* Définir la largeur du select à 100% */
+    width: 100%; / Définir la largeur du select à 100% */
 }
 
 tr {

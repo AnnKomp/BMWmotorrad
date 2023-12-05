@@ -26,7 +26,7 @@ class ProfileController extends Controller
     {
         //Getting Necessary data from the table
         $user = auth()->user();
-        $client = DB::table('client')->select('datenaissanceclient', 'civilite','photoclient')->where('idclient', '=', $user->idclient)->first();
+        $client = DB::table('client')->select('datenaissanceclient', 'civilite')->where('idclient', '=', $user->idclient)->first();
         $company = DB::table('professionnel')->select('nomcompagnie')->where('idclient', '=', $user->idclient)->first();
         $phone = Telephone::where('idclient', '=', $user->idclient)->get();
         $adress = DB::table('adresse')->select('nompays','adresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', "=", $user->idclient)->first();
