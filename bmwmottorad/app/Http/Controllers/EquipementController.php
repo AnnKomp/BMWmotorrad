@@ -20,33 +20,39 @@ class EquipementController extends Controller
         $sex = $request->input('sex');
         $tendencies = $request->has('tendencies');
         $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
-
+        $segment = $request->input('segment');
 
         $equipements = DB::table('equipement')
-                    ->select('*')
-                    ->join('media', 'media.idequipement', '=', 'equipement.idequipement')
-                    ->join('categorieequipement','equipement.idcatequipement','=','categorieequipement.idcatequipement')
-                    ->where(function ($queryBuilder) use ($query) {
-                        $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
-                            ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
-                    })
-                    ->when($categoryId, function ($queryBuilder) use ($categoryId) {
-                        $queryBuilder->where('equipement.idcatequipement', $categoryId);
-                    })
-                    ->when($sex, function ($queryBuilder) use ($sex) {
-                        $queryBuilder->where('equipement.sexeequipement', $sex);
-                    })
-                    ->when(request('tendencies'), function ($queryBuilder) {
-                        $queryBuilder->where('equipement.tendance', true);
-                    })
-                    ->whereColumn('idmediapresentation', '=', 'idmedia')
-                    ->when(request('price'), function ($queryBuilder) {
-                        $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
-                        $queryBuilder->orderBy('prixequipement', $priceOrder);
-                    })
-                    ->get();
-                        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories]);
-        }
+            ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
+            ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
+            ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
+            ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
+            ->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
+                    ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
+            })
+            ->when($categoryId, function ($queryBuilder) use ($categoryId) {
+                $queryBuilder->where('equipement.idcatequipement', $categoryId);
+            })
+            ->when($sex, function ($queryBuilder) use ($sex) {
+                $queryBuilder->where('equipement.sexeequipement', $sex);
+            })
+            ->when($segment, function ($queryBuilder) use ($segment) {
+                $queryBuilder->where('equipement.segment', $segment);
+            })
+            ->when(request('tendencies'), function ($queryBuilder) {
+                $queryBuilder->where('equipement.tendance', true);
+            })
+            ->whereColumn('idmediapresentation', '=', 'idmedia')
+            ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
+                $queryBuilder->orderBy('prixequipement', $priceOrder);
+            })
+            ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
+            ->get();
+
+        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories,]);
+    }
+
 
 
 
