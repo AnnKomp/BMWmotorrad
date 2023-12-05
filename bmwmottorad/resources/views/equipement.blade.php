@@ -125,6 +125,10 @@
         <button type="button" id="addToCartButton">Ajouter dans le panier</button>
     </form>
 
+
+
+
+
     <script>
         $(document).ready(function () {
             $('#addToCartButton').click(function () {

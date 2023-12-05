@@ -16,14 +16,13 @@ class PanierController extends Controller
     // Retrieve coloris, taille, and quantity names based on their IDs
     foreach ($equipements as $equipement) {
         foreach ($cart[$equipement->idequipement] as &$cartItem) {
-            // Check if coloris key exists
             $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
 
-            // Check if taille key exists
             $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
 
-            // Check if quantity key exists
             $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+
+            $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
         }
     }
 
@@ -41,6 +40,36 @@ class PanierController extends Controller
         // Retrieve taille name based on ID
         return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
     }
+
+
+    private function getEquipementPhotos($equipementId, $colorisId)
+    {
+        $idpresentation = DB::table('presentation_eq')
+            ->select('idpresentation')
+            ->where('idequipement', $equipementId)
+            ->where('idcoloris', $colorisId)
+            ->get();
+
+        if ($idpresentation->isNotEmpty()) {
+            $idpresentation = $idpresentation[0]->idpresentation;
+
+            $lienmedia = DB::table('media')
+                ->select('lienmedia')
+                ->where('idpresentation', $idpresentation)
+                ->first();
+
+            if ($lienmedia) {
+                return $lienmedia->lienmedia;
+            }
+        }
+
+        // If no photo found, you can return a default image or an empty string
+        return ''; // Change this accordingly
+    }
+
+
+
+
 
 
 
