@@ -16,14 +16,13 @@ class PanierController extends Controller
     // Retrieve coloris, taille, and quantity names based on their IDs
     foreach ($equipements as $equipement) {
         foreach ($cart[$equipement->idequipement] as &$cartItem) {
-            // Check if coloris key exists
             $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
 
-            // Check if taille key exists
             $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
 
-            // Check if quantity key exists
             $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+
+            $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
         }
     }
 
@@ -41,6 +40,32 @@ class PanierController extends Controller
         // Retrieve taille name based on ID
         return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
     }
+
+
+    private function getEquipementPhotos($equipementId, $colorisId)
+    {
+        $idpresentation = DB::table('presentation_eq')
+            ->select('idpresentation')
+            ->where('idequipement', $equipementId)
+            ->where('idcoloris', $colorisId)
+            ->get();
+
+        if ($idpresentation->isNotEmpty()) {
+            $idpresentation = $idpresentation[0]->idpresentation;
+
+            $lienmedia = DB::table('media')
+                ->select('lienmedia')
+                ->where('idpresentation', $idpresentation)
+                ->first();
+
+            if ($lienmedia) {
+                return $lienmedia->lienmedia;
+            }
+        }
+
+        return '';
+    }
+
 
 
 
@@ -88,10 +113,10 @@ class PanierController extends Controller
 
         if ($existingItemIndex !== null) {
             // Update the quantity if the item with the same coloris and taille already exists
-            $cart[$id][$existingItemIndex][0]['quantity'] += $cartItem['quantity'];
+            $cart[$id][$existingItemIndex]['quantity'] += $cartItem['quantity'];
         } else {
             // Ensure each item in the cart is an array
-            $cart[$id][] = $cartItem; // No need for an additional array here
+            $cart[$id][] = $cartItem;
         }
 
         $request->session()->put('cart', $cart);
@@ -109,8 +134,8 @@ class PanierController extends Controller
         if (isset($cart[$id])) {
             foreach ($cart[$id] as $index => $item) {
                 if (
-                    isset($item[0]['coloris']) && $item[0]['coloris'] == $coloris
-                    && isset($item[0]['taille']) && $item[0]['taille'] == $taille
+                    isset($item['coloris']) && $item['coloris'] == $coloris
+                    && isset($item['taille']) && $item['taille'] == $taille
                 ) {
                     return $index;
                 }
