@@ -9,6 +9,7 @@ use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
 use App\Models\CategorieEquipement;
+use App\Models\Collection;
 use Illuminate\Support\Facades\Log;
 
 class EquipementController extends Controller
@@ -16,7 +17,9 @@ class EquipementController extends Controller
     public function index(Request $request) {
         $query = $request->input('search');
         $categories = CategorieEquipement::all();
+        $collections = Collection::all();
         $categoryId = $request->input('category');
+        $collectionId = $request->input('collection');
         $sex = $request->input('sex');
         $tendencies = $request->has('tendencies');
         $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
@@ -27,12 +30,24 @@ class EquipementController extends Controller
             ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
             ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
             ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
+            ->leftJoin('collection', 'collection.idcollection', '=', 'equipement.idcollection')
             ->where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
                     ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
+
+                    // Code that would, in theory, allow 3 mistakes in the input
+                    // Can't test it until Sir Damas modify the DB
+                    // Still waiting...
+
+                    // ->orWhere(function ($queryBuilder) use ($query) {
+                    //     $queryBuilder->whereRaw('levenshtein(nomequipement, ?) < 3', [$query]);
+                    // });
             })
             ->when($categoryId, function ($queryBuilder) use ($categoryId) {
                 $queryBuilder->where('equipement.idcatequipement', $categoryId);
+            })
+            ->when($collectionId, function ($queryBuilder) use ($collectionId) {
+                $queryBuilder->where('equipement.idcollection', $collectionId);
             })
             ->when($sex, function ($queryBuilder) use ($sex) {
                 $queryBuilder->where('equipement.sexeequipement', $sex);
@@ -50,13 +65,8 @@ class EquipementController extends Controller
             ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
             ->get();
 
-        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories,]);
+        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories, 'collections' => $collections ]);
     }
-
-
-
-
-
 
 
     public function detail(Request $request ) {

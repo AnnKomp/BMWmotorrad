@@ -24,6 +24,15 @@
                 @endforeach
             </select>
 
+            <select name="collection">
+                <option value="">Toutes les collections</option>
+                @foreach($collections as $collection)
+                    <option value="{{ $collection->idcollection }}" {{ old('collection') == $collection->idcollection ? 'selected' : '' }}>
+                        {{ $collection->nomcollection }}
+                    </option>
+                @endforeach
+            </select>
+
             <select name="sex">
                 <option value="">Tous les sexes</option>
                 <option value="h" {{ old('sex') == 'h' ? 'selected' : '' }}>Homme</option>

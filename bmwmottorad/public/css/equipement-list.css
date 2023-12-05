@@ -71,13 +71,13 @@ a {
     position: sticky;
     top: 10px;
     left: 10px;
-    width: 100%;
-    border-right: 3px solid grey; /* Ajout de la bordure à droite */
+    width: 250px;
+    border-right: 3px solid grey;
 }
 
 
 .filters select {
-    width: 100%; /* Définir la largeur du select à 100% */
+    width: 100%;
 }
 
 tr {
