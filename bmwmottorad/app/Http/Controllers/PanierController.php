@@ -63,12 +63,8 @@ class PanierController extends Controller
             }
         }
 
-        // If no photo found, you can return a default image or an empty string
-        return ''; // Change this accordingly
+        return '';
     }
-
-
-
 
 
 
@@ -117,10 +113,10 @@ class PanierController extends Controller
 
         if ($existingItemIndex !== null) {
             // Update the quantity if the item with the same coloris and taille already exists
-            $cart[$id][$existingItemIndex][0]['quantity'] += $cartItem['quantity'];
+            $cart[$id][$existingItemIndex]['quantity'] += $cartItem['quantity'];
         } else {
             // Ensure each item in the cart is an array
-            $cart[$id][] = $cartItem; // No need for an additional array here
+            $cart[$id][] = $cartItem;
         }
 
         $request->session()->put('cart', $cart);
@@ -138,8 +134,8 @@ class PanierController extends Controller
         if (isset($cart[$id])) {
             foreach ($cart[$id] as $index => $item) {
                 if (
-                    isset($item[0]['coloris']) && $item[0]['coloris'] == $coloris
-                    && isset($item[0]['taille']) && $item[0]['taille'] == $taille
+                    isset($item['coloris']) && $item['coloris'] == $coloris
+                    && isset($item['taille']) && $item['taille'] == $taille
                 ) {
                     return $index;
                 }
