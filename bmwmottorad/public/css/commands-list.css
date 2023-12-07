@@ -1,0 +1,14 @@
+tr {
+    border: solid 1px black;
+}
+
+table {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+td {
+    text-align: center;
+    padding: 20px;
+}

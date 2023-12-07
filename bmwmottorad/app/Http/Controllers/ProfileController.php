@@ -156,4 +156,21 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+    public function commands(Request $request): View
+    {
+        $idclient = auth()->user()->idclient;
+        $commands = DB::table('commande')
+                    ->where('idclient', $idclient)
+                    ->orderBy('datecommande') // Assurez-vous de trier par date avant de regrouper
+                    ->get()
+                    ->groupBy('datecommande');
+
+        //dd($commands);
+        return view('profile.commands', [
+            'idclient' => $idclient,
+            'commands' => $commands
+        ]);
+    }
 }

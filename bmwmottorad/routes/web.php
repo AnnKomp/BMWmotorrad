@@ -101,6 +101,7 @@ Route::middleware('auth')->group(function () {
     //Controller for the redirection page after creating a new account
     Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/commands', [ProfileController::class, 'commands'])->name('profile.commands');
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
