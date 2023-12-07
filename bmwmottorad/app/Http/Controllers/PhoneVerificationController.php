@@ -25,10 +25,11 @@ class PhoneVerificationController extends Controller
 
     public function store(Request $request){
 
+        $number = Telephone::where('idclient', auth()->user()->idclient)->first();
         if($request->code == $_SESSION['vcode']){
             return redirect('/dashboard');
         }else{
-            return view('auth.phoneverification')->withErrors(['code'=>'Le code est invalide, merci de fournir le bon code.']);
+            return view('auth.phoneverification', ['numero' => $number])->withErrors(['code'=>'Le code est invalide, merci de fournir le bon code.']);
         }
     }
 

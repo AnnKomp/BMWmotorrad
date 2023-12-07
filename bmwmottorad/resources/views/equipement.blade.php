@@ -98,32 +98,42 @@
 
     <form id="addToCartForm">
         @csrf
-        <div class="options-container">
-            <div class="option-section">
-                <h3>Choix taille :</h3>
-                <select name="taille" id="taille">
-                    @foreach ($tailleOptions as $tailleOption)
-                        <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
-                    @endforeach
-                </select>
+
+        @if ($stock && $stock >0)
+
+            <div class="options-container">
+                <div class="option-section">
+                    <h3>Choix taille :</h3>
+                    <select name="taille" id="taille">
+                        @foreach ($tailleOptions as $tailleOption)
+                            <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="option-section">
+                    <h3>Choix coloris :</h3>
+                    <select name="coloris" id="coloris">
+                        @foreach ($colorisOptions as $colorisOption)
+                            <option value="{{ $colorisOption->idcoloris }}">{{ $colorisOption->nomcoloris }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
-            <div class="option-section">
-                <h3>Choix coloris :</h3>
-                <select name="coloris" id="coloris">
-                    @foreach ($colorisOptions as $colorisOption)
-                        <option value="{{ $colorisOption->idcoloris }}">{{ $colorisOption->nomcoloris }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+            <label for="quantity">Quantité :</label>
+            {{-- faire en sorte de le stock change en tant que les photos et redevient 1--}}
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}">
 
-        <label for="quantity">Quantité :</label>
-        {{-- faire en sorte de le stock change en tant que les photos et redevient 1--}}
-        <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}">
-
-        <button type="button" id="addToCartButton">Ajouter dans le panier</button>
+            <button type="button" id="addToCartButton">Ajouter dans le panier</button>
+        @else
+            <p>Stock épuisé</p>
+        @endif
     </form>
+
+
+
+
 
     <script>
         $(document).ready(function () {

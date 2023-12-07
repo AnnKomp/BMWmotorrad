@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class EssaiController extends Controller
 {
-    public function create(){
-        return view("essai", ['concessionnaires' => Concessionnaire::all() ]);
+    public function create(Request $request){
+        $idmoto = $request->input('idmoto');
+        return view("essai", ['idmoto' => $idmoto, 'concessionnaires' => Concessionnaire::all() ]);
     }
 
     public function store(Request $request){
@@ -35,6 +36,7 @@ class EssaiController extends Controller
             )
         );
 
+
         $b = new ContactInfo;
         $b -> nomcontact = $request->lastname;
         $b -> prenomcontact = $request->firstname;
@@ -46,8 +48,7 @@ class EssaiController extends Controller
 
         $c = new DemandeEssai;
         $c->idconcessionnaire = $request->concessionnaire;
-        // TODO : Replace with actual moto id
-        $c->idmoto = 1;
+        $c->idmoto = $request->idmoto;
         $c->idcontact = $b->idcontact;
         $c->descriptifdemandeessai = $request->objet;
 

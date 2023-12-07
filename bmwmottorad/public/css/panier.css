@@ -33,7 +33,17 @@ td{
     text-align: center;
 }
 
+#photo{
+    width: 20%;
+}
+
 table{
     border: 2px solid black;
     text-align: center;
+}
+
+img{
+
+    width: 100%;
+    height: auto;
 }
