@@ -106,9 +106,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
-    Route::get('/panier/commande', [CommandeController::class, 'create']);
-    Route::post('/panier/commande', [CommandeController::class, 'pay'])->name('payment');
+    Route::get('/panier/commandestripe', [CommandeController::class, 'createstripe']);
+    Route::post('/panier/commandestripe', [CommandeController::class, 'paystripe'])->name('paymentstripe');
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
+    Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
+    Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
 });
 
 require __DIR__.'/auth.php';

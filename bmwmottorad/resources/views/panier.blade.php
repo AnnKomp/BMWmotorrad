@@ -46,11 +46,15 @@
             </tr>
         @endforeach
 
-            @endforeach
+          @endforeach
         </table>
 
-        <a href="/panier/commande">
-            <button>Valider mon panier</button>
+        <a href="/panier/commandecb">
+            <button>Payer par CB</button>
+        </a>
+
+        <a href="/panier/commandestripe">
+            <button>Payer via Stripe</button>
         </a>
     @else
         <p>Pour le moment, votre panier est vide.</p>

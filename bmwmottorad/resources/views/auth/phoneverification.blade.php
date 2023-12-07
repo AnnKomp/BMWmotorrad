@@ -11,7 +11,7 @@
 
         <div>
             <x-input-label for="code" :value="__('Code d\'authentification')" />
-            <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" required autofocus />
+            <x-text-input id="code" class="block mt-1 w-full" type="text" name="code" minlength="6" maxlength="6" required autofocus />
             <x-input-error :messages="$errors->get('code')" class="mt-2" />
         </div>
 

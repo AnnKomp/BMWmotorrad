@@ -8,3 +8,12 @@
     border-radius: 5px;
     border: 1px solid #d3dce6;
 }
+
+#essairedirect{
+    border: 1px solid black;
+}
+
+#essairedirect:hover{
+    color: white;
+    background-color: black;
+}
