@@ -21,8 +21,6 @@
             </tr>
 
 
-
-
             @foreach ($equipements as $equipement)
             @foreach ($cart[$equipement->idequipement] as $cartItem)
             <tr>
@@ -35,7 +33,18 @@
 
                 <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
                 <td id=taille>{{ $cartItem['taille_name'] }}</td>
-                <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
+                <td id=quantity>
+                    <form action="{{ route ('panier.increment', ['id' => $equipement->idequipement, 'index' => $loop->index])}}" method="post">
+                        @csrf
+                        <button type="submit">+</button>
+                    </form>
+                    {{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}
+                    <form action="{{ route('panier.decrement', ['id' => $equipement->idequipement, 'index' => $loop->index])}}" method="post">
+                        @csrf
+                        <button type="submit" {{ $cartItem['quantity'] <= 1 ? 'disabled' : ''}}>-</button>
+                    </form>
+
+                </td>
                 <td>
                     <form action="{{ route('panier.remove-item', ['id' => $equipement->idequipement, 'index' => $loop->index]) }}" method="post">
                         @csrf
