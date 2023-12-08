@@ -12,6 +12,11 @@
     <img src="" alt="">
     <form action="{{ route('essaipost') }}" method="POST">
     @csrf
+        <div style="display: none;">
+            <x-text-input id="idmoto" type="number" name="idmoto" :value="old('idmoto', $idmoto)" />
+            {{ $idmoto }}
+        </div>
+
         <!-- Personnal informations part -->
         <div>
             <!-- First name -->
@@ -36,7 +41,7 @@
             <div class="mt-4">
                 <x-input-label for="datenaissance" :value="__('Date de naissance*')" />
                 <input type="date" id="datenaissance" name="datenaissance" class="block mt-1 w-full">
-                <x-input-error :messages="$errors->get('datenaissanceclient')" class="mt-2" />
+                <x-input-error :messages="$errors->get('datenaissance')" class="mt-2" />
             </div>
             <!-- Phone numbers -->
             <div class="mt-4">

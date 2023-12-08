@@ -66,7 +66,7 @@
                         </div>
                     @endif
   
-                     <form id='checkout-form' method='post' action="{{ route('payment') }}">   
+                     <form id='checkout-form' method='post' action="{{ route('paymentstripe') }}">   
                         @csrf             
                         <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
                         <br>

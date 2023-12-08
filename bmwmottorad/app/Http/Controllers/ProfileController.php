@@ -9,6 +9,7 @@ use App\Models\Adresse;
 use App\Models\Client;
 use App\Models\Pays;
 use App\Models\Professionnel;
+use App\Models\Commande;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -148,13 +149,36 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
+        $commandes = Commande::where('idclient', '=', $user->idclient)-first();
 
-        $user->delete();
+        if($commandes){
+            return redirect('/profile')->withErrors(['commande'=>'Vous avez passé une ou plusieures commandes avec ce compte, nous ne pouvons donc pas le supprimer pour le moment.']);
+        }else{
+            Auth::logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            $user->delete();
 
-        return Redirect::to('/');
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return Redirect::to('/');
+        }
+    }
+
+
+    public function commands(Request $request): View
+    {
+        $idclient = auth()->user()->idclient;
+        $commands = DB::table('commande')
+                    ->where('idclient', $idclient)
+                    ->orderBy('datecommande') // Assurez-vous de trier par date avant de regrouper
+                    ->get()
+                    ->groupBy('datecommande');
+
+        //dd($commands);
+        return view('profile.commands', [
+            'idclient' => $idclient,
+            'commands' => $commands
+        ]);
     }
 }

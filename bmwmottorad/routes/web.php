@@ -102,14 +102,17 @@ Route::middleware('auth')->group(function () {
     //Controller for the redirection page after creating a new account
     Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/commands', [ProfileController::class, 'commands'])->name('profile.commands');
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
-    Route::get('/panier/commande', [CommandeController::class, 'create']);
-    Route::post('/panier/commande', [CommandeController::class, 'pay'])->name('payment');
+    Route::get('/panier/commandestripe', [CommandeController::class, 'createstripe']);
+    Route::post('/panier/commandestripe', [CommandeController::class, 'paystripe'])->name('paymentstripe');
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
+    Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
+    Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
 });
 
 require __DIR__.'/auth.php';

@@ -62,7 +62,26 @@
 
             <button type="reset">Réinitialiser</button>
             <button type="submit">Rechercher</button>
+
+
+            <div class="range_container">
+                <div class="sliders_control">
+                    <input id="fromSlider" type="range" value="0" min="0" max="2000"/>
+                    <input id="toSlider" type="range" value="2000" min="0" max="2000"/>
+                </div>
+                <div class="form_control">
+                    <div class="form_control_container">
+                        <div class="form_control_container__time">Min</div>
+                        <input class="form_control_container__time__input" name="Min" type="number" id="fromInput" value="0" min="0" max="2000"/>
+                    </div>
+                    <div class="form_control_container">
+                        <div class="form_control_container__time">Max</div>
+                        <input class="form_control_container__time__input" name="Max" type="number" id="toInput" value="2000" min="0" max="2000"/>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </form>
 
 

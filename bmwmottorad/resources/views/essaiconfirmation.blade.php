@@ -9,15 +9,12 @@
 <link rel="stylesheet" href="/css/essai.css">
 
 <div id="form">
-    <form action="{{ route('essaipost') }}" method="POST">
-    @csrf
 
     <H1>Votre demande d'essai a été envoyée avec succès. Le concessionnaire choisi vous contactera sous peu.</H1>
 
-    <a href="/motos">
-        <button>Retourner à la navigation</button>
+    <a href="/" id="essairedirect">
+        <button>Naviguer sur le site</button>
     </a>
-
 </div>
 
 @endsection

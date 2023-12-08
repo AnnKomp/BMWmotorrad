@@ -7,6 +7,7 @@
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __('Une fois votre compte supprimé, toutes ses données seront supprimées et vous ne pourrez plus accéder à votre compte.') }}
         </p>
+        <x-input-error :messages="$errors->get('commande')" class="mt-2" />
     </header>
 
     <x-danger-button
@@ -35,7 +36,7 @@
                     name="password"
                     type="password"
                     class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
+                    placeholder="{{ __('Votre Mot de passe') }}"
                 />
 
                 <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
