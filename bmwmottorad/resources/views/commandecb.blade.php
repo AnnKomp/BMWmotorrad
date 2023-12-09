@@ -57,21 +57,21 @@
         <!-- First Name -->
         <div>
             <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
-            <x-text-input minlength="16" maxlength="16" id="cardnumber" class="block mt-1 w-full" type="tel" name="cardnumber" :value="old('cardnumber')" required autofocus autocomplete="cardnumber" />
+            <x-text-input minlength="16" maxlength="16" id="cardnumber" class="block mt-1 w-full" type="tel" name="cardnumber" :value="old('cardnumber', $cb->numcarte)" required autofocus autocomplete="cardnumber" />
             <x-input-error :messages="$errors->get('cardnumber')" class="mt-2" />
         </div>
 
         <!-- Last name -->
         <div>
             <x-input-label for="owner" :value="__('Titulaire de la carte*')" />
-            <x-text-input id="owner" class="block mt-1 w-full" type="text" name="owner" :value="old('owner')" required autofocus autocomplete="owner" />
+            <x-text-input id="owner" class="block mt-1 w-full" type="text" name="owner" :value="old('owner', $cb->titulairecompte)" required autofocus autocomplete="owner" />
             <x-input-error :messages="$errors->get('owner')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="expiration" :value="__('Date d\'expiration*')" />
-            <x-text-input id="expiration" class="block mt-1 w-full" type="month" name="expiration" :value="old('expiration')" required autocomplete="expiration" />
+            <x-text-input id="expiration" class="block mt-1 w-full" type="month" name="expiration" :value="old('expiration', $cb->dateexpiration)" required autocomplete="expiration" />
             <x-input-error :messages="$errors->get('expiration')" class="mt-2" />
         </div>
 
@@ -83,7 +83,7 @@
         </div>
 
         <div class="mt-4">
-            <input type="checkbox">Enregistrer mes informations bancaires pour les futures transactions.</input> 
+            <input type="checkbox" name="saveinfo" value="selected">Enregistrer mes informations bancaires pour les futures transactions.</input> 
         </div>
 
         <div class="mt-4">
