@@ -14,13 +14,13 @@
         <th>Détails</th>
         @foreach ($commands as $date => $command)
             <tr>
-                <td>{{ $command[0]->idcommande }}</td>
+                <td>{{ $command->idcommande }}</td>
                 <td>{{ $date }}</td>
-                @if ( $command[0]->etat == 2)
+                @if ( $command->etat == 2)
                     <td>Livrée</td>
-                @elseif ( $command[0]->etat == 1)
+                @elseif ( $command->etat == 1)
                     <td>En cours</td>
-                @elseif ( $command[0]->etat == 0)
+                @elseif ( $command->etat == 0)
                 <td>Annulée</td>
                 @endif
                 <td><a href="/pack?id=1&idmoto=1"><i class="fa fa-info-circle"></i></a></td>
