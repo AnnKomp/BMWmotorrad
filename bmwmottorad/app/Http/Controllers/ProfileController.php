@@ -170,10 +170,10 @@ class ProfileController extends Controller
     {
         $idclient = auth()->user()->idclient;
         $commands = DB::table('commande')
+                    ->select('*')
                     ->where('idclient', $idclient)
                     ->orderBy('datecommande') // Assurez-vous de trier par date avant de regrouper
-                    ->get()
-                    ->groupBy('datecommande');
+                    ->get();
 
         //dd($commands);
         return view('profile.commands', [
