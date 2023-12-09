@@ -66,43 +66,12 @@ class PanierController extends Controller
         return '';
     }
 
-
-
-
-/*
     public function addToCart(Request $request, $id)
     {
         $cart = $request->session()->get('cart', []);
 
         $cartItem = [
-            'quantity' => $request->input('quantity', 1),
-            'coloris' => $request->input('coloris'),
-            'taille' => $request->input('taille'),
-        ];
-
-        // Check if coloris is not selected, then get the first coloris option as the default
-        if (empty($cartItem['coloris'])) {
-            $firstColorisOption = $this->getFirstColorisOptionForEquipement($id);
-
-            if ($firstColorisOption !== null) {
-                $cartItem['coloris'] = $firstColorisOption->idcoloris;
-            }
-        }
-
-        // Ensure each item in the cart is an array
-        $cart[$id][] = [$cartItem];
-
-        $request->session()->put('cart', $cart);
-
-        return redirect()->back()->with('success', 'Equipement ajouté');
-    }
-*/
-
-    public function addToCart(Request $request, $id)
-    {
-        $cart = $request->session()->get('cart', []);
-
-        $cartItem = [
+            'id' => $id,
             'quantity' => $request->input('quantity', 1),
             'coloris' => $request->input('coloris'),
             'taille' => $request->input('taille'),

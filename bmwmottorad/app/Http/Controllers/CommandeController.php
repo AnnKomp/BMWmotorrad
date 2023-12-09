@@ -6,11 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Equipement;
 use App\Models\User;
-use App\Models\Telephone;
-use App\Models\Adresse;
-use App\Models\Client;
-use App\Models\Pays;
-use App\Models\Professionnel;
+use App\Models\Commande;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +41,12 @@ class CommandeController extends Controller
 
     public function paycb(Request $request)  : RedirectResponse
     {
-        // TODO : VALIDATE 
+        $request->validate([
+            'cardnumber' => ['required', 'string', 'min:16' ,'max:16', 'regex:/^[3-5]{1}[0-9]{15}$/i'],
+            'owner' => ['required', 'string'],
+            'expiration' => ['required', 'date', 'after:' . date('m-y')],
+            'cvv' => ['required', 'string', 'min:3', 'max:3', 'regex:/^[0-9]{3}$/i'],
+        ]);
 
         return redirect('/panier/commande/success');
     }
@@ -98,24 +99,56 @@ class CommandeController extends Controller
             "description" => "Paiement commande equipement BMW Motorrad"
         ]);
 
+        $cart = session()->get('cart', []);
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
+        foreach($equipements as $equipement){
+            $qtt = array_search($equipement->idequipement, $cart);
+            DB::table('commande')->insert([
+                'idclient' => auth()->user()->idclient,
+                'datecommande' => date('d/m/y'),
+                'idequipement' => $equipement->idequipement,
+                'quantite' => $qtt,
+                'etat' => 0,
+            ]);
+        }
+
         return redirect('/panier/commandestripe/success');
     }
  
     public function success(){
+        // Get necessary data
         $cart = session()->get('cart', []);
         $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
-        foreach ($equipements as $equipement) {
-            foreach ($cart[$equipement->idequipement] as &$cartItem) {
-                // Check if coloris key exists
-                $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
-    
-                // Check if taille key exists
-                $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
-    
-                // Check if quantity key exists
-                $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
-            }
+
+        // Create the new order and save it in the database
+        $order = new Commande;
+        $order->idclient = auth()->user()->idclient;
+        $order->datecommande = date('m/d/y');
+        $order->etat = 0;
+
+        $order->save();
+
+        foreach($cart as $item){
+            DB::table('contenucommande')->insert([
+                'idcommande' => $order->idcommande,
+                'idequipement' => $item[0]['id'],
+                'quantite' => $item[0]['quantity']
+            ]);
         }
+
+        // Useless ? 
+        // foreach ($equipements as $equipement) {
+        //     foreach ($cart[$equipement->idequipement] as &$cartItem) {
+        //         // Check if coloris key exists
+        //         $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
+    
+        //         // Check if taille key exists
+        //         $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
+    
+        //         // Check if quantity key exists
+        //         $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+        //     }
+        // }
 
         session()->forget('cart');
         return view('commandesuccess', compact('equipements', 'cart'));
