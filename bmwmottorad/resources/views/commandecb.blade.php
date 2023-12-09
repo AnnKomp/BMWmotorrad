@@ -57,7 +57,7 @@
         <!-- First Name -->
         <div>
             <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
-            <x-text-input max="9999999999999999" id="cardnumber" class="block mt-1 w-full" type="number" name="cardnumber" :value="old('cardnumber')" required autofocus autocomplete="cardnumber" />
+            <x-text-input minlength="16" maxlength="16" id="cardnumber" class="block mt-1 w-full" type="tel" name="cardnumber" :value="old('cardnumber')" required autofocus autocomplete="cardnumber" />
             <x-input-error :messages="$errors->get('cardnumber')" class="mt-2" />
         </div>
 
@@ -78,7 +78,7 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="cvv" :value="__('CVV*')" />
-            <x-text-input max="999" id="cvv" class="block mt-1 w-full" type="number" name="cvv" required/>
+            <x-text-input minlength="3" maxlength="3" id="cvv" class="block mt-1 w-full" type="tel" name="cvv" required/>
             <x-input-error :messages="$errors->get('cvv')" class="mt-2" />
         </div>
 

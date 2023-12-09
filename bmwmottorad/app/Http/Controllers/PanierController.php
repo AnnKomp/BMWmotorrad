@@ -66,43 +66,12 @@ class PanierController extends Controller
         return '';
     }
 
-
-
-
-/*
     public function addToCart(Request $request, $id)
     {
         $cart = $request->session()->get('cart', []);
 
         $cartItem = [
-            'quantity' => $request->input('quantity', 1),
-            'coloris' => $request->input('coloris'),
-            'taille' => $request->input('taille'),
-        ];
-
-        // Check if coloris is not selected, then get the first coloris option as the default
-        if (empty($cartItem['coloris'])) {
-            $firstColorisOption = $this->getFirstColorisOptionForEquipement($id);
-
-            if ($firstColorisOption !== null) {
-                $cartItem['coloris'] = $firstColorisOption->idcoloris;
-            }
-        }
-
-        // Ensure each item in the cart is an array
-        $cart[$id][] = [$cartItem];
-
-        $request->session()->put('cart', $cart);
-
-        return redirect()->back()->with('success', 'Equipement ajouté');
-    }
-*/
-
-    public function addToCart(Request $request, $id)
-    {
-        $cart = $request->session()->get('cart', []);
-
-        $cartItem = [
+            'id' => $id,
             'quantity' => $request->input('quantity', 1),
             'coloris' => $request->input('coloris'),
             'taille' => $request->input('taille'),
@@ -125,8 +94,45 @@ class PanierController extends Controller
         return response()->json(['success' => true, 'message' => 'Equipement ajouté au panier']);
     }
 
+    public function incrementQuantity(Request $request, $id,$index){
+        $cart = $request->session()->get('cart', []);
+
+        if (isset($cart[$id][$index]['quantity'])) {
+
+            if($this->canIncrement($id,$cart[$id][$index]['coloris'],$cart[$id][$index]['taille'])) {
+
+                $cart[$id][$index]['quantity'] ++;
+                $request->session()->put('cart', $cart);
+            }
+            else {
+                return redirect()->back()->with('error','Cannot increment beyond stock.');
+            }
+
+        }
+        return redirect()->back();
+    }
+
+    public function decrementQuantity(Request $request, $id,$index){
+        $cart = $request->session()->get('cart', []);
+
+        if (isset($cart[$id][$index]) && $cart[ $id][$index]['quantity'] > 1) {
+                $cart[$id][$index]['quantity'] --;
+                $request->session()->put('cart', $cart);
 
 
+        }
+        return redirect()->back();
+    }
+
+    private function canIncrement($equipementId,$coloris, $taille, $requestedQuantity = 1){
+        $stock = DB::table('stock')
+        ->where('idequipement',$equipementId)
+        ->where('idcoloris',$coloris)
+        ->where('idtaille',$taille)
+        ->value('quantite');
+
+        return $stock > $requestedQuantity;
+    }
 
     private function findCartItemIndex($cart, $id, $coloris, $taille)
     {
