@@ -15,7 +15,8 @@
         "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.8",
         "stripe/stripe-php": "^13.5",
-        "twilio/sdk": "^7.12"
+        "twilio/sdk": "^7.12",
+        "wyndow/fuzzywuzzy": "^0.6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

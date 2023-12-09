@@ -24,6 +24,8 @@ class EquipementController extends Controller
         $tendencies = $request->has('tendencies');
         $priceOrder = request('price') === 'asc' ? 'asc' : 'desc';
         $segment = $request->input('segment');
+        $prix_min = $request->input('Min');
+        $prix_max = $request->input('Max');
 
         $equipements = DB::table('equipement')
             ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
@@ -33,15 +35,7 @@ class EquipementController extends Controller
             ->leftJoin('collection', 'collection.idcollection', '=', 'equipement.idcollection')
             ->where(function ($queryBuilder) use ($query) {
                 $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
-                    ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
-
-                    // Code that would, in theory, allow 3 mistakes in the input
-                    // Can't test it until Sir Damas modify the DB
-                    // Still waiting...
-
-                    // ->orWhere(function ($queryBuilder) use ($query) {
-                    //     $queryBuilder->whereRaw('levenshtein(nomequipement, ?) < 3', [$query]);
-                    // });
+                             ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
             })
             ->when($categoryId, function ($queryBuilder) use ($categoryId) {
                 $queryBuilder->where('equipement.idcatequipement', $categoryId);
@@ -62,11 +56,28 @@ class EquipementController extends Controller
             ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
                 $queryBuilder->orderBy('prixequipement', $priceOrder);
             })
+            ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
+                $queryBuilder->orderBy('prixequipement', $priceOrder);
+            })
+
+            // Ajout de la condition sur le prix minimum et maximum
+            ->when($prix_min, function ($queryBuilder) use ($prix_min) {
+                $queryBuilder->where('prixequipement', '>=', $prix_min);
+            })
+            ->when($prix_max, function ($queryBuilder) use ($prix_max) {
+                $queryBuilder->where('prixequipement', '<=', $prix_max);
+            })
+
             ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
             ->get();
 
         return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories, 'collections' => $collections ]);
     }
+
+
+
+
+
 
 
     public function detail(Request $request ) {

@@ -76,7 +76,8 @@ Route::get('/panier', [PanierController::class, "info"])->name('panier');
 Route::get('/panier', [PanierController::class, "index"])->name('panier');
 ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->name('panier.add-to-cart');
 Route::delete('/panier/remove-item/{id}/{index}', [PanierController::class, 'removeItem'])->name('panier.remove-item');
-
+Route::post('/panier/increment/{id}/{index}', [PanierController::class,'incrementQuantity'])->name('panier.increment');
+Route::post('/panier/decrement/{id}/{index}', [PanierController::class,'decrementQuantity'])->name('panier.decrement');
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
 
@@ -101,6 +102,7 @@ Route::middleware('auth')->group(function () {
     //Controller for the redirection page after creating a new account
     Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/commands', [ProfileController::class, 'commands'])->name('profile.commands');
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -154,6 +154,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'F' => 
         array (
+            'FuzzyWuzzy\\' => 11,
             'Fruitcake\\Cors\\' => 15,
             'FontLib\\' => 8,
             'Faker\\' => 6,
@@ -514,6 +515,10 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
+        'FuzzyWuzzy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib',
+        ),
         'Fruitcake\\Cors\\' => 
         array (
             0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
@@ -607,6 +612,16 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'D' => 
+        array (
+            'Diff' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -651,6 +666,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Models\\Adresse' => __DIR__ . '/../..' . '/app/Models/Adresse.php',
         'App\\Models\\CategorieEquipement' => __DIR__ . '/../..' . '/app/Models/CategorieEquipement.php',
         'App\\Models\\Client' => __DIR__ . '/../..' . '/app/Models/Client.php',
+        'App\\Models\\Collection' => __DIR__ . '/../..' . '/app/Models/Collection.php',
         'App\\Models\\Color' => __DIR__ . '/../..' . '/app/Models/Color.php',
         'App\\Models\\Concessionnaire' => __DIR__ . '/../..' . '/app/Models/Concessionnaire.php',
         'App\\Models\\ContactInfo' => __DIR__ . '/../..' . '/app/Models/ContactInfo.php',
@@ -829,6 +845,14 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'Dflydev\\DotAccessData\\Exception\\InvalidPathException' => __DIR__ . '/..' . '/dflydev/dot-access-data/src/Exception/InvalidPathException.php',
         'Dflydev\\DotAccessData\\Exception\\MissingPathException' => __DIR__ . '/..' . '/dflydev/dot-access-data/src/Exception/MissingPathException.php',
         'Dflydev\\DotAccessData\\Util' => __DIR__ . '/..' . '/dflydev/dot-access-data/src/Util.php',
+        'Diff' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff.php',
+        'Diff_Renderer_Abstract' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/Renderer/Abstract.php',
+        'Diff_Renderer_Html_Array' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/Renderer/Html/Array.php',
+        'Diff_Renderer_Html_Inline' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/Renderer/Html/Inline.php',
+        'Diff_Renderer_Html_SideBySide' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/Renderer/Html/SideBySide.php',
+        'Diff_Renderer_Text_Context' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/Renderer/Text/Context.php',
+        'Diff_Renderer_Text_Unified' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/Renderer/Text/Unified.php',
+        'Diff_SequenceMatcher' => __DIR__ . '/..' . '/phpspec/php-diff/lib/Diff/SequenceMatcher.php',
         'Doctrine\\Common\\Cache\\Cache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Cache.php',
         'Doctrine\\Common\\Cache\\CacheProvider' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/CacheProvider.php',
         'Doctrine\\Common\\Cache\\ClearableCache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/ClearableCache.php',
@@ -1959,6 +1983,12 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'FontLib\\WOFF\\TableDirectoryEntry' => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib/WOFF/TableDirectoryEntry.php',
         'Fruitcake\\Cors\\CorsService' => __DIR__ . '/..' . '/fruitcake/php-cors/src/CorsService.php',
         'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => __DIR__ . '/..' . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
+        'FuzzyWuzzy\\Collection' => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib/Collection.php',
+        'FuzzyWuzzy\\Diff\\SequenceMatcher' => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib/Diff/SequenceMatcher.php',
+        'FuzzyWuzzy\\Fuzz' => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib/Fuzz.php',
+        'FuzzyWuzzy\\Process' => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib/Process.php',
+        'FuzzyWuzzy\\StringProcessor' => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib/StringProcessor.php',
+        'FuzzyWuzzy\\Utils' => __DIR__ . '/..' . '/wyndow/fuzzywuzzy/lib/Utils.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',
         'GrahamCampbell\\ResultType\\Result' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Result.php',
         'GrahamCampbell\\ResultType\\Success' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Success.php',
@@ -9949,6 +9979,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit9c491b8531eec05ba41a11d9276a5749::$classMap;
 
         }, null, ClassLoader::class);
