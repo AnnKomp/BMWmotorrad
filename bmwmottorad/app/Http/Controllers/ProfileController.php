@@ -166,7 +166,7 @@ class ProfileController extends Controller
     }
 
 
-    public function commands(Request $request): View
+    public function commands(): View
     {
         $idclient = auth()->user()->idclient;
         $commands = DB::table('commande')
@@ -179,6 +179,22 @@ class ProfileController extends Controller
         return view('profile.commands', [
             'idclient' => $idclient,
             'commands' => $commands
+        ]);
+    }
+
+    public function command_detail(Request $request): View
+    {
+        $idcommand = $request->input('idcommand');
+        $command = DB::table('contenucommande')
+        ->select('*')
+        ->where('idcommande', $idcommand)
+        ->get();
+
+
+        //dd($command);
+
+        return view('profile.commanddetail', [
+            'command' => $command
         ]);
     }
 }

@@ -1,0 +1,20 @@
+tr {
+    border: solid 1px black;
+}
+
+table {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+td, th {
+    text-align: center;
+    padding: 20px;
+    color: red;
+}
+
+a.cancel {
+    background-color: white;
+    margin-left: 10%;
+}
