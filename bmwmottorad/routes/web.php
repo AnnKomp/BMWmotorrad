@@ -103,7 +103,8 @@ Route::middleware('auth')->group(function () {
     Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/commands', [ProfileController::class, 'commands'])->name('profile.commands');
-    Route::get('/profile/commands/detail', [ProfileController::class, 'command_detail']);
+    Route::get('/profile/commands/detail', [ProfileController::class, 'command_detail'])->name('profile.commands.detail');
+    Route::delete('/annuler-commande/{id_commande}/{id_equipement}/{id_taille}/{id_coloris}', [ProfileController::class, 'annulerCommande'])->name('annuler_commande');
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

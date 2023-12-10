@@ -1,5 +1,5 @@
 tr {
-    border: solid 1px black;
+    border: solid 1px grey;
 }
 
 table {
@@ -11,10 +11,11 @@ table {
 td, th {
     text-align: center;
     padding: 20px;
-    color: red;
+    color: white;
+    font-size: 20px;
 }
 
-a.cancel {
-    background-color: white;
-    margin-left: 10%;
+.alert {
+    color: red;
+    font-size: 32px;
 }

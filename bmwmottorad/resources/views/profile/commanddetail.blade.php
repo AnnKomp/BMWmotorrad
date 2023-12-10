@@ -7,17 +7,39 @@
         </h2>
     </x-slot>
 
+    <!-- Afficher le message de succès -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Afficher le message d'erreur -->
+    @if(session('error'))
+        <div class="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <table>
         <th>Nom équipement</th>
-        <th>Photo équipement</th>
         <th>Quantité</th>
-    @foreach ($command as $article)
+        <th>Taille</th>
+        <th>Couleur</th>
+        @foreach ($command as $article)
         <tr>
-            <td>Equipement n°{{ $article->idequipement }}</td>
-            <td>Quantitée : {{ $article->quantite }}</td>
+            <td>{{ $article->nomequipement }}</td>
+            <td>{{ $article->quantite }}</td>
+            <td>{{ $article->libelletaille }}/{{ $article->desctaille }}</td>
+            <td>{{ $article->nomcoloris }}</td>
+            <td>
+                <form action="{{ route('annuler_commande', ['id_commande' => $article->idcommande, 'id_equipement' => $article->idequipement, 'id_taille' => $article->idtaille, 'id_coloris' => $article->idcoloris]) }}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" title="Supprimer l'article"><i class="fa fa-close" style="color:red"></i></button>
+                </form>
+            </td>
         </tr>
-    @endforeach
+        @endforeach
     </table>
-
-    <a class="cancel" href="">Annuler la commande</a>
 </x-app-layout>

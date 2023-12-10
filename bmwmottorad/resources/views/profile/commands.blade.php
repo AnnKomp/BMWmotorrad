@@ -16,12 +16,10 @@
             <tr>
                 <td>{{ $command->idcommande }}</td>
                 <td>{{ $date }}</td>
-                @if ( $command->etat == 2)
-                    <td>Livrée</td>
-                @elseif ( $command->etat == 1)
+                @if ( $command->etat == 0)
                     <td>En cours</td>
-                @elseif ( $command->etat == 0)
-                <td>Annulée</td>
+                @elseif ( $command->etat == 1)
+                    <td>Livrée</td>
                 @endif
                 <td><a href="/profile/commands/detail?idcommand={{ $command->idcommande }}"><i class="fa fa-info-circle"></i></a></td>
             </tr>
