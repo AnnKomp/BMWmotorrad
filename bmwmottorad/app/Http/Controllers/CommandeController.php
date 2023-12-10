@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Equipement;
 use App\Models\User;
 use App\Models\Commande;
+use App\Models\Infocb;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,8 @@ class CommandeController extends Controller
                     $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
                 }
             };
-            return view('commandecb', compact('equipements', 'cart'));
+            $cb = Infocb::where('idclient', auth()->user()->idclient)->first();
+            return view('commandecb', compact('equipements', 'cart', 'cb'));
         }else{
             return view('auth.login');
         }
@@ -47,6 +49,23 @@ class CommandeController extends Controller
             'expiration' => ['required', 'date', 'after:' . date('m-y')],
             'cvv' => ['required', 'string', 'min:3', 'max:3', 'regex:/^[0-9]{3}$/i'],
         ]);
+
+        if($request->saveinfo){
+            if(Infocb::where('idclient', auth()->user()->idclient)->first()){
+                Infocb::where('idclient', auth()->user()->idclient)->update([
+                   'numcarte' => $request->cardnumber,
+                   'titulairecompte' => $request->owner,
+                   'dateexpiration' => $request->expiration
+                ]);
+            }else{
+                Infocb::insert([
+                    'idclient' => auth()->user()->idclient,
+                    'numcarte' => $request->cardnumber,
+                    'titulairecompte' => $request->owner,
+                    'dateexpiration' => $request->expiration
+                ]);
+            }
+        }
 
         return redirect('/panier/commande/success');
     }
@@ -99,19 +118,6 @@ class CommandeController extends Controller
             "description" => "Paiement commande equipement BMW Motorrad"
         ]);
 
-        $cart = session()->get('cart', []);
-        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
-        foreach($equipements as $equipement){
-            $qtt = array_search($equipement->idequipement, $cart);
-            DB::table('commande')->insert([
-                'idclient' => auth()->user()->idclient,
-                'datecommande' => date('d/m/y'),
-                'idequipement' => $equipement->idequipement,
-                'quantite' => $qtt,
-                'etat' => 0,
-            ]);
-        }
-
         return redirect('/panier/commandestripe/success');
     }
  
@@ -124,7 +130,7 @@ class CommandeController extends Controller
         $order = new Commande;
         $order->idclient = auth()->user()->idclient;
         $order->datecommande = date('m/d/y');
-        $order->etat = 0;
+        $order->etat = 1;
 
         $order->save();
 
