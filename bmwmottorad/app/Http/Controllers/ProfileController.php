@@ -214,7 +214,12 @@ class ProfileController extends Controller
 
     public function annulerCommande($idcommande, $idequipement, $idtaille, $idcoloris)
     {
+        // Récupérez le nombre total d'articles pour la commande
+        $nombreTotalArticles = DB::table('contenucommande')
+            ->where('idcommande', $idcommande)
+            ->count();
 
+        // Récupérez l'article
         $contenuCommande = DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->where('idequipement', $idequipement)
@@ -222,14 +227,9 @@ class ProfileController extends Controller
             ->where('idcoloris', $idcoloris)
             ->first();
 
-
-
-
-        //dd('Avant suppression', $contenuCommande);
-
-
+        // Si l'article existe
         if ($contenuCommande) {
-
+            // Supprimez l'article
             DB::table('contenucommande')
                 ->where('idcommande', $idcommande)
                 ->where('idequipement', $idequipement)
@@ -237,15 +237,23 @@ class ProfileController extends Controller
                 ->where('idcoloris', $idcoloris)
                 ->delete();
 
-        //dd('Après suppression');
+            // Si le nombre total d'articles est devenu zéro, supprimez la commande
+            if ($nombreTotalArticles - 1 === 0) {
+                DB::table('commande')
+                    ->where('idcommande', $idcommande)
+                    ->delete();
 
+                return redirect()->route('profile.commands');
+
+            }
 
             return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-                            ->with('success', 'Article annulé avec succès.');
+                ->with('success', 'Article annulé avec succès.');
         }
 
         return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-                         ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
+            ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
     }
+
 }
 

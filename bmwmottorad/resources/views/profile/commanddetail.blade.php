@@ -32,7 +32,7 @@
             <td>{{ $article->quantite }}</td>
             <td>{{ $article->libelletaille }}/{{ $article->desctaille }}</td>
             <td>{{ $article->nomcoloris }}</td>
-            @if ($article->etat = 0)
+            @if ($article->etat == 0)
             <td>
                 <form action="{{ route('annuler_commande', ['id_commande' => $article->idcommande, 'id_equipement' => $article->idequipement, 'id_taille' => $article->idtaille, 'id_coloris' => $article->idcoloris]) }}" method="post">
                     @csrf
