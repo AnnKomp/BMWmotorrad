@@ -1,5 +1,5 @@
 <?php
-    $total = 0;
+    $total = 9;
     foreach($equipements as $equipement){
         foreach($cart[$equipement->idequipement] as $cartItem){
             $total += $equipement->prixequipement * $cartItem['quantity'];
@@ -11,23 +11,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BMW Motorrad Paiement Stripe</title>
+    <title>BMW Motorrad Paiement CB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/panier.css">
+    <link rel="stylesheet" href="/css/commandecb.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
       
 <div class="container">
       
-    <h1>BMW Motorrad - Paiement Stripe</h1>
+<h1>Paiement par CB</h1>
+
+<form method="POST" action="{{ route('paymentcb') }}">
+        @csrf
+
+
+        <div class=fielddiv>
+            <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
+            <x-text-input class=field minlength="16" maxlength="16" id="cardnumber" type="tel" name="cardnumber" :value="old('cardnumber', $cb->numcarte)" required autofocus autocomplete="cardnumber" />
+            <x-input-error :messages="$errors->get('cardnumber')" class="error" />
+        </div>
+
+
+        <div class=fielddiv>
+            <x-input-label for="owner" :value="__('Titulaire de la carte*')" />
+            <x-text-input class=field id="owner" type="text" name="owner" :value="old('owner', $cb->titulairecompte)" required autofocus autocomplete="owner" />
+            <x-input-error :messages="$errors->get('owner')" class="error" />
+        </div>
+
+
+        <div class=fielddiv>
+            <x-input-label for="expiration" :value="__('Date d\'expiration*')" />
+            <x-text-input id="expiration" class=field type="month" name="expiration" :value="old('expiration', $cb->dateexpiration)" required autocomplete="expiration" />
+            <x-input-error :messages="$errors->get('expiration')" class="error" />
+        </div>
+
+
+        <div class=fielddiv>
+            <x-input-label for="cvv" :value="__('CVV*')" />
+            <x-text-input minlength="3" maxlength="3" id="cvv" class=field type="tel" name="cvv" required/>
+            <x-input-error :messages="$errors->get('cvv')" class="error" />
+        </div>
+
+        <div>
+            <input type="checkbox" name="saveinfo" value="selected">Enregistrer mes informations bancaires afin de simplifier mes prochaines transactions.</input> 
+        </div>
+
+        <div>
+            <p>* : champ obligatoire</p>
+        </div>
+
+        <div>
+            <x-primary-button class="ms-4">
+                Payer {{ $total }} €
+            </x-primary-button>
+        </div>
+    </form>
     
+    <h2>Contenu de la commande</h2>
+
     <table>
             <tr>
                 <th id=name>Nom</th>
-                <th id=price>Prix</th>
-                <th id=coloris>xColoris</th>
+                <th id=photo>Photo</th>
+                <th id=coloris>Coloris</th>
                 <th id=taille>Taille</th>
                 <th id=quantity>Quantité</th>
+                <th id=price>Prix</th>
             </tr>
 
 
@@ -37,65 +88,23 @@
             @foreach ($cart[$equipement->idequipement] as $cartItem)
             <tr>
                 <td id=name>{{ $equipement->nomequipement }}</td>
-                <!-- Make the price equal to the unitary price times the quantity -->
-                <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
+
+                <td id=photo>
+                    <img src="{{ $cartItem['photo'] }}" alt="Equipement Photo" class="equipement-photo">
+                </td>
+
                 <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
                 <td id=taille>{{ $cartItem['taille_name'] }}</td>
                 <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
+                <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
             </tr>
             @endforeach
 
         @endforeach
     </table>
 
-    <h1>Total</h1>
-    <p name="total">{{ $total}} €</p>
-      
-    <form method="POST" action="{{ route('paymentcb') }}">
-        @csrf
-
-        <!-- First Name -->
-        <div>
-            <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
-            <x-text-input minlength="16" maxlength="16" id="cardnumber" class="block mt-1 w-full" type="tel" name="cardnumber" :value="old('cardnumber', $cb->numcarte)" required autofocus autocomplete="cardnumber" />
-            <x-input-error :messages="$errors->get('cardnumber')" class="mt-2" />
-        </div>
-
-        <!-- Last name -->
-        <div>
-            <x-input-label for="owner" :value="__('Titulaire de la carte*')" />
-            <x-text-input id="owner" class="block mt-1 w-full" type="text" name="owner" :value="old('owner', $cb->titulairecompte)" required autofocus autocomplete="owner" />
-            <x-input-error :messages="$errors->get('owner')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="expiration" :value="__('Date d\'expiration*')" />
-            <x-text-input id="expiration" class="block mt-1 w-full" type="month" name="expiration" :value="old('expiration', $cb->dateexpiration)" required autocomplete="expiration" />
-            <x-input-error :messages="$errors->get('expiration')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="cvv" :value="__('CVV*')" />
-            <x-text-input minlength="3" maxlength="3" id="cvv" class="block mt-1 w-full" type="tel" name="cvv" required/>
-            <x-input-error :messages="$errors->get('cvv')" class="mt-2" />
-        </div>
-
-        <div class="mt-4">
-            <input type="checkbox" name="saveinfo" value="selected">Enregistrer mes informations bancaires pour les futures transactions.</input> 
-        </div>
-
-        <div class="mt-4">
-            <p>* : champ obligatoire</p>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-4">
-                Payer {{ $total }} €
-            </x-primary-button>
-        </div>
-    </form>
+    <p>Frais de livraison : 9 €</p>
+    <h3>Total : {{ $total }} €</h3>
 </div>
       
 </body>

@@ -1,3 +1,8 @@
 #signup{
     padding-right: 35px;
 }
+
+body {
+    background-image: url("/img/bodybg.jpg");
+    background-color: #cccccc;
+}

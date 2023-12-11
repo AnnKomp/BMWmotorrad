@@ -19,10 +19,10 @@
         <table>
             <tr>
                 <th id=name>Nom</th>
-                <th id=price>Prix</th>
-                <th id=coloris>xColoris</th>
+                <th id=coloris>Coloris</th>
                 <th id=taille>Taille</th>
                 <th id=quantity>Quantité</th>
+                <th id=price>Prix</th>
             </tr>
 
 
@@ -32,14 +32,13 @@
             @foreach ($cart[$equipement->idequipement] as $cartItem)
             <tr>
                 <td id=name>{{ $equipement->nomequipement }}</td>
+                <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
+                <td id=taille>{{ $cartItem['taille_name'] }}</td>
+                <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
                 <!-- Make the price equal to the unitary price times the quantity -->
                 <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
-                <td id=coloris>{{ $cartItem['coloris'] }}</td>
-                <td id=taille>{{ $cartItem['taille'] }}</td>
-                <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
             </tr>
             @endforeach
-
         @endforeach
         </table>
 

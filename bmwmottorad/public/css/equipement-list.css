@@ -39,8 +39,12 @@ a {
 
 .equipement_display{
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 35vh;
 }
 
 .equipement_lien{

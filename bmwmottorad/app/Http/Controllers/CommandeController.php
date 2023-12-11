@@ -32,6 +32,7 @@ class CommandeController extends Controller
         
                     // Check if quantity key exists
                     $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+                    $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
                 }
             };
             $cb = Infocb::where('idclient', auth()->user()->idclient)->first();
@@ -66,6 +67,8 @@ class CommandeController extends Controller
                 ]);
             }
         }
+        
+        $this->createOrder();
 
         return redirect('/panier/commande/success');
     }
@@ -74,7 +77,6 @@ class CommandeController extends Controller
 
     //  ===================================== STRIPE PART ===============================================================================
     public function createstripe(){
-        if(auth()->user()){
             $cart = session()->get('cart', []);
             $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
             foreach ($equipements as $equipement) {
@@ -87,12 +89,10 @@ class CommandeController extends Controller
         
                     // Check if quantity key exists
                     $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+                    $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
                 }
             };
             return view('commandestripe', compact('equipements', 'cart'));
-        }else{
-            return view('auth.login');
-        }
     }
 
     public function paystripe(Request $request)  : RedirectResponse
@@ -117,6 +117,7 @@ class CommandeController extends Controller
             "source" => $sourceToken,
             "description" => "Paiement commande equipement BMW Motorrad"
         ]);
+        $this->createOrder();
 
         return redirect('/panier/commandestripe/success');
     }
@@ -126,11 +127,31 @@ class CommandeController extends Controller
         $cart = session()->get('cart', []);
         $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
 
+        foreach ($equipements as $equipement) {
+            foreach ($cart[$equipement->idequipement] as &$cartItem) {
+                // Check if coloris key exists
+                $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
+    
+                // Check if taille key exists
+                $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
+            }
+        }
+
+        session()->forget('cart');
+        return view('commandesuccess', compact('equipements', 'cart'));
+    }
+
+    // ==================================== GETTERS ===========================================================
+    private function createOrder(){
+        // Get necessary data
+        $cart = session()->get('cart', []);
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
+
         // Create the new order and save it in the database
         $order = new Commande;
         $order->idclient = auth()->user()->idclient;
         $order->datecommande = date('m/d/y');
-        $order->etat = 1;
+        $order->etat = 0;
 
         $order->save();
 
@@ -138,29 +159,13 @@ class CommandeController extends Controller
             DB::table('contenucommande')->insert([
                 'idcommande' => $order->idcommande,
                 'idequipement' => $item[0]['id'],
-                'quantite' => $item[0]['quantity']
+                'quantite' => $item[0]['quantity'],
+                'idcoloris' => $item[0]['coloris'],
+                'idtaille' => $item[0]['taille'],
             ]);
         }
-
-        // Useless ? 
-        // foreach ($equipements as $equipement) {
-        //     foreach ($cart[$equipement->idequipement] as &$cartItem) {
-        //         // Check if coloris key exists
-        //         $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
-    
-        //         // Check if taille key exists
-        //         $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
-    
-        //         // Check if quantity key exists
-        //         $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
-        //     }
-        // }
-
-        session()->forget('cart');
-        return view('commandesuccess', compact('equipements', 'cart'));
     }
-
-    // ==================================== GETTERS ===========================================================
+    
     private function getColorisName($colorisId)
     {
         // Retrieve coloris name based on ID
@@ -171,5 +176,29 @@ class CommandeController extends Controller
     {
         // Retrieve taille name based on ID
         return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
+    }
+
+    private function getEquipementPhotos($equipementId, $colorisId)
+    {
+        $idpresentation = DB::table('presentation_eq')
+            ->select('idpresentation')
+            ->where('idequipement', $equipementId)
+            ->where('idcoloris', $colorisId)
+            ->get();
+
+        if ($idpresentation->isNotEmpty()) {
+            $idpresentation = $idpresentation[0]->idpresentation;
+
+            $lienmedia = DB::table('media')
+                ->select('lienmedia')
+                ->where('idpresentation', $idpresentation)
+                ->first();
+
+            if ($lienmedia) {
+                return $lienmedia->lienmedia;
+            }
+        }
+
+        return '';
     }
 }
