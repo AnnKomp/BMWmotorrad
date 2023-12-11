@@ -186,22 +186,36 @@ class ProfileController extends Controller
     {
         $idcommand = $request->input('idcommand');
         $command = DB::table('contenucommande')
-                ->select(
-                    'contenucommande.idcommande',
-                    'contenucommande.idequipement',
-                    'contenucommande.quantite',
-                    'taille.idtaille',
-                    'taille.libelletaille',
-                    'taille.desctaille',
-                    'coloris.idcoloris',
-                    'coloris.nomcoloris',
-                    'equipement.nomequipement'
-                )
-                ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
-                ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
-                ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
-                ->where('contenucommande.idcommande', $idcommand)
-                ->get();
+                        ->select(
+                            'contenucommande.idcommande',
+                            'contenucommande.idequipement',
+                            'contenucommande.quantite',
+                            'taille.idtaille',
+                            'taille.libelletaille',
+                            'taille.desctaille',
+                            'coloris.idcoloris',
+                            'coloris.nomcoloris',
+                            'equipement.nomequipement',
+                            'commande.etat',
+                            'media.lienmedia'
+                        )
+                        ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
+                        ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
+                        ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
+                        ->join('commande', 'contenucommande.idcommande', '=', 'commande.idcommande')
+                        ->leftJoin('presentation_eq', function ($join) {
+                            $join->on('equipement.idequipement', '=', 'presentation_eq.idequipement');
+                            $join->on('coloris.idcoloris', '=', 'presentation_eq.idcoloris');
+                        })
+                        ->leftJoin('media', function ($join) {
+                            $join->on('presentation_eq.idpresentation', '=', 'media.idpresentation');
+                            $join->whereRaw('media.idmedia = (SELECT MIN(idmedia) FROM media WHERE media.idpresentation = presentation_eq.idpresentation)');
+                        })
+                        ->where('contenucommande.idcommande', $idcommand)
+                        ->get();
+
+
+
 
         //dd($command);
 
@@ -212,7 +226,12 @@ class ProfileController extends Controller
 
     public function annulerCommande($idcommande, $idequipement, $idtaille, $idcoloris)
     {
+        // Récupérez le nombre total d'articles pour la commande
+        $nombreTotalArticles = DB::table('contenucommande')
+            ->where('idcommande', $idcommande)
+            ->count();
 
+        // Récupérez l'article
         $contenuCommande = DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->where('idequipement', $idequipement)
@@ -220,14 +239,9 @@ class ProfileController extends Controller
             ->where('idcoloris', $idcoloris)
             ->first();
 
-
-
-
-        //dd('Avant suppression', $contenuCommande);
-
-
+        // Si l'article existe
         if ($contenuCommande) {
-
+            // Supprimez l'article
             DB::table('contenucommande')
                 ->where('idcommande', $idcommande)
                 ->where('idequipement', $idequipement)
@@ -235,15 +249,23 @@ class ProfileController extends Controller
                 ->where('idcoloris', $idcoloris)
                 ->delete();
 
-        //dd('Après suppression');
+            // Si le nombre total d'articles est devenu zéro, supprimez la commande
+            if ($nombreTotalArticles - 1 === 0) {
+                DB::table('commande')
+                    ->where('idcommande', $idcommande)
+                    ->delete();
 
+                return redirect()->route('profile.commands');
+
+            }
 
             return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-                            ->with('success', 'Article annulé avec succès.');
+                ->with('success', 'Article annulé avec succès.');
         }
 
         return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-                         ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
+            ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
     }
+
 }
 

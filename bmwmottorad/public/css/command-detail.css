@@ -6,6 +6,7 @@ table {
     width: 90%;
     margin-left: 5%;
     margin-top: 1%;
+    border-collapse: collapse;
 }
 
 td, th {
@@ -13,6 +14,18 @@ td, th {
     padding: 20px;
     color: black;
     font-size: 20px;
+}
+
+.photo-cell {
+    max-width: 200px; /* Ajustez la largeur maximale souhaitée pour la colonne de la photo */
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: inline-block; /* Ajustez cela pour centrer l'image horizontalement */
+    margin: 0 auto; /* Centre l'image horizontalement */
 }
 
 .alert {
