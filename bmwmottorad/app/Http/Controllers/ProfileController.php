@@ -149,7 +149,7 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        $commandes = Commande::where('idclient', '=', $user->idclient)-first();
+        $commandes = Commande::where('idclient', '=', $user->idclient)->first();
 
         if($commandes){
             return redirect('/profile')->withErrors(['commande'=>'Vous avez passé une ou plusieures commandes avec ce compte, nous ne pouvons donc pas le supprimer pour le moment.']);

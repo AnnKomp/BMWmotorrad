@@ -46,7 +46,7 @@ class CommandeController extends Controller
         $request->validate([
             'cardnumber' => ['required', 'string', 'min:16' ,'max:16', 'regex:/^[3-5]{1}[0-9]{15}$/i'],
             'owner' => ['required', 'string'],
-            'expiration' => ['required', 'date', 'after:' . date('m-y')],
+            'expiration' => ['required', 'date', 'after:' . date('m/y')],
             'cvv' => ['required', 'string', 'min:3', 'max:3', 'regex:/^[0-9]{3}$/i'],
         ]);
 

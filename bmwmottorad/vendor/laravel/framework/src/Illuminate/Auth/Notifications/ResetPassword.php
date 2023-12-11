@@ -75,11 +75,11 @@ class ResetPassword extends Notification
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
-            ->subject(Lang::get('Reset Password Notification'))
-            ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
-            ->action(Lang::get('Reset Password'), $url)
-            ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
-            ->line(Lang::get('If you did not request a password reset, no further action is required.'));
+            ->greeting('Bonjour, ')
+            ->line('Ce mail vous a été envoyé car vous avez fait une demande de réinitialisation de mot de passe.')
+            ->action('Réinitialiser', $url)
+            ->line(Lang::get('Ce lien expirera dans :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
+            ->line('Si vous n\'êtes pas à l\'origine de cette demande, aucune action supplémentaire n\'est requise.');
     }
 
     /**

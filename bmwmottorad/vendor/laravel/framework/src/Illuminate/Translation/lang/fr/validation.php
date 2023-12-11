@@ -185,6 +185,26 @@ return [
         ],
         'datenaissance' => [
             'before' => 'vous devez avoir au moins 18 ans pour faire une demande d\'essai'
+        ],
+        'expiration' => [
+            'after' => 'La date d\'expiration de la carte est invalide',
+            'required' => 'La date d\'expiration est requise',
+            'date' => 'La date d\'expiration est dans un format invalide'
+        ],
+        'cardnumber' => [
+            'required' => 'Le numéro de carte bancaire est requis',
+            'min' => 'Le numéro de la carte doit faire 16 caractères',
+            'max' => 'Le numéro de la carte doit faire 16 caractères',
+            'regex' => 'Le format du numéro de la carte est invalide'
+        ],
+        'owner' => [
+            'required' => 'Le titulaire de la carte est requis'
+        ],
+        'cvv' => [
+            'required' => 'Le code secret de la carte est requis',
+            'min' => 'Le code secret ne doit pas faire moins de 3 chiffres',
+            'max' => 'Le code secret ne doit pas faire plus de 3 chiffres',
+            'regex' => 'Le format du code secret est invalide'
         ]
     ],
 
