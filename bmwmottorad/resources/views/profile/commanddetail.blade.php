@@ -22,12 +22,14 @@
     @endif
 
     <table>
+        <th>Photo</th>
         <th>Nom équipement</th>
         <th>Quantité</th>
         <th>Taille</th>
         <th>Couleur</th>
         @foreach ($command as $article)
         <tr>
+            <td class="photo-cell"><img src="{{ $article->lienmedia }}" alt="Photo"></td>
             <td>{{ $article->nomequipement }}</td>
             <td>{{ $article->quantite }}</td>
             <td>{{ $article->libelletaille }}/{{ $article->desctaille }}</td>

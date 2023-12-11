@@ -186,24 +186,36 @@ class ProfileController extends Controller
     {
         $idcommand = $request->input('idcommand');
         $command = DB::table('contenucommande')
-                ->select(
-                    'contenucommande.idcommande',
-                    'contenucommande.idequipement',
-                    'contenucommande.quantite',
-                    'taille.idtaille',
-                    'taille.libelletaille',
-                    'taille.desctaille',
-                    'coloris.idcoloris',
-                    'coloris.nomcoloris',
-                    'equipement.nomequipement',
-                    'commande.etat'
-                )
-                ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
-                ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
-                ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
-                ->join('commande','contenucommande.idcommande','=','commande.idcommande')
-                ->where('contenucommande.idcommande', $idcommand)
-                ->get();
+                        ->select(
+                            'contenucommande.idcommande',
+                            'contenucommande.idequipement',
+                            'contenucommande.quantite',
+                            'taille.idtaille',
+                            'taille.libelletaille',
+                            'taille.desctaille',
+                            'coloris.idcoloris',
+                            'coloris.nomcoloris',
+                            'equipement.nomequipement',
+                            'commande.etat',
+                            'media.lienmedia'
+                        )
+                        ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
+                        ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
+                        ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
+                        ->join('commande', 'contenucommande.idcommande', '=', 'commande.idcommande')
+                        ->leftJoin('presentation_eq', function ($join) {
+                            $join->on('equipement.idequipement', '=', 'presentation_eq.idequipement');
+                            $join->on('coloris.idcoloris', '=', 'presentation_eq.idcoloris');
+                        })
+                        ->leftJoin('media', function ($join) {
+                            $join->on('presentation_eq.idpresentation', '=', 'media.idpresentation');
+                            $join->whereRaw('media.idmedia = (SELECT MIN(idmedia) FROM media WHERE media.idpresentation = presentation_eq.idpresentation)');
+                        })
+                        ->where('contenucommande.idcommande', $idcommand)
+                        ->get();
+
+
+
 
         //dd($command);
 
