@@ -195,11 +195,13 @@ class ProfileController extends Controller
                     'taille.desctaille',
                     'coloris.idcoloris',
                     'coloris.nomcoloris',
-                    'equipement.nomequipement'
+                    'equipement.nomequipement',
+                    'commande.etat'
                 )
                 ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
                 ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
                 ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
+                ->join('commande','contenucommande.idcommande','=','commande.idcommande')
                 ->where('contenucommande.idcommande', $idcommand)
                 ->get();
 
