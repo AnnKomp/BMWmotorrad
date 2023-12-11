@@ -166,7 +166,7 @@ class ProfileController extends Controller
     }
 
 
-    public function commands(Request $request): View
+    public function commands(): View
     {
         $idclient = auth()->user()->idclient;
         $commands = DB::table('commande')
@@ -181,4 +181,69 @@ class ProfileController extends Controller
             'commands' => $commands
         ]);
     }
+
+    public function command_detail(Request $request): View
+    {
+        $idcommand = $request->input('idcommand');
+        $command = DB::table('contenucommande')
+                ->select(
+                    'contenucommande.idcommande',
+                    'contenucommande.idequipement',
+                    'contenucommande.quantite',
+                    'taille.idtaille',
+                    'taille.libelletaille',
+                    'taille.desctaille',
+                    'coloris.idcoloris',
+                    'coloris.nomcoloris',
+                    'equipement.nomequipement'
+                )
+                ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
+                ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
+                ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
+                ->where('contenucommande.idcommande', $idcommand)
+                ->get();
+
+        //dd($command);
+
+        return view('profile.commanddetail', [
+            'command' => $command
+        ]);
+    }
+
+    public function annulerCommande($idcommande, $idequipement, $idtaille, $idcoloris)
+    {
+
+        $contenuCommande = DB::table('contenucommande')
+            ->where('idcommande', $idcommande)
+            ->where('idequipement', $idequipement)
+            ->where('idtaille', $idtaille)
+            ->where('idcoloris', $idcoloris)
+            ->first();
+
+
+
+
+        //dd('Avant suppression', $contenuCommande);
+
+
+        if ($contenuCommande) {
+
+            DB::table('contenucommande')
+                ->where('idcommande', $idcommande)
+                ->where('idequipement', $idequipement)
+                ->where('idtaille', $idtaille)
+                ->where('idcoloris', $idcoloris)
+                ->delete();
+
+        //dd('Après suppression');
+
+
+            return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
+                            ->with('success', 'Article annulé avec succès.');
+        }
+
+        return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
+                         ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
+    }
 }
+

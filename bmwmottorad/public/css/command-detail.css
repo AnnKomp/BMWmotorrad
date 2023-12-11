@@ -1,0 +1,21 @@
+tr {
+    border: solid 1px grey;
+}
+
+table {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1%;
+}
+
+td, th {
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-size: 20px;
+}
+
+.alert {
+    color: red;
+    font-size: 32px;
+}

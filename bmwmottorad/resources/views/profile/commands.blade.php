@@ -7,7 +7,7 @@
         </h2>
     </x-slot>
 
-    <table class='oui'>
+    <table>
         <th>Numéro commande</th>
         <th>Date</th>
         <th>Etat de la commande</th>
@@ -16,14 +16,12 @@
             <tr>
                 <td>{{ $command->idcommande }}</td>
                 <td>{{ $date }}</td>
-                @if ( $command->etat == 2)
-                    <td>Livrée</td>
-                @elseif ( $command->etat == 1)
+                @if ( $command->etat == 0)
                     <td>En cours</td>
-                @elseif ( $command->etat == 0)
-                <td>Annulée</td>
+                @elseif ( $command->etat == 1)
+                    <td>Livrée</td>
                 @endif
-                <td><a href="/pack?id=1&idmoto=1"><i class="fa fa-info-circle"></i></a></td>
+                <td><a href="/profile/commands/detail?idcommand={{ $command->idcommande }}"><i class="fa fa-info-circle"></i></a></td>
             </tr>
         @endforeach
     </table>
