@@ -75,6 +75,7 @@ class ResetPassword extends Notification
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
+            ->subject('BMW Motorrad - Réinitialisation du Mot de passe')
             ->greeting('Bonjour, ')
             ->line('Ce mail vous a été envoyé car vous avez fait une demande de réinitialisation de mot de passe.')
             ->action('Réinitialiser', $url)

@@ -27,6 +27,7 @@
         @csrf
 
 
+        @if($cb)
         <div class=fielddiv>
             <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
             <x-text-input class=field minlength="16" maxlength="16" id="cardnumber" type="tel" name="cardnumber" :value="old('cardnumber', $cb->numcarte)" required autofocus autocomplete="cardnumber" />
@@ -53,7 +54,34 @@
             <x-text-input minlength="3" maxlength="3" id="cvv" class=field type="tel" name="cvv" required/>
             <x-input-error :messages="$errors->get('cvv')" class="error" />
         </div>
+        @else
+        <div class=fielddiv>
+            <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
+            <x-text-input class=field minlength="16" maxlength="16" id="cardnumber" type="tel" name="cardnumber" :value="old('cardnumber')" required autofocus autocomplete="cardnumber" />
+            <x-input-error :messages="$errors->get('cardnumber')" class="error" />
+        </div>
 
+
+        <div class=fielddiv>
+            <x-input-label for="owner" :value="__('Titulaire de la carte*')" />
+            <x-text-input class=field id="owner" type="text" name="owner" :value="old('owner')" required autofocus autocomplete="owner" />
+            <x-input-error :messages="$errors->get('owner')" class="error" />
+        </div>
+
+
+        <div class=fielddiv>
+            <x-input-label for="expiration" :value="__('Date d\'expiration*')" />
+            <x-text-input id="expiration" class=field type="month" name="expiration" :value="old('expiration')" required autocomplete="expiration" />
+            <x-input-error :messages="$errors->get('expiration')" class="error" />
+        </div>
+
+
+        <div class=fielddiv>
+            <x-input-label for="cvv" :value="__('CVV*')" />
+            <x-text-input minlength="3" maxlength="3" id="cvv" class=field type="tel" name="cvv" required/>
+            <x-input-error :messages="$errors->get('cvv')" class="error" />
+        </div>
+        @endif
         <div>
             <input type="checkbox" name="saveinfo" value="selected">Enregistrer mes informations bancaires afin de simplifier mes prochaines transactions.</input> 
         </div>
