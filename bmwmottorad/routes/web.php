@@ -17,6 +17,7 @@ use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
 use App\Http\Controllers\GammeController;
+use App\Http\Controllers\RGPDController;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,6 +148,8 @@ Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('moto
 Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-download');
 ///////////////////////////////////////////////////////////////////////////
 
+Route::get('/cookies', [RGPDController::class, 'createcookies'])->name('cookies');
+Route::get('/confidentialite', [RGPDCONTROLLER::class, 'createconfidentialite'])->name('confidentialite');
 
 ////////////////////////////  ADDING STUFF     /////////////////////////////
 

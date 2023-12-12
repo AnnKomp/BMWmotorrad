@@ -33,6 +33,11 @@
 
         <div>@yield('categories')</div>
 
-        @yield('content')
+        <div id="content">@yield('content')</div>
+
+        <footer>
+        <a href="/confidentialite">Confidentialité</a>
+        <a href="/cookies">Cookies</a>
+    </footer>
     </body>
 </html>

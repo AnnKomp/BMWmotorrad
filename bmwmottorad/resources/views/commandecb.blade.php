@@ -26,7 +26,6 @@
 <form method="POST" action="{{ route('paymentcb') }}">
         @csrf
 
-
         @if($cb)
         <div class=fielddiv>
             <x-input-label for="cardnumber" :value="__('Numéro de carte bancaire*')" />
