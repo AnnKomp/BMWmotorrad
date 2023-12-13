@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('profile.commands')" :active="request()->routeIs('profile.commands')">
                         {{ __('Mes commandes') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('profile.clientdata')" :active="request()->routeIs('profile.commands')">
+                        {{ __('Données') }}
+                    </x-nav-link>
                     <form method="POST" action="{{ route('logout') }}">
                     @csrf
                         <x-dropdown-link :href="route('logout')"

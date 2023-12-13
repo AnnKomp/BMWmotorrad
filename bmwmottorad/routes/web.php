@@ -112,6 +112,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile/anonymize', [ProfileController::class, 'anonymize'])->name('profile.anonymize');
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
     Route::get('/panier/commandestripe', [CommandeController::class, 'createstripe']);
@@ -119,6 +120,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
+    Route::get('/profiledata', [ProfileController::class, 'indexPDF'])->name('profile.clientdata');
+    Route::post('/profiledata', [ProfileController::class, 'generatePDF'])->name('profile.clientdownload');
 });
 
 require __DIR__.'/auth.php';
