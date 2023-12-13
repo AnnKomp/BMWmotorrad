@@ -14,11 +14,15 @@
                 <form action="{{ url('/fraislivraison') }}" method="post">
                     @csrf
                     @method('post')
-                    <label for="description">Nouveau montant des frais de livraison :</label>
-                    <input type="text" name="description" value="{{ old('description') }}" required>
-                    <button type="submit">Mettre à jour</button>
+                    <label for="montant">Nouveau montant des frais de livraison :</label>
+                    <input type="text" name="montant" value="{{ old('montant') }}" required>
+                    @error('montant')
+                        <div class="text-red-500">{{ $message }}</div>
+                    @enderror
+                    <button type="submit" style="background-color: #bbbbbb">Mettre à jour</button>
                 </form>
             </div>
         </div>
     </div>
 </x-app-layout>
+

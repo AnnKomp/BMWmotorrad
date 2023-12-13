@@ -9,16 +9,14 @@ use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
 use App\Models\Color;
+use App\Models\Gamme;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class MotoController extends Controller
 {
     public function index() {
-        $ranges = DB::table('modelemoto')
-            ->select('*')
-            ->join('gammemoto','modelemoto.idgamme','=','gammemoto.idgamme')
-            ->get();
+        $ranges = Gamme::all();
         $motos = DB::table('modelemoto')
             ->select('*')
             ->join('media', 'media.idmoto','=','modelemoto.idmoto')
@@ -49,9 +47,7 @@ class MotoController extends Controller
 
     public function filter(Request $request) {
         $moto_range = $request->input('id');
-        $ranges = DB::table('modelemoto')
-            ->select('*')->join('gammemoto','modelemoto.idgamme','=','gammemoto.idgamme')
-            ->get();
+        $ranges = Gamme::all();
         $motos = DB::table('modelemoto')
             ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
             ->whereColumn('idmediapresentation','idmedia')

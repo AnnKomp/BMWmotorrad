@@ -88,10 +88,14 @@ Route::post("/moto/config",[MotoController::class, "config" ]);
 
 
 Route::get('/dashboard', function () {
-    if(auth()->user()->iscomplete == false){
-        return redirect('registersuite');
+    $typecompte = auth()->user()->typecompte;
+    if($typecompte == 1){
+        dd($typecompte);
     }
-    return view('dashboard');
+        if(auth()->user()->iscomplete == false){
+            return redirect('registersuite');
+        }
+        return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // --------------------------- Google authentification Routes ----------------------------------------------------
@@ -106,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::post('registersuite', [RegisterSuiteController::class, 'store'])->name('registersuite');
     //Controller for the redirection page after creating a new account
     Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
+    //Controller for the action available
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/commands', [ProfileController::class, 'commands'])->name('profile.commands');
     Route::get('/profile/commands/detail', [ProfileController::class, 'command_detail'])->name('profile.commands.detail');
@@ -113,13 +118,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    //Controller for the Phone verification
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
+    //Controller for the commands
     Route::get('/panier/commandestripe', [CommandeController::class, 'createstripe']);
     Route::post('/panier/commandestripe', [CommandeController::class, 'paystripe'])->name('paymentstripe');
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
+    //Controller for the intern possibilities
     Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
     Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
     });
