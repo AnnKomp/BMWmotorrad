@@ -16,7 +16,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
-
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -115,7 +115,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
-});
+    Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
+    Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
+    });
 
 require __DIR__.'/auth.php';
 
