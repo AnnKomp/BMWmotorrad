@@ -16,13 +16,10 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
-<<<<<<< HEAD
 use App\Http\Controllers\AdminController;
-=======
 use App\Http\Controllers\GammeController;
 use App\Http\Controllers\RGPDController;
 
->>>>>>> 767f02e85422915f7ab9dc20206d4eb622da87d4
 /*
 |--------------------------------------------------------------------------
 | Web Routes
