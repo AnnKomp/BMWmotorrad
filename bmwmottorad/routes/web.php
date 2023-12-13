@@ -17,6 +17,7 @@ use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
 use App\Http\Controllers\GammeController;
+use App\Http\Controllers\CaracteristiqueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,7 @@ use App\Http\Controllers\GammeController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('startPage');
 
 
 //Route::post("/options",[OptionController::class, "optionSelection" ]);
@@ -152,3 +153,11 @@ Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-do
 
 Route::get('/add/gamme', [GammeController::class, 'index']);
 Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
+Route::get('/add/moto', [MotoController::class,'motoAdd']);
+Route::post('/add-moto', [MotoController::class,'addmoto'])->name('addMoto');
+Route::get('/add/moto/characteristic', [CaracteristiqueController::class,'showAddingCarac'])->name('showCarac');
+Route::post('/add-moto-caracteristic', [CaracteristiqueController::class, 'addCarac'])->name('addCaracteristic');
+Route::get('add/moto/option', [OptionController::class,'showAddingOptions'])->name('showOption');
+Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
+Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
+Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
