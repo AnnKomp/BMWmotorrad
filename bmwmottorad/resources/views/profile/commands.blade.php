@@ -15,7 +15,7 @@
         @foreach ($commands as $date => $command)
             <tr>
                 <td>{{ $command->idcommande }}</td>
-                <td>{{ $date }}</td>
+                <td>{{ date('d-M-Y', strtotime($command->datecommande)) }}</td>
                 @if ( $command->etat == 0)
                     <td>En cours</td>
                 @elseif ( $command->etat == 1)

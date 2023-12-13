@@ -67,8 +67,8 @@ class CommandeController extends Controller
                 ]);
             }
         }
-        
-        $this->createOrder();
+
+        $this->createOrder('CB');
 
         return redirect('/panier/commande/success');
     }
@@ -117,7 +117,8 @@ class CommandeController extends Controller
             "source" => $sourceToken,
             "description" => "Paiement commande equipement BMW Motorrad"
         ]);
-        $this->createOrder();
+
+        $this->createOrder('stripe');
 
         return redirect('/panier/commandestripe/success');
     }
@@ -142,7 +143,7 @@ class CommandeController extends Controller
     }
 
     // ==================================== GETTERS ===========================================================
-    private function createOrder(){
+    private function createOrder($type){
         // Get necessary data
         $cart = session()->get('cart', []);
         $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
@@ -164,6 +165,19 @@ class CommandeController extends Controller
                 'idtaille' => $item[0]['taille'],
             ]);
         }
+
+        $total = 9;
+        foreach($equipements as $equipement){
+            foreach($cart[$equipement->idequipement] as $cartItem){
+                $total += $equipement->prixequipement * $cartItem['quantity'];
+            }
+        }
+
+        DB::table('transaction')->insert([
+            'idcommande' => $order->idcommande,
+            'type' => $type,
+            'montant' => -$total
+        ]);
     }
     
     private function getColorisName($colorisId)

@@ -1,0 +1,21 @@
+#rgpdcontent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0vh 25vw 0vh 25vw;
+}
+
+#rgpdcontent>*{
+    text-align: justify;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+table, tr , th , td{
+    border: solid 2px black;
+}
+
+h1, h2, h3{
+    font-weight: bolder;
+    text-decoration: underline;
+}

@@ -16,7 +16,13 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
+<<<<<<< HEAD
 use App\Http\Controllers\AdminController;
+=======
+use App\Http\Controllers\GammeController;
+use App\Http\Controllers\RGPDController;
+
+>>>>>>> 767f02e85422915f7ab9dc20206d4eb622da87d4
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,7 +74,7 @@ Route::get('/equipement-stock/{idequipement}/{idcoloris}/{idtaille}', [Equipemen
 
 Route::get('/equipement-photos/{idequipement}/{idcoloris}', [EquipementController::class, 'getEquipementPhotos'])->name('equipement.get-photos');
 
-//////////////////////////////////////////////////////////////////////////////
+////////////////////////////    PANIER   /////////////////////////////////////////
 
 /*
 Route::get('/panier', [PanierController::class, "info"])->name('panier');
@@ -78,6 +84,8 @@ ROute::post('/panier/add-to-cart/{id}', [PanierController::class,'addToCart'])->
 Route::delete('/panier/remove-item/{id}/{index}', [PanierController::class, 'removeItem'])->name('panier.remove-item');
 Route::post('/panier/increment/{id}/{index}', [PanierController::class,'incrementQuantity'])->name('panier.increment');
 Route::post('/panier/decrement/{id}/{index}', [PanierController::class,'decrementQuantity'])->name('panier.decrement');
+
+///////////////////////////////////////////////////////////////////////////////
 
 Route::post("/moto/config",[MotoController::class, "config" ]);
 
@@ -145,3 +153,11 @@ Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('moto-download-pdf');
 Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-download');
 ///////////////////////////////////////////////////////////////////////////
+
+Route::get('/cookies', [RGPDController::class, 'createcookies'])->name('cookies');
+Route::get('/confidentialite', [RGPDCONTROLLER::class, 'createconfidentialite'])->name('confidentialite');
+
+////////////////////////////  ADDING STUFF     /////////////////////////////
+
+Route::get('/add/gamme', [GammeController::class, 'index']);
+Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
