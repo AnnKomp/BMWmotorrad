@@ -25,7 +25,13 @@ class User extends Authenticatable
         'password',
         'idclient',
         'googleid',
+        'typecompte'
     ];
+
+    public function getTypecompteAttribute($value)
+    {
+        return $this->attributes['typecompte'];
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -9,16 +9,14 @@ use App\Models\Pack;
 use App\Models\Option;
 use App\Models\Accessoire;
 use App\Models\Color;
+use App\Models\Gamme;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class MotoController extends Controller
 {
     public function index() {
-        $ranges = DB::table('modelemoto')
-            ->select('*')
-            ->join('gammemoto','modelemoto.idgamme','=','gammemoto.idgamme')
-            ->get();
+        $ranges = Gamme::all();
         $motos = DB::table('modelemoto')
             ->select('*')
             ->join('media', 'media.idmoto','=','modelemoto.idmoto')
@@ -49,9 +47,7 @@ class MotoController extends Controller
 
     public function filter(Request $request) {
         $moto_range = $request->input('id');
-        $ranges = DB::table('modelemoto')
-            ->select('*')->join('gammemoto','modelemoto.idgamme','=','gammemoto.idgamme')
-            ->get();
+        $ranges = Gamme::all();
         $motos = DB::table('modelemoto')
             ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
             ->whereColumn('idmediapresentation','idmedia')
@@ -104,54 +100,6 @@ class MotoController extends Controller
     }
 
 
-    //inutile?
-    // function config(Request $request) {
-    //     $idmoto = $request->input('id');
-
-    //     $moto_pic = DB::table('media')
-    //     ->select('*')
-    //     ->where('idmoto','=',$idmoto)
-    //     ->get();
-
-    //     $packs = Pack::all();
-    //     $options = Option::all();
-    //     $accessoires = Accessoire::all();
-
-    //     return view ("moto-config", ['packs' => $packs, 'moto'=> $moto_pic, 'idmoto' => $idmoto, "options" => $options, "accessoires" => $accessoires ]);
-
-    // }
-
-/*
-
-    public function downloadPDF(Request $request)
-    {
-        $idmoto = $request->input('id');
-
-        $selectedPacks = session('selectedPacks', []);
-        $selectedOptions = session('selectedOptions', []);
-        $selectedAccessoires = session('selectedAccessoires', []);
-
-        $moto = Moto::with(['packs', 'options', 'accessoires'])
-            ->where('idmoto', $idmoto)
-            ->first();
-
-        PDF::setOptions([
-            "defaultFont" => "Courier",
-            "defaultPaperSize" => "a4",
-            "dpi" => 130
-         ]);
-
-        $pdf = PDF::loadView('pdf.moto-config', [
-            'selectedPacks' => $moto->packs->whereIn('idpack', $selectedPacks),
-            'idmoto' => $idmoto,
-            'selectedOptions' => $moto->options->whereIn('idoption', $selectedOptions),
-            'selectedAccessoires' => $moto->accessoires->whereIn('idaccessoire', $selectedAccessoires),
-        ]);
-
-        return $pdf->download('moto-config.pdf');
-    }
-*/
-
     function showMotoConfig(Request $request) {
 
         $idmoto = $request->input('id');
@@ -180,8 +128,6 @@ class MotoController extends Controller
         $totalPrice += $moto->styles->whereIn('idstyle', $selectedStyle)->sum('prixstyle');
 
 
-
-        //dd($selectedPacks, $selectedOptions, $selectedAccessoires,$selectedStyle);
         return view ('moto-config',
             ['selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
             'idmoto' => $idmoto,
@@ -193,7 +139,6 @@ class MotoController extends Controller
             'selectedStyle' => $moto->styles->whereIn('idstyle',$selectedStyle) ]);
 
     }
-
 
 
     public function showPacksForm(Request $request)
@@ -227,6 +172,45 @@ class MotoController extends Controller
         return view('moto-color', ['colors' => $colors, 'idmoto' => $idmoto, 'motos' => $motos]);
     }
 
+    public function motoAdd() {
+        $gammes = DB::table('gammemoto')
+        ->select('*')
+        ->get();
+        return view ("add-moto", ['gammes'=>$gammes]);
+    }
+
+    public function addMoto(Request $request) {
+        try {
+            /*
+        $newMotoGamme = $request->input('motoGamme');
+        $newMotoName = $request->input('motoName');
+        $newMotoDesc = $request->input('motoDesc');
+        $newMotoPrice = $request->input('motoPrice');
+        $newMediaLien = $request->input('mediaPresentation');
+
+        DB::insert('INSERT INTO modelemoto(idgamme, nommoto, descriptifmoto, prixmoto) VALUES (?,?,?,?)' ,
+        [$newMotoGamme, $newMotoName, $newMotoDesc, $newMotoPrice]);
+
+        $idmoto = DB::getPdo()->lastInsertId();
+
+        DB::insert('INSERT INTO media(idmoto, lienmedia) values (?,?)', [$idmoto, $newMediaLien]);
+
+        $idmedia = DB::getPdo()->lastInsertId();
+
+        DB::update('UPDATE MODELEMOTO SET idmediapresentation = ' .$idmedia. 'where idmoto = ' .$idmoto);
+*/
+            $idmoto=13;
+
+            $catcarac = DB::table('categoriecaracteristique')
+            ->select('*')
+            ->get();
+
+            return redirect()->route('showCarac', ['idmoto' => $idmoto])->with('catcarac', $catcarac);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 
 }
