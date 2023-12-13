@@ -2,7 +2,7 @@
 {{--probablement layout à changer--}}
 
 
-@section('title', 'Rajout dune gamme :')
+@section('title', 'Rajout gamme :')
 <link rel="stylesheet" href="{{asset('css/add-gamme.css')}}">
 
 
@@ -23,7 +23,7 @@
         <h3>Ajouter une nouvelle gamme</h3>
         <input type="text" id="newGammeName" placeholder="Nom de la nouvelle gamme">
         <br>
-        <button onclick="addNewGame()">Ajouter</button>
+        <button onclick="addNewGamme()">Ajouter</button>
         <button onclick="cancelAdd()"> Annuler</button>
 
     </div>
@@ -31,7 +31,7 @@
 
     <script>
 
-        function addNewGame() {
+        function addNewGamme() {
             var newGammeName = document.getElementById('newGammeName').value;
 
             if(newGammeName.trim() !== '') {
