@@ -91,7 +91,7 @@ Route::post("/moto/config",[MotoController::class, "config" ]);
 Route::get('/dashboard', function () {
     $typecompte = auth()->user()->typecompte;
     if($typecompte == 1){
-        dd($typecompte);
+        return view('commercialdashboard');
     }
         if(auth()->user()->iscomplete == false){
             return redirect('registersuite');
@@ -133,10 +133,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/profiledata', [ProfileController::class, 'generatePDF'])->name('profile.clientdownload');
 });
 
-// PLS PENSER A METTRE DANS AUTH SINON VISITEURS ONT ACCES
-//Controller for the intern possibilities
-Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
-Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
+
+Route::middleware(['auth', 'checkAdminType'])->group(function () {
+    //Controller for the intern possibilities
+    Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
+    Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
+});
+
+
 
 require __DIR__.'/auth.php';
 

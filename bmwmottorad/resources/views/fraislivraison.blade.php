@@ -1,6 +1,6 @@
 <!-- resources/views/fraislivraison.blade.php -->
 
-<x-app-layout>
+<x-commapp>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('FRAIS DE LIVRAISON') }}
@@ -24,5 +24,5 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-commapp>
 
