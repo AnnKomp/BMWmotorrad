@@ -91,7 +91,7 @@ Route::post("/moto/config",[MotoController::class, "config" ]);
 Route::get('/dashboard', function () {
     $typecompte = auth()->user()->typecompte;
     if($typecompte == 1){
-        dd($typecompte);
+        return view('commercialdashboard');
     }
         if(auth()->user()->iscomplete == false){
             return redirect('registersuite');
