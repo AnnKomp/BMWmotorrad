@@ -17,6 +17,7 @@ use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnonController;
 use App\Http\Controllers\GammeController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\CaracteristiqueController;
@@ -93,6 +94,9 @@ Route::get('/dashboard', function () {
     if($typecompte == 1){
         return view('commercialdashboard');
     }
+    if($typecompte == 2){
+        return view('dpodashboard');
+    }
         if(auth()->user()->iscomplete == false){
             return redirect('registersuite');
         }
@@ -139,6 +143,9 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
     Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
 });
+
+Route::get('/anonymisation', [AnonController::class, 'create'])->name('dpoanon');
+Route::post('/anonymisation', [AnonController::class, 'execute'])->name('anon.execute');
 
 
 

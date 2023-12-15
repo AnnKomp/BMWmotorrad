@@ -38,6 +38,9 @@ class AuthenticatedSessionController extends Controller
             return redirect('registersuite');
         }
 
+        $request->user()->lastconnected = date('Y-m-d');
+        $request->user()->save();
+
         if($request->user()->doubleauth){
             return redirect('/login/phoneverification');
         }
