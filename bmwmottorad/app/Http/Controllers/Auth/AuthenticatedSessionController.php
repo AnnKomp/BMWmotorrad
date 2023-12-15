@@ -38,7 +38,11 @@ class AuthenticatedSessionController extends Controller
             return redirect('registersuite');
         }
 
-        return redirect('/login/phoneverification');
+        if($request->user()->doubleauth){
+            return redirect('/login/phoneverification');
+        }
+
+        return redirect('/dashboard');
     }
 
     /**
