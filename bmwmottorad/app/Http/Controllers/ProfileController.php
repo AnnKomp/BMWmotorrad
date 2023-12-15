@@ -8,7 +8,9 @@ use App\Models\Telephone;
 use App\Models\Adresse;
 use App\Models\Client;
 use App\Models\Pays;
+use App\Models\Infocb;
 use App\Models\Professionnel;
+use App\Models\Prive;
 use App\Models\Commande;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
@@ -17,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ProfileController extends Controller
 {
@@ -32,6 +35,7 @@ class ProfileController extends Controller
         $company = DB::table('professionnel')->select('nomcompagnie')->where('idclient', '=', $user->idclient)->first();
         $phone = Telephone::where('idclient', '=', $user->idclient)->get();
         $adress = DB::table('adresse')->select('nompays','adresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', "=", $user->idclient)->first();
+        $orders = Commande::where('idclient', auth()->user()->idclient)->first();
         // Return the edit view with the necessary data in parameter
         return view('profile.edit', [
             'user' => $user,
@@ -40,6 +44,7 @@ class ProfileController extends Controller
             'phones' => $phone,
             'client' => $client,
             'pays' => Pays::all(),
+            'orders' => $orders
         ]);
     }
 
@@ -149,21 +154,93 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        $commandes = Commande::where('idclient', '=', $user->idclient)->first();
+        $client = Client::where('idclient', $user->idclient)->first();
 
-        if($commandes){
-            return redirect('/profile')->withErrors(['commande'=>'Vous avez passé une ou plusieures commandes avec ce compte, nous ne pouvons donc pas le supprimer pour le moment.']);
-        }else{
-            Auth::logout();
+        Telephone::where('idclient', $user->idclient)->delete();
 
-            $user->delete();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+        Professionnel::where('idclient', $user->idclient)->delete();
 
-            return Redirect::to('/');
-        }
+        Prive::where('idclient', $user->idclient)->delete();
+
+        Infocb::where('idclient', $user->idclient)->delete();
+
+        Client::where('idclient', $user->idclient)->delete();
+
+        Adresse::where('numadresse', $client->numadresse)->delete();
+
+        Auth::logout();
+
+        $user->delete();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
+
     }
 
+    public function anonymize(Request $request): RedirectResponse{
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        $client = Client::where('idclient', $user->idclient)->first();
+
+        Adresse::where('numadresse', $client->numadresse)->update([
+            'adresse'=>'x',
+        ]);
+
+        Telephone::where('idclient', $user->idclient)->update([
+            'numtelephone'=>'0999999999'
+        ]);
+
+        Professionnel::where('idclient', $user->idclient)->update([
+            'nomcompagnie'=>'x'
+        ]);
+
+        Client::where('idclient', $user->idclient)->update([
+            'civilite'=>'x',
+            'mdpclient'=>'x',
+            'nomclient'=>'x',
+            'prenomclient'=>'x',
+            'emailclient'=>'xxxx@xxxxx.xxxxx',
+
+        ]);
+
+        Infocb::where('idclient', $user->idclient)->delete();
+
+        Auth::logout();
+        $user->delete();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
+    }
+
+    public function indexPDF(){
+        return view('clientdata');
+    }
+
+    public function generatePDF(Request $request){
+        $client = Client::where('idclient', $request->user()->idclient)->first();
+        $adress = Adresse::where('numadresse', $client->numadresse)->get();
+        $phones = Telephone::where('idclient', $client->idclient)->get();
+        $cb = Infocb::where('idclient', $client->idclient)->first();
+        $pro = Professionnel::where('idclient', $client->idclient)->first();
+        $orders = Commande::where('idclient', $client->idclient)->get();
+
+        $pdf = PDF::loadView('pdf.client-data',  [
+            'client' => $client,
+            'adress' => $adress,
+            'phones' => $phones,
+            'cb' => $cb,
+            'pro' => $pro,
+            'orders' => $orders
+         ]);
+
+        return $pdf->download('données.pdf');
+    }
 
     public function commands(): View
     {

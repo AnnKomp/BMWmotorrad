@@ -119,6 +119,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile/anonymize', [ProfileController::class, 'anonymize'])->name('profile.anonymize');
     //Controller for the Phone verification
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
@@ -128,10 +129,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
-    //Controller for the intern possibilities
-    Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
-    Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
-    });
+    Route::get('/profiledata', [ProfileController::class, 'indexPDF'])->name('profile.clientdata');
+    Route::post('/profiledata', [ProfileController::class, 'generatePDF'])->name('profile.clientdownload');
+});
+
+// PLS PENSER A METTRE DANS AUTH SINON VISITEURS ONT ACCES
+//Controller for the intern possibilities
+Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
+Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
 
 require __DIR__.'/auth.php';
 
