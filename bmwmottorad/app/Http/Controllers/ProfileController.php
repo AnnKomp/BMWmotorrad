@@ -122,6 +122,15 @@ class ProfileController extends Controller
 
         // ---------------------------------------------------- Phone number update ----------------------------------------------------------------------
 
+        // Checking if doubleauth is activated
+        if($request->doubleauth){
+            $request->user()->doubleauth = true;
+            $request->user()->save();
+        }else{
+            $request->user()->doubleauth = false;
+            $request->user()->save();
+        }
+
         // Make sure that there is at least one phone number
         if(empty($request->MobilePrivé) && empty($request->MobileProfessionnel) && empty($request->FixePrivé) && empty($request->FixeProfessionnel)){
             return redirect('/profile');
