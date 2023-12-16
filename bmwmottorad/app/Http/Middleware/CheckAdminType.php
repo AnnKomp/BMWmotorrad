@@ -15,6 +15,10 @@ class CheckAdminType
             }
         }
 
-        return response('Accès interdit.', 403);
+        // Return to the login page
+        //return redirect()->route('login');
+
+        // Retuturn an error with Denied Acess
+        abort(403, 'Accès interdit');
     }
 }
