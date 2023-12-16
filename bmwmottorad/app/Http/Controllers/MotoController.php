@@ -217,4 +217,170 @@ class MotoController extends Controller
     }
 
 
+    public function showMotoCommercial($idmoto)
+    {
+        // Retrieve moto details, caracteristiques, options, and accessoires based on $idmoto
+        $motoDetails = DB::table('modelemoto')->where('idmoto', $idmoto)->first();
+
+        $caracteristiques = DB::table('caracteristique as c')
+            ->join('categoriecaracteristique as cc', 'c.idcatcaracteristique', '=', 'cc.idcatcaracteristique')
+            ->where('c.idmoto', $idmoto)
+            ->select('cc.nomcatcaracteristique', 'c.nomcaracteristique', 'c.valeurcaracteristique', 'c.idcaracteristique', 'c.idmoto')
+            ->get();
+
+        $options = DB::table('option as o')
+            ->join('specifie as s', 'o.idoption', '=', 's.idoption')
+            ->where('s.idmoto', $idmoto)
+            ->select('o.*', 's.idoption', 's.idmoto')
+            ->get();
+
+        $accessoires = DB::table('accessoire')
+            ->where('idmoto', $idmoto)
+            ->get();
+
+        return view('moto-commercial', [
+            'motoName' => $motoDetails->nommoto,
+            'caracteristiques' => $caracteristiques,
+            'options' => $options,
+            'accessoires' => $accessoires,
+        ]);
+    }
+
+
+
+
+    public function showEditCaracteristique($idmoto, $idcaracteristique)
+    {
+        // Retrieve the selected caracteristique and its category
+        $caracteristique = DB::table('caracteristique')
+            ->where('idmoto', $idmoto)
+            ->where('idcaracteristique', $idcaracteristique)
+            ->first();
+
+        $selectedCatId = $caracteristique->idcatcaracteristique;
+
+        // Retrieve all categories for the dropdown
+        $catcarac = DB::table('categoriecaracteristique')
+            ->select('*')
+            ->get();
+
+        return view('caracteristique', [
+            'idmoto' => $idmoto,
+            'idcaracteristique' => $idcaracteristique,
+            'catcarac' => $catcarac,
+            'selectedCatId' => $selectedCatId,
+            'caracteristique' => $caracteristique,
+        ]);
+    }
+
+    public function updateCaracteristique(Request $request, $idmoto, $idcaracteristique)
+    {
+        try {
+            $newCatId = $request->input('carCat');
+            $newCarName = $request->input('carName');
+            $newCarValue = $request->input('carValue');
+
+            // Update the caracteristique
+            DB::table('caracteristique')
+                ->where('idmoto', $idmoto)
+                ->where('idcaracteristique', $idcaracteristique)
+                ->update([
+                    'idcatcaracteristique' => $newCatId,
+                    'nomcaracteristique' => $newCarName,
+                    'valeurcaracteristique' => $newCarValue,
+                ]);
+
+            return redirect()->route('showMotoCommercial', ['idmoto' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+        public function showEditOption($idmoto, $idoption)
+    {
+        // Retrieve the selected option
+        $option = DB::table('option as o')
+            ->join('specifie as s', 'o.idoption', '=', 's.idoption')
+            ->where('s.idmoto', $idmoto)
+            ->where('s.idoption', $idoption)
+            ->first();
+
+
+        return view('option-update', [
+            'idmoto' => $idmoto,
+            'idoption' => $idoption,
+            'option' => $option,
+        ]);
+    }
+
+    public function updateOption(Request $request, $idmoto, $idoption)
+    {
+        try {
+            $newOptName = $request->input('optName');
+            $newOptPrice = $request->input('optPrice');
+            $newOptDetail = $request->input('optDetail');
+            $newOptPhoto = $request->input('optPhoto');
+
+            // Update the option
+            DB::table('option as o')
+                ->join('specifie as s', 'o.idoption', '=', 's.idoption')
+                ->where('idmoto', $idmoto)
+                ->where('s.idoption', $idoption)
+                ->update([
+                    'nomoption' => $newOptName,
+                    'prixoption' => $newOptPrice,
+                    'detailoption' => $newOptDetail,
+                    'photooption' => $newOptPhoto,
+                ]);
+
+            return redirect()->route('showMotoCommercial', ['idmoto' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
+        public function showEditAccessoire($idmoto, $idaccessoire)
+    {
+        // Retrieve the selected accessoire
+        $accessoire = DB::table('accessoire')
+            ->where('idmoto', $idmoto)
+            ->where('idaccessoire', $idaccessoire)
+            ->first();
+
+        return view('accessoire-update', [
+            'idmoto' => $idmoto,
+            'idaccessoire' => $idaccessoire,
+            'accessoire' => $accessoire,
+        ]);
+    }
+
+    public function updateAccessoire(Request $request, $idmoto, $idaccessoire)
+    {
+        try {
+            $newAccName = $request->input('accName');
+            $newAccPrice = $request->input('accPrice');
+            $newAccDetail = $request->input('accDetail');
+            $newAccPhoto = $request->input('accPhoto');
+
+            // Update the accessoire
+            DB::table('accessoire')
+                ->where('idmoto', $idmoto)
+                ->where('idaccessoire', $idaccessoire)
+                ->update([
+                    'nomaccessoire' => $newAccName,
+                    'prixaccessoire' => $newAccPrice,
+                    'detailaccessoire' => $newAccDetail,
+                    'photoaccessoire' => $newAccPhoto,
+                ]);
+
+            return redirect()->route('showMotoCommercial', ['idmoto' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
 }

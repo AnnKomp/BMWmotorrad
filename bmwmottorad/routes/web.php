@@ -167,3 +167,16 @@ Route::get('add/moto/option', [OptionController::class,'showAddingOptions'])->na
 Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
 Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
 Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
+
+/////////////////////////       EDITING STUFF       /////////////////////////////////////
+
+Route::get('/moto-commercial/{idmoto}', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
+
+Route::get('/edit-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
+Route::post('/update-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'updateCaracteristique'])->name('updateCaracteristique');
+
+Route::get('/edit-option/{idmoto}/{idoption}', [MotoController::class, 'showEditOption'])->name('editOption');
+Route::post('/update-option/{idmoto}/{idoption}', [MotoController::class, 'updateOption'])->name('updateOption');
+
+Route::get('/edit-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
+Route::post('/update-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');
