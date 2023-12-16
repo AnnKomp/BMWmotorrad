@@ -17,6 +17,7 @@ use App\Http\Controllers\EssaiController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\PhoneVerificationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnonController;
 use App\Http\Controllers\GammeController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\CaracteristiqueController;
@@ -89,10 +90,17 @@ Route::post("/moto/config",[MotoController::class, "config" ]);
 
 
 Route::get('/dashboard', function () {
-    if(auth()->user()->iscomplete == false){
-        return redirect('registersuite');
+    $typecompte = auth()->user()->typecompte;
+    if($typecompte == 1){
+        return view('commercialdashboard');
     }
-    return view('dashboard');
+    if($typecompte == 2){
+        return view('dpodashboard');
+    }
+        if(auth()->user()->iscomplete == false){
+            return redirect('registersuite');
+        }
+        return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // --------------------------- Google authentification Routes ----------------------------------------------------
@@ -107,6 +115,7 @@ Route::middleware('auth')->group(function () {
     Route::post('registersuite', [RegisterSuiteController::class, 'store'])->name('registersuite');
     //Controller for the redirection page after creating a new account
     Route::get('registerfinished', [RegisterFinishedController::class, 'create'])->name('registerfinished');
+    //Controller for the action available
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/commands', [ProfileController::class, 'commands'])->name('profile.commands');
     Route::get('/profile/commands/detail', [ProfileController::class, 'command_detail'])->name('profile.commands.detail');
@@ -114,16 +123,44 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'updateadress'])->name('adress.update');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile/anonymize', [ProfileController::class, 'anonymize'])->name('profile.anonymize');
+    //Controller for the Phone verification
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
+    //Controller for the commands
     Route::get('/panier/commandestripe', [CommandeController::class, 'createstripe']);
     Route::post('/panier/commandestripe', [CommandeController::class, 'paystripe'])->name('paymentstripe');
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
+    Route::get('/profiledata', [ProfileController::class, 'indexPDF'])->name('profile.clientdata');
+    Route::post('/profiledata', [ProfileController::class, 'generatePDF'])->name('profile.clientdownload');
+});
+
+
+Route::middleware(['auth', 'checkAdminType'])->group(function () {
+    //Controller for the intern possibilities
     Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
     Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
-    });
+
+    ////////////////////////////  ADDING STUFF     /////////////////////////////
+
+    Route::get('/add/gamme', [GammeController::class, 'index']);
+    Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
+    Route::get('/add/moto', [MotoController::class,'motoAdd']);
+    Route::post('/add-moto', [MotoController::class,'addmoto'])->name('addMoto');
+    Route::get('/add/moto/characteristic', [CaracteristiqueController::class,'showAddingCarac'])->name('showCarac');
+    Route::post('/add-moto-caracteristic', [CaracteristiqueController::class, 'addCarac'])->name('addCaracteristic');
+    Route::get('add/moto/option', [OptionController::class,'showAddingOptions'])->name('showOption');
+    Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
+    Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
+    Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
+});
+
+Route::get('/anonymisation', [AnonController::class, 'create'])->name('dpoanon');
+Route::post('/anonymisation', [AnonController::class, 'execute'])->name('anon.execute');
+
+
 
 require __DIR__.'/auth.php';
 
@@ -155,28 +192,3 @@ Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-do
 Route::get('/cookies', [RGPDController::class, 'createcookies'])->name('cookies');
 Route::get('/confidentialite', [RGPDCONTROLLER::class, 'createconfidentialite'])->name('confidentialite');
 
-////////////////////////////  ADDING STUFF     /////////////////////////////
-
-Route::get('/add/gamme', [GammeController::class, 'index']);
-Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
-Route::get('/add/moto', [MotoController::class,'motoAdd']);
-Route::post('/add-moto', [MotoController::class,'addmoto'])->name('addMoto');
-Route::get('/add/moto/characteristic', [CaracteristiqueController::class,'showAddingCarac'])->name('showCarac');
-Route::post('/add-moto-caracteristic', [CaracteristiqueController::class, 'addCarac'])->name('addCaracteristic');
-Route::get('add/moto/option', [OptionController::class,'showAddingOptions'])->name('showOption');
-Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
-Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
-Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
-
-/////////////////////////       EDITING STUFF       /////////////////////////////////////
-
-Route::get('/moto-commercial/{idmoto}', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
-
-Route::get('/edit-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
-Route::post('/update-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'updateCaracteristique'])->name('updateCaracteristique');
-
-Route::get('/edit-option/{idmoto}/{idoption}', [MotoController::class, 'showEditOption'])->name('editOption');
-Route::post('/update-option/{idmoto}/{idoption}', [MotoController::class, 'updateOption'])->name('updateOption');
-
-Route::get('/edit-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
-Route::post('/update-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');

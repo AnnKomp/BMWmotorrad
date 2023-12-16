@@ -41,6 +41,14 @@
             <x-input-error :messages="$errors->get('adresse')" class="mt-2" />
         </div>
 
+        <div>
+        <x-input-label for="doubleauth" :value="('Double Authentification')" />
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            {{ __("La double authentification permet de sécuriser davantage votre compte en envoyant un sms sur votre téléphone lorsque vous essayez de vous connecter") }}
+        </p>
+            <input name="doubleauth" type="checkbox" @if($user->doubleauth) checked @endif> Activer la double authentification</input>
+        </div>
+
         @foreach ($phones as $phone)
         <div>
             <x-input-label for="{{$phone->type}}{{$phone->fonction}}" :value="('Téléphone ' . $phone->type . ' ' . $phone->fonction)" />

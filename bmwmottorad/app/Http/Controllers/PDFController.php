@@ -54,4 +54,5 @@ class PDFController extends Controller
 
         return $pdf->download('moto_config.pdf');
     }
+
 }

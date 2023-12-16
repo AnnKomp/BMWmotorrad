@@ -14,7 +14,9 @@ class PhoneVerificationController extends Controller
 {
 
     public function create(){
-        $number = Telephone::where('idclient', auth()->user()->idclient)->first();
+        $number = Telephone::where('idclient', auth()->user()->idclient)->where('type', 'Mobile')->where('fonction', 'Privé')->first();
+        // What would normally be used but since twilio is in test mode, above one is used for now
+        // $number = Telephone::where('idclient', auth()->user()->idclient)->where('numtelephone', '!=', 'null')->first();
         $vcode = rand(100000, 999999);
         $_SESSION['vcode'] = $vcode;
         $this->sendMessage("Votre code d\'authentification My BMW est : " . $vcode, "+33" . substr($number->numtelephone, 1));
