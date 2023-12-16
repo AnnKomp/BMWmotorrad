@@ -53,7 +53,8 @@
                     <td><img src={{$option->photooption}}></td>
 
                     <td><a href="{{ route('editOption', ['idmoto' => $option->idmoto, 'idoption' => $option->idoption]) }}">M</a></td>
-                    {{--<td><a href="{{ route('deleteOption', ['idmoto' => $option->idmoto, 'idoption' => $option->idoption]) }}">Supprimer</a></td>--}}
+                    <td><a href="{{ route('deleteOption', ['idmoto' => $option->idmoto, 'idoption' => $option->idoption]) }}">X</a></td>
+
                 </tr>
             @endforeach
         </tbody>
@@ -79,7 +80,7 @@
                     <td>{{ $accessoire->detailaccessoire }}</td>
                     <td><img src={{$accessoire->photoaccessoire }}></td>
                     <td><a href="{{ route('editAccessoire', ['idmoto' => $accessoire->idmoto, 'idaccessoire' => $accessoire->idaccessoire]) }}">M</a></td>
-                    {{--<td><a href="{{ route('deleteAccessoire', ['idmoto' => $accessoire->idmoto, 'idaccessoire' => $accessoire->idaccessoire]) }}">Supprimer</a></td>--}}
+                    <td><a href="{{ route('deleteAccessoire', ['idmoto' => $accessoire->idmoto, 'idaccessoire' => $accessoire->idaccessoire]) }}">X</a></td>
                 </tr>
             @endforeach
         </tbody>

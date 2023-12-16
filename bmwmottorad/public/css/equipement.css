@@ -84,7 +84,9 @@ a {
     height : 1%;
 }
 
-
+input {
+    width: 50px;
+}
 
 
 #lancerconfig {

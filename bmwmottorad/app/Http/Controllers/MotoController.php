@@ -377,6 +377,37 @@ class MotoController extends Controller
         }
     }
 
+    public function deleteOption($idmoto, $idoption)
+    {
+        try {
+            // Delete the option from the 'specifie' table
+            DB::table('specifie')
+                ->where('idmoto', $idmoto)
+                ->where('idoption', $idoption)
+                ->delete();
+
+            return redirect()->route('showMotoCommercial', ['idmoto' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteAccessoire($idmoto, $idaccessoire)
+    {
+        try {
+            // Delete the accessoire from the 'accessoire' table
+            DB::table('accessoire')
+                ->where('idmoto', $idmoto)
+                ->where('idaccessoire', $idaccessoire)
+                ->delete();
+
+            return redirect()->route('showMotoCommercial', ['idmoto' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
 
 
 }
