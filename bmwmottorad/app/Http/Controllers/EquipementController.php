@@ -110,6 +110,25 @@ class EquipementController extends Controller
                     ->whereIn('idtaille', $tailleIds)
                     ->get();
 
+                // Ensure that $tailleOptions is not empty before accessing its properties
+                if (!$tailleOptions->isEmpty()) {
+                    // Check if the first() result is not null before accessing its properties
+                    $firstTaille = $tailleOptions->first();
+                    if ($firstTaille !== null) {
+                        $stock = DB::table('stock')
+                            ->where('idequipement', $idequipement)
+                            ->where('idcoloris', $idcoloris)
+                            ->where('idtaille', $firstTaille->idtaille)
+                            ->value('quantite');
+                    } else {
+                        // Handle the case where $firstTaille is null (e.g., set $stock to a default value)
+                        $stock = 0; // or any default value
+                    }
+                } else {
+                    // Handle the case where $tailleOptions is empty (e.g., set $stock to a default value)
+                    $stock = 0; // or any default value
+                }
+
 
         if ($idcoloris == null)
             $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
@@ -146,7 +165,7 @@ class EquipementController extends Controller
             "selectedColor" => $colorisOptions->first()->idcoloris,
             "selectedTaille" => $tailleOptions->first()->idtaille,
             "equipement" => $equipement,
-            "stock" => $stock,""
+            "stock" => $stock,
         ]);
         }
 
