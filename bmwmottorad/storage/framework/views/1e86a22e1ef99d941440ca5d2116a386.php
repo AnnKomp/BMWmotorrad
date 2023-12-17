@@ -17,7 +17,6 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <?php echo $__env->make('layouts.navigation', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
             <!-- Page Heading -->
             <?php if(isset($header)): ?>
                 <header class="bg-white dark:bg-gray-800 shadow">

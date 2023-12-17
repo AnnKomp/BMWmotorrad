@@ -27,6 +27,7 @@ class EquipementController extends Controller
         $prix_min = $request->input('Min');
         $prix_max = $request->input('Max');
 
+        //  C'est quoi ce bordel ?????????????????????????????????????????????
         $equipements = DB::table('equipement')
             ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
             ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
@@ -59,7 +60,6 @@ class EquipementController extends Controller
             ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
                 $queryBuilder->orderBy('prixequipement', $priceOrder);
             })
-
             // Ajout de la condition sur le prix minimum et maximum
             ->when($prix_min, function ($queryBuilder) use ($prix_min) {
                 $queryBuilder->where('prixequipement', '>=', $prix_min);
@@ -67,7 +67,6 @@ class EquipementController extends Controller
             ->when($prix_max, function ($queryBuilder) use ($prix_max) {
                 $queryBuilder->where('prixequipement', '<=', $prix_max);
             })
-
             ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
             ->get();
 

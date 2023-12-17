@@ -89,35 +89,35 @@
 
 
 
-<div class = 'equipement_display'>
-   @foreach ($equipements as $equipement)
-   {{-- rajouter idcoloris du bon coloris de base--}}
-   <a href="/equipement?id={{ $equipement->idequipement }}" class = "equipement_lien">
+    <div class ='equipement_display'>
+        @foreach ($equipements as $equipement)
+        {{-- rajouter idcoloris du bon coloris de base--}}
+        <a href="/equipement?id={{ $equipement->idequipement }}" class = "equipement_lien">
 
-    <div class = 'equipement_box'>
-        <div class = 'equipement_name'>
-        {{ $equipement->nomequipement }}
-        </div>
+            <div class = 'equipement_box'>
+                <div class = 'equipement_name'>
+                {{ $equipement->nomequipement }}
+                </div>
 
-        <img src={{$equipement->lienmedia}} width=100% height=100%>
+                <img src={{$equipement->lienmedia}} width=100% height=100%>
 
-        <div class ='equipement_price'>
-            @if ( $equipement->totalquantite > 0)
-            <p >Stock : {{ 	$equipement->totalquantite}}</p>
-            @else
-            <p class='notavailable'>Actuellement indisponible</p>
-            @endif
-            <p>{{ $equipement->prixequipement }}  €</p>
-        </div>
+                <div class ='equipement_price'>
+                    @if ( $equipement->totalquantite > 0)
+                    <p >Stock : {{ 	$equipement->totalquantite}}</p>
+                    @else
+                    <p class='notavailable'>Actuellement indisponible</p>
+                    @endif
+                    <p>{{ $equipement->prixequipement }}  €</p>
+                </div>
 
-        <hr NOSHADE WIDTH="80%" ALIGN=CENTER @style(["margin-block: 5%"])>
+                <hr NOSHADE WIDTH="80%" ALIGN=CENTER @style(["margin-block: 5%"])>
 
 
-    </div>
-   </a>
+            </div>
+        </a>
 
-  @endforeach
+    @endforeach
 </div>
-</div>
+
 
 @endsection

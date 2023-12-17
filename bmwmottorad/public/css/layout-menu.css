@@ -1,3 +1,8 @@
+html{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+}
+
 body{
     margin: 0px;
     position: relative;
@@ -87,8 +92,6 @@ footer>a:hover{
     background-color: white;
     transition: all ease 0.5s;
 }
-
-f
 
 #content{
     padding-bottom: 10vh;

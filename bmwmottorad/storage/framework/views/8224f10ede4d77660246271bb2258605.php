@@ -93,7 +93,7 @@
         <footer>
         <a href="/confidentialite">Confidentialité</a>
         <a href="/cookies">Cookies</a>
-    </footer>
+        </footer>
     </body>
 </html>
 <?php /**PATH /home/turart/public_html/SAE301_TD2_G5/bmwmottorad/resources/views/layouts/menus.blade.php ENDPATH**/ ?>
