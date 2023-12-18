@@ -142,6 +142,37 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     //Controller for the intern possibilities
     Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
     Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
+
+    ////////////////////////////  ADDING STUFF     /////////////////////////////
+
+    Route::get('/add/gamme', [GammeController::class, 'index']);
+    Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
+    Route::get('/add/moto', [MotoController::class,'motoAdd']);
+    Route::post('/add-moto', [MotoController::class,'addmoto'])->name('addMoto');
+    Route::get('/add/moto/characteristic', [CaracteristiqueController::class,'showAddingCarac'])->name('showCarac');
+    Route::post('/add-moto-caracteristic', [CaracteristiqueController::class, 'addCarac'])->name('addCaracteristic');
+    Route::get('add/moto/option', [OptionController::class,'showAddingOptions'])->name('showOption');
+    Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
+    Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
+    Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
+
+
+    //////////////////////////      EDITING STUFF      ///////////////////////////////
+
+    Route::get('/moto-commercial/{idmoto}', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
+    Route::get('/edit-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
+    Route::post('/update-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'updateCaracteristique'])->name('updateCaracteristique');
+    Route::get('/edit-option/{idmoto}/{idoption}', [MotoController::class, 'showEditOption'])->name('editOption');
+    Route::post('/update-option/{idmoto}/{idoption}', [MotoController::class, 'updateOption'])->name('updateOption');
+    Route::get('/edit-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
+    Route::post('/update-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');
+
+    //////////////////////////     DELETING STUFF    /////////////////////////////////////
+
+    Route::get('/delete-option/{idmoto}/{idoption}', [MotoController::class, 'deleteOption'])->name('deleteOption');
+    Route::get('/delete-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'deleteAccessoire'])->name('deleteAccessoire');
+
+
 });
 
 Route::get('/anonymisation', [AnonController::class, 'create'])->name('dpoanon');
@@ -179,15 +210,12 @@ Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-do
 Route::get('/cookies', [RGPDController::class, 'createcookies'])->name('cookies');
 Route::get('/confidentialite', [RGPDCONTROLLER::class, 'createconfidentialite'])->name('confidentialite');
 
-////////////////////////////  ADDING STUFF     /////////////////////////////
 
-Route::get('/add/gamme', [GammeController::class, 'index']);
-Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
-Route::get('/add/moto', [MotoController::class,'motoAdd']);
-Route::post('/add-moto', [MotoController::class,'addmoto'])->name('addMoto');
-Route::get('/add/moto/characteristic', [CaracteristiqueController::class,'showAddingCarac'])->name('showCarac');
-Route::post('/add-moto-caracteristic', [CaracteristiqueController::class, 'addCarac'])->name('addCaracteristic');
-Route::get('add/moto/option', [OptionController::class,'showAddingOptions'])->name('showOption');
-Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
-Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
-Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
+
+Route::get('/moto-commercial/{idmoto}', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
+Route::get('/edit-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
+Route::post('/update-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'updateCaracteristique'])->name('updateCaracteristique');
+Route::get('/edit-option/{idmoto}/{idoption}', [MotoController::class, 'showEditOption'])->name('editOption');
+Route::post('/update-option/{idmoto}/{idoption}', [MotoController::class, 'updateOption'])->name('updateOption');
+Route::get('/edit-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
+Route::post('/update-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');

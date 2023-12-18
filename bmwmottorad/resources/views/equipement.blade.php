@@ -123,7 +123,9 @@
 
             <label for="quantity">Quantité :</label>
             {{-- faire en sorte de le stock change en tant que les photos et redevient 1--}}
-            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}">
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}" oninput="validateQuantity()">
+            <p id="errorMessage" style="color: red;"></p>
+
 
             <button type="button" id="addToCartButton">Ajouter dans le panier</button>
         @else
@@ -134,24 +136,44 @@
 
 
 
-
     <script>
         $(document).ready(function () {
             $('#addToCartButton').click(function () {
-                // Use AJAX to send the form data to the server
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('panier.add-to-cart', ['id' => $idequipement]) }}",
-                    data: $('#addToCartForm').serialize(),
-                    success: function (response) {
-                        // Update the cart dynamically if needed
-                        console.log(response);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
+                if (validateQuantity()) {
+                    // Use AJAX to send the form data to the server
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('panier.add-to-cart', ['id' => $idequipement]) }}",
+                        data: $('#addToCartForm').serialize(),
+                        success: function (response) {
+                            // Update the cart dynamically if needed
+                            console.log(response);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
             });
+
+            function validateQuantity() {
+                var quantityInput = document.getElementById('quantity');
+                var errorMessage = document.getElementById('errorMessage');
+                var maxStock = parseInt(quantityInput.getAttribute('max'));
+                var enteredQuantity = parseInt(quantityInput.value);
+                var addToCartButton = document.getElementById('addToCartButton');
+
+                if (isNaN(enteredQuantity) || enteredQuantity < 1 || enteredQuantity > maxStock) {
+                    errorMessage.innerText = 'Veuillez entrer une quantité valide.';
+                    addToCartButton.disabled = true;
+                    return false; // Return false to indicate validation failure
+                } else {
+                    errorMessage.innerText = '';
+                    addToCartButton.disabled = false;
+                    return true; // Return true to indicate validation success
+                }
+            }
         });
     </script>
+
 @endsection
