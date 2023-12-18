@@ -20,8 +20,14 @@
                     <td>En cours</td>
                 @elseif ( $command->etat == 1)
                     <td>Livrée</td>
+                @elseif ( $command->etat == 2)
+                    <td>Annulée</td>
+                @else
+                    <td>Etat inconnu, contactez un administrateur</td>
                 @endif
-                <td><a href="/profile/commands/detail?idcommand={{ $command->idcommande }}"><i class="fa fa-info-circle"></i></a></td>
+                @if ( $command->etat != 2)
+                    <td><a href="/profile/commands/detail?idcommand={{ $command->idcommande }}"><i class="fa fa-info-circle"></i></td>
+                @endif
             </tr>
         @endforeach
     </table>
