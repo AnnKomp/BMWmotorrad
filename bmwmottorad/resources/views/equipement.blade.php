@@ -137,7 +137,28 @@
 
 
     <script>
+        function validateQuantity() {
+            var quantityInput = document.getElementById('quantity');
+            var errorMessage = document.getElementById('errorMessage');
+            var maxStock = parseInt(quantityInput.getAttribute('max'));
+            var enteredQuantity = parseInt(quantityInput.value);
+            var addToCartButton = document.getElementById('addToCartButton');
+
+            if (isNaN(enteredQuantity) || enteredQuantity < 1 || enteredQuantity > maxStock) {
+                errorMessage.innerText = 'Veuillez entrer une quantité valide.';
+                addToCartButton.disabled = true;
+                return false; // Return false to indicate validation failure
+            } else {
+                errorMessage.innerText = '';
+                addToCartButton.disabled = false;
+                return true; // Return true to indicate validation success
+            }
+        }
+
         $(document).ready(function () {
+
+            $('#quantity').on('input', validateQuantity);
+
             $('#addToCartButton').click(function () {
                 if (validateQuantity()) {
                     // Use AJAX to send the form data to the server
@@ -155,24 +176,6 @@
                     });
                 }
             });
-
-            function validateQuantity() {
-                var quantityInput = document.getElementById('quantity');
-                var errorMessage = document.getElementById('errorMessage');
-                var maxStock = parseInt(quantityInput.getAttribute('max'));
-                var enteredQuantity = parseInt(quantityInput.value);
-                var addToCartButton = document.getElementById('addToCartButton');
-
-                if (isNaN(enteredQuantity) || enteredQuantity < 1 || enteredQuantity > maxStock) {
-                    errorMessage.innerText = 'Veuillez entrer une quantité valide.';
-                    addToCartButton.disabled = true;
-                    return false; // Return false to indicate validation failure
-                } else {
-                    errorMessage.innerText = '';
-                    addToCartButton.disabled = false;
-                    return true; // Return true to indicate validation success
-                }
-            }
         });
     </script>
 
