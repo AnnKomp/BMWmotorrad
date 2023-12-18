@@ -143,7 +143,8 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::get('/fraislivraison', [AdminController::class, 'deliveringFees'])->name('delivering-fees');
     Route::post('/fraislivraison', [AdminController::class, 'updateDeliveringFees']);
 
-    ////////////////////////////  ADDING STUFF     /////////////////////////////
+
+    ////////////////////////////  ADDING MOTOS     /////////////////////////////
 
     Route::get('/add/gamme', [GammeController::class, 'index']);
     Route::post('/add-gamme', [GammeController::class, 'addGamme'] );
@@ -157,7 +158,7 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
 
 
-    //////////////////////////      EDITING STUFF      ///////////////////////////////
+    //////////////////////////      EDITING MOTOS      ///////////////////////////////
 
     Route::get('/moto-commercial/{idmoto}', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
     Route::get('/edit-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
@@ -167,10 +168,18 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::get('/edit-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
     Route::post('/update-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');
 
-    //////////////////////////     DELETING STUFF    /////////////////////////////////////
+    //////////////////////////     DELETING MOTOS    /////////////////////////////////////
 
     Route::get('/delete-option/{idmoto}/{idoption}', [MotoController::class, 'deleteOption'])->name('deleteOption');
     Route::get('/delete-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'deleteAccessoire'])->name('deleteAccessoire');
+
+
+    //////////////////////////     EDITING EQUIPMENTS    /////////////////////////////////////
+
+    Route::get('/modifequipment', [AdminController::class, 'modifequipment'])->name('modifequipment');
+    Route::post('/modify-equipment', [AdminController::class, 'showEquipmentModificationForm'])->name('equipment.modify');
+    Route::post('/update-equipment', [AdminController::class, 'updateEquipment'])->name('equipment.update');
+    Route::get('/update-result/{result}', [AdminController::class, 'showUpdateResult'])->name('update.result');
 
 
 });

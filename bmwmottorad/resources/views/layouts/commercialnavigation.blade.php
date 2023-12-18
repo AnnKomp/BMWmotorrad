@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('delivering-fees')" :active="request()->routeIs('delivering-fees')">
                         {{ __('Frais de Livraison') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('modifequipment')" :active="request()->routeIs('modifequipment')">
+                        {{ __('Equipements') }}
+                    </x-nav-link>
                     <form method="POST" action="{{ route('logout') }}">
                     @csrf
                         <x-dropdown-link :href="route('logout')"

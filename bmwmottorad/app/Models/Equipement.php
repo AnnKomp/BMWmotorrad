@@ -11,6 +11,13 @@ class Equipement extends Model
     protected $table = "equipement";
     protected $primaryKey = "idequipement";
     public $timestamps = false;
+    protected $keyType = 'integer';
+
+
+    protected $fillable = [
+        'prixequipement',
+        // Add other fillable attributes as needed
+    ];
 
     use HasFactory;
 
