@@ -1,9 +1,11 @@
-@extends('layouts.menus')
-{{-- Other layout setup --}}
+<x-commapp>
 
 @section('title', 'Ajouter un accessoire')
 
-@section('content')
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+
 
     <h2>Ajouter un accessoire</h2>
 
@@ -26,16 +28,21 @@
         <label for="accPrice">Prix :</label>
         <input type="number" name="accPrice" id="accPrice" required>
 
+        <br>
         <label for="accDetail">Détail :</label>
         <textarea rows="4" name="accDetail" id="accDetail" required></textarea>
 
         <label for="accPhoto">Lien photo :</label>
         <input type="url" name="accPhoto" id="accPhoto" required>
-
+<br>
 
         <button type="submit" name="action" value="proceedAgain">Ajouter et Continuer</button>
         <button type="submit" name="action" value="next">Ajouter et Passer ensuite</button>
         <a href="{{ route('startPage') }}"><button type="button">Annuler</button></a>
     </form>
 
-@endsection
+        </div>
+    </div>
+</div>
+
+</x-commapp>

@@ -99,35 +99,23 @@ class EquipementController extends Controller
                     ->pluck('idtaille')
                     ->toArray();
 
-        //where
         $colorisOptions = DB::table('coloris')
                     ->select('idcoloris', 'nomcoloris')
                     ->whereIn('idcoloris', $colorisIds)
                     ->get();
 
-        $tailleOptions = DB::table('taille')
-                    ->select('idtaille', 'libelletaille')
-                    ->whereIn('idtaille', $tailleIds)
-                    ->get();
+                    \Log::info('tailleIds:', $tailleIds);
 
-                // Ensure that $tailleOptions is not empty before accessing its properties
-                if (!$tailleOptions->isEmpty()) {
-                    // Check if the first() result is not null before accessing its properties
-                    $firstTaille = $tailleOptions->first();
-                    if ($firstTaille !== null) {
-                        $stock = DB::table('stock')
-                            ->where('idequipement', $idequipement)
-                            ->where('idcoloris', $idcoloris)
-                            ->where('idtaille', $firstTaille->idtaille)
-                            ->value('quantite');
-                    } else {
-                        // Handle the case where $firstTaille is null (e.g., set $stock to a default value)
-                        $stock = 0; // or any default value
-                    }
-                } else {
-                    // Handle the case where $tailleOptions is empty (e.g., set $stock to a default value)
-                    $stock = 0; // or any default value
-                }
+                    $tailleOptions = DB::table('taille')
+                        ->select('idtaille', 'libelletaille')
+                        ->whereIn('idtaille', $tailleIds)
+                        ->get();
+
+                    \Log::info('tailleOptions:', $tailleOptions->toArray());
+
+
+    //dd($tailleOptions->isEmpty(), $tailleOptions->first());
+
 
 
         if ($idcoloris == null)
@@ -136,22 +124,22 @@ class EquipementController extends Controller
 
 
         $equipement_pics = DB::table('presentation_eq')
-        ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
-        ->select('media.lienmedia')
-        ->where('presentation_eq.idequipement', $idequipement)
-        ->where('presentation_eq.idcoloris', $idcoloris)
-        ->get();
+                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                    ->select('media.lienmedia')
+                    ->where('presentation_eq.idequipement', $idequipement)
+                    ->where('presentation_eq.idcoloris', $idcoloris)
+                    ->get();
 
         $equipement = DB::table('equipement')
-        ->select('*')
-        ->where('idequipement', $idequipement)
-        ->first();
+                    ->select('*')
+                    ->where('idequipement', $idequipement)
+                    ->first();
 
         $stock = DB::table('stock')
-        ->where('idequipement', $idequipement)
-        ->where('idcoloris', $idcoloris)
-        ->where('idtaille', $tailleOptions->first()->idtaille)
-        ->value('quantite');
+                    ->where('idequipement', $idequipement)
+                    ->where('idcoloris', $idcoloris)
+                    ->where('idtaille', $tailleOptions->first()->idtaille)
+                    ->value('quantite');
 
 
         return view("equipement", [
@@ -248,25 +236,6 @@ class EquipementController extends Controller
                 return response()->json(['error' => 'Internal Server Error'], 500);
             }
 
-                    /*
-                    try {
-                $idequipement = $request->input('idequipement');
-                $idcoloris = $request->input('idcoloris');
-
-                // Fetch images based on $idequipement and $idcoloris
-                $equipement_pics = DB::table('presentation_eq')
-                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
-                    ->select('media.lienmedia')
-                    ->where('presentation_eq.idequipement', $idequipement)
-                    ->where('presentation_eq.idcoloris', $idcoloris)
-                    ->get();
-
-
-                    return view('partial-views.equipment-photos', ['equipement_pics' => $equipement_pics]);
-                } catch (\Exception $e) {
-                    Log::error('Error fetching equipment photos'. $e->getMessage());
-                    return response()->json(['error' => 'Internal Server Error'], 500);
-                }*/
 
         }
 }
