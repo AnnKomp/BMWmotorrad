@@ -8,6 +8,7 @@ use App\Models\Equipement;
 use App\Models\User;
 use App\Models\Commande;
 use App\Models\Infocb;
+use App\Models\Parametres;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Validator;
@@ -36,7 +37,22 @@ class CommandeController extends Controller
                 }
             };
             $cb = Infocb::where('idclient', auth()->user()->idclient)->first();
-            return view('commandecb', compact('equipements', 'cart', 'cb'));
+            $total = 0;
+            foreach($equipements as $equipement){
+                foreach($cart[$equipement->idequipement] as $cartItem){
+                    $total += $equipement->prixequipement * $cartItem['quantity'];
+                }
+            }
+            // Fee is 9 euros
+            $fee = 9;
+            $feelimit = Parametres::find('montantfraislivraison');
+            // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O 
+            if($feelimit->description > $total){
+                $total += $fee;
+            }else{
+                $fee = 0;
+            }
+            return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
         }else{
             return view('auth.login');
         }
@@ -92,7 +108,22 @@ class CommandeController extends Controller
                     $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
                 }
             };
-            return view('commandestripe', compact('equipements', 'cart'));
+            $total = 0;
+            foreach($equipements as $equipement){
+                foreach($cart[$equipement->idequipement] as $cartItem){
+                    $total += $equipement->prixequipement * $cartItem['quantity'];
+                }
+            }
+            // Fee is 9 euros
+            $fee = 9;
+            $feelimit = Parametres::find('montantfraislivraison');
+            // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O 
+            if($feelimit->description > $total){
+                $total += $fee;
+            }else{
+                $fee = 0;
+            }
+            return view('commandestripe', compact('equipements', 'cart', 'total', 'fee'));
     }
 
     public function paystripe(Request $request)  : RedirectResponse
@@ -156,6 +187,8 @@ class CommandeController extends Controller
 
         $order->save();
 
+        $total = 0;
+
         foreach($cart as $item){
             DB::table('contenucommande')->insert([
                 'idcommande' => $order->idcommande,
@@ -164,13 +197,21 @@ class CommandeController extends Controller
                 'idcoloris' => $item[0]['coloris'],
                 'idtaille' => $item[0]['taille'],
             ]);
+            Equipement::where('idequipement', $item[0]['id'])->decrement('stockequipement', $item[0]['quantity']);
         }
 
-        $total = 9;
+        
         foreach($equipements as $equipement){
             foreach($cart[$equipement->idequipement] as $cartItem){
                 $total += $equipement->prixequipement * $cartItem['quantity'];
             }
+        }
+        // Fee is 9 euros
+        $fee = 9;
+        $feelimit = Parametres::find('montantfraislivraison');
+        // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O 
+        if($feelimit->description > $total){
+            $total += $fee;
         }
 
         DB::table('transaction')->insert([

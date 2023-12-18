@@ -104,7 +104,7 @@ hr {
 
 
 .header_category{
-    background-color : grey;
+    background-color : black;
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
@@ -113,11 +113,17 @@ hr {
     font-size: 1.5em;
 }
 
-a {
-    color: black;
+.categories {
+    color: white;
     text-decoration: none;
     font-size: 2em;
     height : 1%;
+}
+
+.categories:hover{
+    color: black;
+    background-color: white;
+    transition: all ease 0.5s;
 }
 
 table.couleur {
@@ -138,7 +144,29 @@ div.couleur {
     align-items: center;
 }
 
+#essaibutton{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+#essaibutton > a > button{
+    color: white;
+    background-color: black;
+    border: 0px;
+    font-size: larger;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    width: 300px;
+    height: 50px;
+}
+
+#essaibutton > a > button:hover{
+    color: black;
+    background-color: white;
+    transition: all ease 0.5s;
+    cursor: pointer;
+}
 
 input.check {
     width:30px;

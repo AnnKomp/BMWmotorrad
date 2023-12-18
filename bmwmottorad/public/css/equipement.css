@@ -66,7 +66,6 @@ hr {
     align : center;
 }
 
-
 .header_category{
     background-color : grey;
     display: flex;
@@ -107,7 +106,6 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-top: 25px;
     text-size-adjust: 3%;
 }
-
 
 
 .description {

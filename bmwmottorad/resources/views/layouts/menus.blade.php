@@ -93,6 +93,6 @@
         <footer>
         <a href="/confidentialite">Confidentialité</a>
         <a href="/cookies">Cookies</a>
-    </footer>
+        </footer>
     </body>
 </html>

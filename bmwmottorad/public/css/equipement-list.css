@@ -39,7 +39,6 @@ a {
 
 .equipement_display{
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -69,16 +68,15 @@ a {
 
 .page {
     display: flex;
+    height: 4000px;
 }
 
 .filters {
     position: sticky;
     top: 10px;
     left: 10px;
-
     width: 250px;
     border-right: 3px solid grey;
-
 }
 
 

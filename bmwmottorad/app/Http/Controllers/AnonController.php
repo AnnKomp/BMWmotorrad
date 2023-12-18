@@ -15,7 +15,7 @@ class AnonController extends Controller
     public function execute(Request $request): RedirectResponse
     {
         $request->validate([
-            'date' => ['required', 'date', 'before:' . date('Y-m-d')],
+            'date' => ['required', 'date', 'before:' . now()->subYears(1)->format('Y-m-d')],
         ]);
 
         DB::select("select delete_inactive_clients('".date('Y-m-d', strtotime($request->date))."')");
