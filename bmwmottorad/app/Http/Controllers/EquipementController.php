@@ -27,7 +27,7 @@ class EquipementController extends Controller
         $prix_min = $request->input('Min');
         $prix_max = $request->input('Max');
 
-        //  C'est quoi ce bordel ?????????????????????????????????????????????
+        
         $equipements = DB::table('equipement')
             ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
             ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
