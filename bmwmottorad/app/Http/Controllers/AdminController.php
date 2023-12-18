@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\FraisLivraison;
 use App\Models\Equipement;
 use Illuminate\Http\Request;
+use App\Models\Gamme;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -90,5 +92,17 @@ class AdminController extends Controller
 
 
 
+
+    public function motolistCom()
+    {
+        $ranges = Gamme::all();
+        $motos = DB::table('modelemoto')
+            ->select('*')
+            ->join('media', 'media.idmoto', '=', 'modelemoto.idmoto')
+            ->whereColumn('idmediapresentation', 'idmedia')
+            ->get();
+
+        return view("motos-com", ['motos' => $motos, 'ranges' => $ranges]);
+    }
 }
 

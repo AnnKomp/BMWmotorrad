@@ -15,6 +15,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Tableau de bord') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('addGammeCom')" :active="request()->routeIs('addGammeCom')">
+                        {{ __('Gammes') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('addMotoBouton')" :active="request()->routeIs('addMotoBouton')">
+                        {{ __('Ajout Moto') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('motos-com')" :active="request()->routeIs('motos-com')">
+                        {{ __('Motos') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('delivering-fees')" :active="request()->routeIs('delivering-fees')">
                         {{ __('Frais de Livraison') }}
                     </x-nav-link>

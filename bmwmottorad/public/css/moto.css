@@ -29,13 +29,15 @@ table {
     margin-top: 3%;
 }
 
-td,th {
+td {
     padding-inline: 2%;
     border-bottom: solid 1px;
     border-top: solid 1px ;
 }
 
-
+th {
+    background-color: #666;
+}
 
 h1 {
     vertical-align: center;
@@ -45,9 +47,7 @@ h1 {
     text-align: center;
   }
 
-th {
-    background-color: #666;
-}
+
 
 .slider-container {
     max-width: 60%;

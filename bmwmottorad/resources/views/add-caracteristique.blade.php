@@ -1,9 +1,11 @@
-@extends('layouts.menus')
-{{-- Other layout setup --}}
+<x-commapp>
 
 @section('title', 'Ajouter une nouvelle caractéristique')
 
-@section('content')
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+
 
     <h2>Ajouter une nouvelle caractéristique</h2>
 
@@ -33,4 +35,5 @@
         <a href="{{ route('startPage') }}"><button type="button">Annuler</button></a>
     </form>
 
-@endsection
+        </div></div></div>
+</x-commapp>
