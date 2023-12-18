@@ -66,37 +66,6 @@ hr {
     align : center;
 }
 
-
-.header_category{
-    background-color : grey;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    padding: auto;
-    align-items: center;
-    font-size: 1.5em;
-}
-
-a {
-    color: black;
-    text-decoration: none;
-    font-size: 2em;
-    height : 1%;
-}
-
-
-
-
-#lancerconfig {
-    padding: 20px;
-    background-color: rgb(199, 195, 189);
-    margin-left: 15%;
-    margin-top: 25px;
-    text-size-adjust: 3%;
-}
-
-
-
 .description {
     text-align: justify;
 }

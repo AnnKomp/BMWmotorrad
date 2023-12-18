@@ -205,6 +205,9 @@ return [
             'min' => 'Le code secret ne doit pas faire moins de 3 chiffres',
             'max' => 'Le code secret ne doit pas faire plus de 3 chiffres',
             'regex' => 'Le format du code secret est invalide'
+        ],
+        'date' => [
+            'before' => 'La date d\'anonymisation doit dater d\'au moins un an'
         ]
     ],
 

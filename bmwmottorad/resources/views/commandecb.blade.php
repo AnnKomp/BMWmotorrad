@@ -1,13 +1,3 @@
-<?php
-    $total = 9;
-    foreach($equipements as $equipement){
-        foreach($cart[$equipement->idequipement] as $cartItem){
-            $total += $equipement->prixequipement * $cartItem['quantity'];
-        }
-    }
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,7 +120,7 @@
         @endforeach
     </table>
 
-    <p>Frais de livraison : 9 €</p>
+    <p>Frais de livraison : {{ $fee }} €</p>
     <h3>Total : {{ $total }} €</h3>
 </div>
       

@@ -55,9 +55,13 @@
 
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>
 
-<a href="/moto/essai?idmoto={{$idmoto}}">
-    <button>Demander un essai</button>
-</a>
+
+<div id="essaibutton">
+    <a href="/moto/essai?idmoto={{$idmoto}}" >
+        <button>Demander un essai</button>
+    </a>
+</div>
+
 
 
 <h1>Fiche technique</h1>

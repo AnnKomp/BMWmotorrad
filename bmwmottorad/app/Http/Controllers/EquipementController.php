@@ -27,6 +27,7 @@ class EquipementController extends Controller
         $prix_min = $request->input('Min');
         $prix_max = $request->input('Max');
 
+        
         $equipements = DB::table('equipement')
             ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
             ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
@@ -59,7 +60,6 @@ class EquipementController extends Controller
             ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
                 $queryBuilder->orderBy('prixequipement', $priceOrder);
             })
-
             // Ajout de la condition sur le prix minimum et maximum
             ->when($prix_min, function ($queryBuilder) use ($prix_min) {
                 $queryBuilder->where('prixequipement', '>=', $prix_min);
@@ -67,7 +67,6 @@ class EquipementController extends Controller
             ->when($prix_max, function ($queryBuilder) use ($prix_max) {
                 $queryBuilder->where('prixequipement', '<=', $prix_max);
             })
-
             ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
             ->get();
 
@@ -110,6 +109,25 @@ class EquipementController extends Controller
                     ->whereIn('idtaille', $tailleIds)
                     ->get();
 
+                // Ensure that $tailleOptions is not empty before accessing its properties
+                if (!$tailleOptions->isEmpty()) {
+                    // Check if the first() result is not null before accessing its properties
+                    $firstTaille = $tailleOptions->first();
+                    if ($firstTaille !== null) {
+                        $stock = DB::table('stock')
+                            ->where('idequipement', $idequipement)
+                            ->where('idcoloris', $idcoloris)
+                            ->where('idtaille', $firstTaille->idtaille)
+                            ->value('quantite');
+                    } else {
+                        // Handle the case where $firstTaille is null (e.g., set $stock to a default value)
+                        $stock = 0; // or any default value
+                    }
+                } else {
+                    // Handle the case where $tailleOptions is empty (e.g., set $stock to a default value)
+                    $stock = 0; // or any default value
+                }
+
 
         if ($idcoloris == null)
             $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
@@ -146,7 +164,7 @@ class EquipementController extends Controller
             "selectedColor" => $colorisOptions->first()->idcoloris,
             "selectedTaille" => $tailleOptions->first()->idtaille,
             "equipement" => $equipement,
-            "stock" => $stock,""
+            "stock" => $stock,
         ]);
         }
 
