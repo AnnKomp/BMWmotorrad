@@ -122,18 +122,17 @@ class AccessoireController extends Controller
                 VALUES (?,?,?,?,?,?)',
                 [$idmoto, $newAccCat, $newAccName, $newAccPrice, $newAccDetail, $newAccPhoto]);
 
-            if ($action === 'proceedAgain') {
-                return redirect()->route('showAcc', ['idmoto' => $idmoto])->with('catacc', $catacc);
-
-            } elseif ($action === 'next') {
-                return redirect()->route('showPack', ['idmoto' => $idmoto]);
-            } else {
-                return redirect()->route('startPage');
+                if ($action === 'proceedAgain') {
+                    return redirect()->route('showAcc', ['idmoto' => $idmoto])->with('catacc', $catacc);
+                } elseif ($action === 'next') {
+                    return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+                } else {
+                    return redirect()->route('startPage');
+                }
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
             }
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
         }
-    }
 
 
 

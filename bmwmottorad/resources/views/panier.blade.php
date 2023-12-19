@@ -69,8 +69,3 @@
         <p>Pour le moment, votre panier est vide.</p>
     @endif
 @endsection
-
-{{-- <td id=price>{{ $equipement->prixequipement }}</td>
-
-                        <td id=quantity>{{ $cartItem['quantity'] }}</td>
-                        --}}

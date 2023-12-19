@@ -41,9 +41,6 @@ Route::get('/', function () {
 //Route::post("/options",[OptionController::class, "optionSelection" ]);
 Route::get("/option",[OptionController::class, "info" ]);
 
-//inutile?
-//Route::post("/options/save", [ OptionController::class, 'save']);
-
 //Route::post("/accessoires",[AccessoireController::class, "store" ]);
 Route::get("/accessoire",[AccessoireController::class, "info" ]);
 
