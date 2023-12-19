@@ -15,14 +15,14 @@
 
         <label for="packName">Nom de l'Pack :</label>
         <input type="text" name="packName" id="packName" value="{{ $pack->nompack }}" required>
-
+        <br>
         <label for="packPrice">Prix de l'Pack :</label>
         <input type="number" name="packPrice" id="packPrice" value="{{ $pack->prixpack }}" required>
 
         <br>
         <label for="packDetail">Détail de l'Pack :</label>
         <textarea name="packDetail" id="packDetail" required>{{ $pack->descriptionpack }}</textarea>
-
+        <br>
         <label for="packPhoto">Lien de la Photo :</label>
         <textarea type="text" name="packPhoto" id="packPhoto" required>{{ $pack->photopack }}</textarea>
 

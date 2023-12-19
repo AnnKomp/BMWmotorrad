@@ -17,7 +17,7 @@
                 @elseif($result === 'add-success')
                     <p>Coloris ajouté avec succès !</p>
                 @else
-                    <p>Une erreur s'est produite lors de la mise à jour de l'équipement.</p>
+                    <p>Une erreur s'est produite lors de la mise à jour.</p>
                 @endif
             </div>
         </div>

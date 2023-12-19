@@ -485,27 +485,33 @@ public function updateAccessoire(Request $request)
 
     public function updatePack(Request $request)
     {
+
         try {
-            $idmoto = $request->input('idmoto');
-            $idpack = $request->input('idpack');
+            if ($request->input('packPrice')>=0){
+                $idmoto = $request->input('idmoto');
+                $idpack = $request->input('idpack');
 
-            $newPackName = $request->input('packName');
-            $newPackPrice = $request->input('packPrice');
-            $newPackDetail = $request->input('packDetail');
-            $newPackPhoto = $request->input('packPhoto');
+                $newPackName = $request->input('packName');
+                $newPackPrice = $request->input('packPrice');
+                $newPackDetail = $request->input('packDetail');
+                $newPackPhoto = $request->input('packPhoto');
 
-            // Update the accessoire
-            DB::table('pack')
-                ->where('idmoto', $idmoto)
-                ->where('idpack', $idpack)
-                ->update([
-                    'nompack' => $newPackName ,
-                    'prixpack' =>  $newPackPrice,
-                    'descriptionpack' => $newPackDetail,
-                    'photopack' =>  $newPackPhoto,
-                ]);
+                // Update the accessoire
+                DB::table('pack')
+                    ->where('idmoto', $idmoto)
+                    ->where('idpack', $idpack)
+                    ->update([
+                        'nompack' => $newPackName ,
+                        'prixpack' =>  $newPackPrice,
+                        'descriptionpack' => $newPackDetail,
+                        'photopack' =>  $newPackPhoto,
+                    ]);
 
-            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+                return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+            }
+            else {
+                return redirect()->route('update.result', ['result' => 'negative']);
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
