@@ -38,10 +38,8 @@ Route::get('/', function () {
 })->name('startPage');
 
 
-//Route::post("/options",[OptionController::class, "optionSelection" ]);
 Route::get("/option",[OptionController::class, "info" ]);
 
-//Route::post("/accessoires",[AccessoireController::class, "store" ]);
 Route::get("/accessoire",[AccessoireController::class, "info" ]);
 
 
@@ -50,7 +48,6 @@ Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
 Route::get("/moto/color",[MotoController::class, "color" ]);
-//Route::get("/moto/pack",[MotoController::class, "pack" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/moto/essai",[EssaiController::class, "create"]);
@@ -228,6 +225,7 @@ Route::post('/colors', [ColorController::class,'processColorsForm'])->name('proc
 ///fin de config
 Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);
 
+///téléchargement PDF
 Route::post('/download-pdf', [MotoController::class, 'downloadPDF'])->name('moto-download-pdf');
 Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-download');
 ///////////////////////////////////////////////////////////////////////////
@@ -235,13 +233,3 @@ Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-do
 Route::get('/cookies', [RGPDController::class, 'createcookies'])->name('cookies');
 Route::get('/confidentialite', [RGPDCONTROLLER::class, 'createconfidentialite'])->name('confidentialite');
 
-
-/*
-Route::get('/moto-commercial/{idmoto}', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
-Route::get('/edit-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
-Route::post('/update-caracteristique/{idmoto}/{idcaracteristique}', [MotoController::class, 'updateCaracteristique'])->name('updateCaracteristique');
-Route::get('/edit-option/{idmoto}/{idoption}', [MotoController::class, 'showEditOption'])->name('editOption');
-Route::post('/update-option/{idmoto}/{idoption}', [MotoController::class, 'updateOption'])->name('updateOption');
-Route::get('/edit-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
-Route::post('/update-accessoire/{idmoto}/{idaccessoire}', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');
-*/

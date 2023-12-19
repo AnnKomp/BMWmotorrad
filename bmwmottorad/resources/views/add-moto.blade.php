@@ -1,4 +1,5 @@
 <x-commapp>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/modif-eq.css')}}">
 
 @section('title', 'Ajouter une nouvelle moto')
 
@@ -14,7 +15,6 @@
 
         <label for="motoGamme">Gamme :</label>
         <select name="motoGamme" id="motoGamme">
-            {{-- Populate options based on your gamme data --}}
             @foreach ($gammes as $gamme)
                 <option value="{{ $gamme->idgamme }}">{{ $gamme->libellegamme }}</option>
             @endforeach
