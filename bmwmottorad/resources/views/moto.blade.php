@@ -66,27 +66,37 @@
 
 <h1>Fiche technique</h1>
 <table>
-<tr style='border: solid'>
-    <th class='top_caracteristics'>Catégorie </th>
-    <th  class='top_caracteristics'>Caractéristique</th>
-    <th class='top_caracteristics'>Description</th>
-</tr>
-
-@foreach ($infos as $info)
-    <tr >
-        @if ($categories[$info->nomcatcaracteristique] > 0)
-            <td class='category_caracteristics' rowspan="{{ $categories[$info->nomcatcaracteristique] }}">
-                {{ $info->nomcatcaracteristique }}
-            </td>
-            @php
-                $categories[$info->nomcatcaracteristique] = 0;
-            @endphp
-        @endif
-        <td class='caracteristics_name'>{{ $info->nomcaracteristique }}</td>
-        <td class='caracteristics'>{{ $info->valeurcaracteristique }}</td>
+    <tr style='border: solid'>
+        <th class='top_caracteristics'>Catégorie</th>
+        <th class='top_caracteristics'>Caractéristique</th>
+        <th class='top_caracteristics'>Description</th>
     </tr>
-@endforeach
+
+    @php
+        $groupedCategories = collect($infos)->groupBy('nomcatcaracteristique');
+    @endphp
+
+    @foreach ($groupedCategories as $category => $categoryInfos)
+        @php
+            $rowspan = count($categoryInfos);
+        @endphp
+
+        @foreach ($categoryInfos as $index => $info)
+            <tr>
+                @if ($index === 0)
+                    <td class='category_caracteristics' rowspan="{{ $rowspan }}">
+                        {{ $category }}
+                    </td>
+                @endif
+
+                <td class='caracteristics_name'>{{ $info->nomcaracteristique }}</td>
+                <td class='caracteristics'>{{ $info->valeurcaracteristique }}</td>
+            </tr>
+        @endforeach
+    @endforeach
 </table>
+
+
 
 
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>

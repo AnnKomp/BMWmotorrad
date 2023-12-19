@@ -1,9 +1,12 @@
-@extends('layouts.menus')
-{{-- Other layout setup --}}
+<x-commapp>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/modif-eq.css')}}">
 
 @section('title', 'Ajouter une nouvelle moto')
 
-@section('content')
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+
 
     <h2>Ajouter une nouvelle moto</h2>
 
@@ -12,7 +15,6 @@
 
         <label for="motoGamme">Gamme :</label>
         <select name="motoGamme" id="motoGamme">
-            {{-- Populate options based on your gamme data --}}
             @foreach ($gammes as $gamme)
                 <option value="{{ $gamme->idgamme }}">{{ $gamme->libellegamme }}</option>
             @endforeach
@@ -21,16 +23,19 @@
         <label for="motoName">Nom de la moto :</label>
         <input type="text" name="motoName" id="motoName" required>
 
+        <br><br>
         <label for="motoDesc">Descriptif :</label>
         <textarea name="motoDesc" id="motoDesc" rows="4" required></textarea>
 
         <label for="motoPrice">Prix :</label>
-        <input type="number" name="motoPrice" id="motoPrice" required>
-
+        <input type="number" name="motoPrice" id="motoPrice" min=1 required>
+<br><br>
         <label for="mediaPresentation">Lien photo de présentation :</label>
         <input type="text" name="mediaPresentation" id="mediaPresentation" required>
-
-        <button type="submit">Suivant</button>
+<br><br>
+        <button type="submit">Continuer la création</button>
+        <button type="submit" name="action" value="finishLater">Finir la création plus tard</button>
     </form>
 
-@endsection
+        </div></div></div>
+</x-commapp>

@@ -313,47 +313,84 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function annulerCommande($idcommande, $idequipement, $idtaille, $idcoloris)
-    {
-        // Récupérez le nombre total d'articles pour la commande
-        $nombreTotalArticles = DB::table('contenucommande')
-            ->where('idcommande', $idcommande)
-            ->count();
+    public function annulerCommande($idcommande, $idequipement, $idtaille, $idcoloris, $quantite)
+{
+    // Récupérez la commande
+    $commande = DB::table('commande')
+        ->where('idcommande', $idcommande)
+        ->first();
 
-        // Récupérez l'article
-        $contenuCommande = DB::table('contenucommande')
+    // Récupérez l'article de la commande
+    $contenuCommande = DB::table('contenucommande')
+        ->where('idcommande', $idcommande)
+        ->where('idequipement', $idequipement)
+        ->where('idtaille', $idtaille)
+        ->where('idcoloris', $idcoloris)
+        ->first();
+
+    // Si l'article existe
+    if ($contenuCommande) {
+        // Récupérez le prix de l'équipement
+        $prixEquipement = DB::table('equipement')
+            ->where('idequipement', $idequipement)
+            ->value('prixequipement');
+
+        $quantite = $contenuCommande->quantite;
+
+        // Effectuez le remboursement
+        $montantRemboursement = -($prixEquipement * $quantite);
+
+        // Ajoutez une transaction de remboursement dans la table "transaction"
+        DB::table('transaction')->insert([
+            'idcommande' => $idcommande,
+            'type' => 'remboursement',
+            'montant' => $montantRemboursement,
+        ]);
+
+        // Mettez à jour la table "stock" en ajoutant la quantité annulée
+        DB::table('stock')
+            ->where('idequipement', $idequipement)
+            ->where('idtaille', $idtaille)
+            ->where('idcoloris', $idcoloris)
+            ->increment('quantite', $quantite);
+
+        // Supprimez l'article de la commande
+        DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->where('idequipement', $idequipement)
             ->where('idtaille', $idtaille)
             ->where('idcoloris', $idcoloris)
-            ->first();
+            ->delete();
 
-        // Si l'article existe
-        if ($contenuCommande) {
-            // Supprimez l'article
-            DB::table('contenucommande')
-                ->where('idcommande', $idcommande)
-                ->where('idequipement', $idequipement)
-                ->where('idtaille', $idtaille)
-                ->where('idcoloris', $idcoloris)
-                ->delete();
-
-            // Si le nombre total d'articles est devenu zéro, supprimez la commande
-            if ($nombreTotalArticles - 1 === 0) {
-                DB::table('commande')
-                    ->where('idcommande', $idcommande)
-                    ->delete();
-
+<<<<<<< HEAD
                 return redirect()->route('profile.commands');
             }
+=======
+        $nombreTotalArticles = DB::table('contenucommande')
+            ->where('idcommande', $idcommande)
+            ->count();
 
-            return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-                ->with('success', 'Article annulé avec succès.');
+        // Mettez à jour l'état de la commande à 2 si la commande est vide
+        if ($nombreTotalArticles === 0) {
+            DB::table('commande')
+                ->where('idcommande', $idcommande)
+                ->update(['etat' => 2]);
+>>>>>>> 9578d3ada443ebd3f2fdf24ed984f661f5b11361
+
+            return redirect()->route('profile.commands')->with('success', 'Commande annulée avec succès.');
         }
 
         return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-            ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
+            ->with('success', 'Article annulé avec succès, vous serez remboursé sous peu.');
     }
+
+    return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
+        ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
+}
+
+
+
+
 
 }
 

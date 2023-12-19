@@ -36,13 +36,16 @@
                 <td id=quantity>
                     <form action="{{ route ('panier.increment', ['id' => $equipement->idequipement, 'index' => $loop->index])}}" method="post">
                         @csrf
-                        <button type="submit">+</button>
+                        <button type="submit" {{ $cartItem['quantity'] >= $cartItem['stock'] ? 'disabled' : '' }}>+</button>
                     </form>
                     {{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}
                     <form action="{{ route('panier.decrement', ['id' => $equipement->idequipement, 'index' => $loop->index])}}" method="post">
                         @csrf
-                        <button type="submit" {{ $cartItem['quantity'] <= 1 ? 'disabled' : ''}}>-</button>
+                        <button type="submit" {{ $cartItem['quantity'] <= 1 ? 'disabled' : '' }}>-</button>
                     </form>
+                </td>
+
+
 
                 </td>
                 <td>
@@ -69,8 +72,3 @@
         <p>Pour le moment, votre panier est vide.</p>
     @endif
 @endsection
-
-{{-- <td id=price>{{ $equipement->prixequipement }}</td>
-
-                        <td id=quantity>{{ $cartItem['quantity'] }}</td>
-                        --}}

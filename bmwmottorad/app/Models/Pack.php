@@ -10,6 +10,7 @@ class Pack extends Model
 
     protected $table = "pack";
     protected $primaryKey = "idpack";
+    protected $fillable = ['idpack','idmoto','nompack','descriptionpack','photopack','prixpack'];
     public $timestamps = false;
     use HasFactory;
 }

@@ -1,9 +1,13 @@
-@extends('layouts.menus')
-{{-- Other layout setup --}}
+<x-commapp>
 
 @section('title', 'Modifier Option')
 
-@section('content')
+<link rel="stylesheet" type="text/css" href="{{asset('css/modif-eq.css')}}">
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+
 
     <h2>Modifier Option</h2>
 
@@ -16,14 +20,19 @@
         <label for="optPrice">Prix de l'Option :</label>
         <input type="number" name="optPrice" id="optPrice" value="{{ $option->prixoption }}" required>
 
+        <br>
         <label for="optDetail">Détail de l'Option :</label>
         <input type="text" name="optDetail" id="optDetail" value="{{ $option->detailoption }}" required>
 
         <label for="optPhoto">Lien de la Photo :</label>
         <input type="text" name="optPhoto" id="optPhoto" value="{{ $option->photooption }}" required>
 
+        <br>
         <button type="submit" name="action" value="update">Mettre à Jour</button>
-        <a href="{{ route('showMotoCommercial', ['idmoto' => $idmoto]) }}"><button type="button">Annuler</button></a>
-    </form>
+        <a href="/moto-commercial?id={{ $idmoto }}">
+            <button type="button">Annuler</button>
+        </a>    </form>
 
-@endsection
+        </div></div></div>
+
+</x-commapp>
