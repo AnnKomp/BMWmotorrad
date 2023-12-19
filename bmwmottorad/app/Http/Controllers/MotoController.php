@@ -208,12 +208,19 @@ class MotoController extends Controller
             ->select('*')
             ->get();
 
-            return redirect()->route('showCarac', ['idmoto' => $idmoto])->with('catcarac', $catcarac);
+            $action = $request->input('action');
 
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        if ($action === 'finishLater') {
+            // Redirect to showMotoCommercial route with id = *put the idmoto here*
+            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+        } else {
+            // Redirect to showCarac with the idmoto and catcarac data
+            return redirect()->route('showCarac', ['idmoto' => $idmoto])->with('catcarac', $catcarac);
         }
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
 
 
     public function showMotoCommercial(Request $request)
