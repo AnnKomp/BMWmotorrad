@@ -237,12 +237,15 @@ class MotoController extends Controller
             ->where('idmoto', $idmoto)
             ->get();
 
+        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
+
         return view('moto-commercial', [
             'motoName' => $motoDetails->nommoto,
             'caracteristiques' => $caracteristiques,
             'options' => $options,
             'accessoires' => $accessoires,
             'idmoto' => $idmoto,
+            'packs' => $packs,
         ]);
     }
 
@@ -462,6 +465,66 @@ public function updateAccessoire(Request $request)
     }
 
 
+    public function showEditPack(Request $request)
+    {
+        $idmoto = $request->input('idmoto');
+        $idpack = $request->input('idpack');
+        // Retrieve the selected accessoire
+        $pack = DB::table('pack')
+            ->where('idmoto', $idmoto)
+            ->where('idpack', $idpack)
+            ->first();
 
+        return view('pack-update', [
+            'idmoto' => $idmoto,
+            'idpack' => $idpack,
+            'pack' => $pack,
+        ]);
+    }
+
+    public function updatePack(Request $request)
+    {
+        try {
+            $idmoto = $request->input('idmoto');
+            $idpack = $request->input('idpack');
+
+            $newPackName = $request->input('packName');
+            $newPackPrice = $request->input('packPrice');
+            $newPackDetail = $request->input('packDetail');
+            $newPackPhoto = $request->input('packPhoto');
+
+            // Update the accessoire
+            DB::table('pack')
+                ->where('idmoto', $idmoto)
+                ->where('idpack', $idpack)
+                ->update([
+                    'nompack' => $newPackName ,
+                    'prixpack' =>  $newPackPrice,
+                    'descriptionpack' => $newPackDetail,
+                    'photopack' =>  $newPackPhoto,
+                ]);
+
+            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deletePack(Request $request)
+    {
+        try {
+            $idmoto = $request->input('idmoto');
+            $idpack = $request->input('idpack');
+            // Retrieve the selected accessoire
+            DB::table('pack')
+                ->where('idmoto', $idmoto)
+                ->where('idpack', $idpack)
+                ->delete();
+
+            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 }

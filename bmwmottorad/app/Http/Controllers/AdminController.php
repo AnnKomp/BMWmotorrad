@@ -6,7 +6,8 @@ use App\Models\FraisLivraison;
 use App\Models\Equipement;
 use Illuminate\Http\Request;
 use App\Models\Gamme;
-use Illuminate\Support\Facades\DB;
+use App\Models\Coloris;
+use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -51,9 +52,24 @@ class AdminController extends Controller
                     ->where('idequipement','=',$identifiantEquipment)
                     ->first();
 
+        $colorisIds = DB::table('stock')
+                    ->select('idcoloris')
+                    ->where('idequipement', $identifiantEquipment)
+                    ->pluck('idcoloris')
+                    ->toArray();
+
+        $colorisOptions = DB::table('coloris')
+                    ->select('idcoloris', 'nomcoloris')
+                    ->whereIn('idcoloris', $colorisIds)
+                    ->get();
+
         $prixDeBase = $prix->prixequipement;
 
-        return view('modify-equipment-form', ['identifiantEquipment' => $identifiantEquipment, 'prixDeBase' => $prixDeBase]);
+        $coloris = Coloris::all();
+
+        //dd($coloris);
+
+        return view('modify-equipment-form', ['identifiantEquipment' => $identifiantEquipment, 'prixDeBase' => $prixDeBase, 'colorisOptions' => $colorisOptions, 'coloris' => $coloris ]);
     }
 
     public function updateEquipment(Request $request)
@@ -80,6 +96,29 @@ class AdminController extends Controller
             \Log::warning('Equipment not found for idequipement: ' . $request->input('identifiant_equipment'));
             return redirect()->route('update.result', ['result' => 'not_found']);
         }
+    }
+
+
+    public function addColorisEquipement(Request $request)
+    {
+        $colorisId = (int) $request->input('idcoloris');
+
+        $equipementId = (int) $request->input('idequipement');
+        $tailleId = 0;
+        $quantite = Null;
+
+        // Create a new Stock record
+        $stock = new Stock([
+            'idequipement' => $equipementId,
+            'idtaille' => $tailleId,
+            'idcoloris' => $colorisId,
+            'quantite' => $quantite,
+        ]);
+
+        // Save the new Stock record
+        $stock->save();
+
+        return view('update-result', ['result' => "add-success"]);
     }
 
 

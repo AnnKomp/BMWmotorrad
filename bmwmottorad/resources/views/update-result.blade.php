@@ -12,8 +12,10 @@
                     <p>Équipement mis à jour avec succès!</p>
                 @elseif($result === 'not_found')
                     <p>Équipement introuvable.</p>
-                    @elseif($result === 'negative')
+                @elseif($result === 'negative')
                     <p>Le prix doit être positif et non null.</p>
+                @elseif($result === 'add-success')
+                    <p>Coloris ajouté avec succès !</p>
                 @else
                     <p>Une erreur s'est produite lors de la mise à jour de l'équipement.</p>
                 @endif

@@ -21,6 +21,33 @@
                     <button type="submit" style="background-color: #bbbbbb">Mettre à jour</button>
                 </form>
             </div>
+            <br>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <p>Coloris actuels :</p>
+                <table>
+                    @foreach ($colorisOptions as $colori)
+                        <li>{{ $colori->nomcoloris }}</li>
+                    @endforeach
+                </table>
+
+                <br>
+
+                <form action="{{ route('equipement.coloris.add') }}" method="post">
+                    @csrf
+                    @method('post')
+                    <input type="hidden" name="idequipement" value="{{ $identifiantEquipment }}">
+                    <h3>Ajouter couleur :</h3>
+                    <select name="idcoloris" id="idcoloris">
+                        @foreach($coloris as $couleur)
+                            @if (!in_array($couleur->idcoloris, $colorisOptions->pluck('idcoloris')->toArray()))
+                                <option value="{{ $couleur->idcoloris }}">{{ $couleur->nomcoloris }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <button type="submit" style="background-color: #bbbbbb">Ajouter coloris</button>
+                </form>
+
+            </div>
         </div>
     </div>
 </x-commapp>

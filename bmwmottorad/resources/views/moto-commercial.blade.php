@@ -102,6 +102,32 @@
         </tbody>
     </table>
 
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Détail</th>
+                <th>Photo</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($packs as $pack)
+                <tr>
+                    <td>{{ $pack->nompack }}</td>
+                    <td>{{ $pack->prixpack }}</td>
+                    <td>{{ $pack->descriptionpack }}</td>
+                    <td id=photo><img id=eq src={{$pack->photopack }}></td>
+                    <td><a href="/edit-pack?idmoto={{$idmoto}}&idpack={{$pack->idpack}} ">M</a></td>
+                    <td><a href="/delete-pack?idmoto={{$idmoto}}&idpack={{$pack->idpack}} ">X</a></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
 </div>
     </div>
 </div>
