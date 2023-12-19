@@ -202,7 +202,7 @@ class MotoController extends Controller
 
         DB::update('UPDATE MODELEMOTO SET idmediapresentation = ' .$idmedia. 'where idmoto = ' .$idmoto);
 */
-            $idmoto=13;
+            $idmoto=11;
 
             $catcarac = DB::table('categoriecaracteristique')
             ->select('*')

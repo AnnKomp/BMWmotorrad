@@ -27,12 +27,12 @@
         <textarea name="motoDesc" id="motoDesc" rows="4" required></textarea>
 
         <label for="motoPrice">Prix :</label>
-        <input type="number" name="motoPrice" id="motoPrice" required>
+        <input type="number" name="motoPrice" id="motoPrice" min=1 required>
 
         <label for="mediaPresentation">Lien photo de présentation :</label>
         <input type="text" name="mediaPresentation" id="mediaPresentation" required>
 
-        <button type="submit">Suivant</button>
+        <button type="submit">Continuer la création </button>
     </form>
 
         </div></div></div>
