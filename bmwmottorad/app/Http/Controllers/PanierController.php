@@ -67,72 +67,102 @@ class PanierController extends Controller
     }
 
     public function addToCart(Request $request, $id)
-    {
-        $cart = $request->session()->get('cart', []);
+{
+    $cart = $request->session()->get('cart', []);
 
-        $cartItem = [
-            'id' => $id,
-            'quantity' => $request->input('quantity', 1),
-            'coloris' => $request->input('coloris'),
-            'taille' => $request->input('taille'),
-        ];
+    $cartItem = [
+        'id' => $id,
+        'quantity' => $request->input('quantity', 1),
+        'coloris' => $request->input('coloris'),
+        'taille' => $request->input('taille'),
+    ];
 
-        // Check if the item already exists in the cart with the same coloris and taille
-        $existingItemIndex = $this->findCartItemIndex($cart, $id, $cartItem['coloris'], $cartItem['taille']);
+    // Get the available stock for the requested coloris and taille
+    $stock = $this->getStock($id, $cartItem['coloris'], $cartItem['taille']);
 
-        if ($existingItemIndex !== null) {
-            // Update the quantity if the item with the same coloris and taille already exists
-            $cart[$id][$existingItemIndex]['quantity'] += $cartItem['quantity'];
+    // Check if the item already exists in the cart with the same coloris and taille
+    $existingItemIndex = $this->findCartItemIndex($cart, $id, $cartItem['coloris'], $cartItem['taille']);
+
+    if ($existingItemIndex !== null) {
+        // Update the quantity if the item with the same coloris and taille already exists
+        $cart[$id][$existingItemIndex]['quantity'] += $cartItem['quantity'];
+    } else {
+        // Ensure each item in the cart is an array
+        $cart[$id][] = $cartItem;
+    }
+
+    // Ensure the quantity does not exceed the available stock
+    $totalQuantity = 0;
+    foreach ($cart[$id] as &$item) {
+        $totalQuantity += $item['quantity'];
+    }
+    if ($totalQuantity > $stock) {
+        // Adjust quantities to not exceed the available stock
+        $factor = $stock / $totalQuantity;
+        foreach ($cart[$id] as &$item) {
+            $item['quantity'] = ceil($item['quantity'] * $factor);
+        }
+    }
+
+    $request->session()->put('cart', $cart);
+
+    // You can return a response if needed
+    return response()->json(['success' => true, 'message' => 'Equipement ajouté au panier']);
+}
+
+
+
+// Helper function to get the available stock for the given equipement, coloris, and taille
+private function getStock($equipementId, $colorisId, $tailleId)
+{
+    return DB::table('stock')
+        ->where('idequipement', $equipementId)
+        ->where('idcoloris', $colorisId)
+        ->where('idtaille', $tailleId)
+        ->value('quantite');
+}
+
+
+
+
+public function incrementQuantity(Request $request, $id, $index)
+{
+    $cart = $request->session()->get('cart', []);
+
+    if (isset($cart[$id][$index]['quantity'])) {
+        if ($this->canIncrement($id, $cart[$id][$index]['coloris'], $cart[$id][$index]['taille'])) {
+            $cart[$id][$index]['quantity']++;
+            $request->session()->put('cart', $cart);
         } else {
-            // Ensure each item in the cart is an array
-            $cart[$id][] = $cartItem;
+            return redirect()->back()->with('error', 'Cannot increment beyond stock.');
         }
+    }
 
+    return redirect()->back();
+}
+
+public function decrementQuantity(Request $request, $id, $index)
+{
+    $cart = $request->session()->get('cart', []);
+
+    if (isset($cart[$id][$index]) && $cart[$id][$index]['quantity'] > 1) {
+        $cart[$id][$index]['quantity']--;
         $request->session()->put('cart', $cart);
-
-        // You can return a response if needed
-        return response()->json(['success' => true, 'message' => 'Equipement ajouté au panier']);
     }
 
-    public function incrementQuantity(Request $request, $id,$index){
-        $cart = $request->session()->get('cart', []);
+    return redirect()->back();
+}
 
-        if (isset($cart[$id][$index]['quantity'])) {
-
-            if($this->canIncrement($id,$cart[$id][$index]['coloris'],$cart[$id][$index]['taille'])) {
-
-                $cart[$id][$index]['quantity'] ++;
-                $request->session()->put('cart', $cart);
-            }
-            else {
-                return redirect()->back()->with('error','Cannot increment beyond stock.');
-            }
-
-        }
-        return redirect()->back();
-    }
-
-    public function decrementQuantity(Request $request, $id,$index){
-        $cart = $request->session()->get('cart', []);
-
-        if (isset($cart[$id][$index]) && $cart[ $id][$index]['quantity'] > 1) {
-                $cart[$id][$index]['quantity'] --;
-                $request->session()->put('cart', $cart);
-
-
-        }
-        return redirect()->back();
-    }
-
-    private function canIncrement($equipementId,$coloris, $taille, $requestedQuantity = 1){
-        $stock = DB::table('stock')
-        ->where('idequipement',$equipementId)
-        ->where('idcoloris',$coloris)
-        ->where('idtaille',$taille)
+private function canIncrement($equipementId, $coloris, $taille, $requestedQuantity = 1)
+{
+    $stock = DB::table('stock')
+        ->where('idequipement', $equipementId)
+        ->where('idcoloris', $coloris)
+        ->where('idtaille', $taille)
         ->value('quantite');
 
-        return $stock > $requestedQuantity;
-    }
+    return $stock > $requestedQuantity;
+}
 
     private function findCartItemIndex($cart, $id, $coloris, $taille)
     {
