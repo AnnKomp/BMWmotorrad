@@ -469,36 +469,68 @@ public function updateAccessoire(Request $request)
             ->where('idpack', $idpack)
             ->first();
 
+        $options = DB::table('secompose')
+            ->select('*')
+            ->join('option','secompose.idoption','=','option.idoption')
+            ->where('idpack','=',$idpack)
+            ->get();
+
+        $AllOption = Option::all();
+
         return view('pack-update', [
             'idmoto' => $idmoto,
             'idpack' => $idpack,
             'pack' => $pack,
+            'options' => $options,
+            'alloptions' => $AllOption,
         ]);
     }
 
+
+    public function addOptionPack(Request $request)
+    {
+        //dd($request);
+        $idoption = $request->input('idoption');
+        $idpack = $request->idpack;
+
+        DB::table('secompose')->insert([
+            'idoption' => $idoption,
+            'idpack' => $idpack,
+        ]);
+
+        return redirect()->route('update.result', ['result' => 'ajouter']);
+    }
+
+
     public function updatePack(Request $request)
     {
+
         try {
-            $idmoto = $request->input('idmoto');
-            $idpack = $request->input('idpack');
+            if ($request->input('packPrice')>=0){
+                $idmoto = $request->input('idmoto');
+                $idpack = $request->input('idpack');
 
-            $newPackName = $request->input('packName');
-            $newPackPrice = $request->input('packPrice');
-            $newPackDetail = $request->input('packDetail');
-            $newPackPhoto = $request->input('packPhoto');
+                $newPackName = $request->input('packName');
+                $newPackPrice = $request->input('packPrice');
+                $newPackDetail = $request->input('packDetail');
+                $newPackPhoto = $request->input('packPhoto');
 
-            // Update the accessoire
-            DB::table('pack')
-                ->where('idmoto', $idmoto)
-                ->where('idpack', $idpack)
-                ->update([
-                    'nompack' => $newPackName ,
-                    'prixpack' =>  $newPackPrice,
-                    'descriptionpack' => $newPackDetail,
-                    'photopack' =>  $newPackPhoto,
-                ]);
+                // Update the accessoire
+                DB::table('pack')
+                    ->where('idmoto', $idmoto)
+                    ->where('idpack', $idpack)
+                    ->update([
+                        'nompack' => $newPackName ,
+                        'prixpack' =>  $newPackPrice,
+                        'descriptionpack' => $newPackDetail,
+                        'photopack' =>  $newPackPhoto,
+                    ]);
 
-            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+                return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+            }
+            else {
+                return redirect()->route('update.result', ['result' => 'negative']);
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -544,5 +576,19 @@ public function updateAccessoire(Request $request)
         $media->save();
 
         return redirect()->route('showAddPhoto', ['id' => $idmoto]);
+    }
+
+    public function deleteOptPack(Request $request)
+    {
+
+        $idoption = $request->input('idoption');
+        $idpack = $request->input('idpack');
+
+        DB::table('secompose')
+            ->where('idoption', $idoption)
+            ->where('idpack', $idpack)
+            ->delete();
+
+            return redirect()->route('update.result', ['result' => 'optsuppr']);
     }
 }

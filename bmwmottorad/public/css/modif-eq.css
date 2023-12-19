@@ -11,12 +11,13 @@ button {
 }
 
 #packDetail {
-    height: 30vh;
+    height: 20vh;
     width: 30vw;
     overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse */
 }
 
 #packPhoto {
+    height: 15vh;
     width: 30vw;
     overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse */
 }
