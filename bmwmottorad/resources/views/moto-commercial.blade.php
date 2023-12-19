@@ -128,7 +128,8 @@
         </tbody>
     </table>
 
-</div>
+    <h3 class="photos"><a class="photos" href="/add/photo?idmoto={{$idmoto}}">Ajouter photos</a></h3>
+        </div>
     </div>
 </div>
 

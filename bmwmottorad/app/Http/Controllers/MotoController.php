@@ -10,6 +10,7 @@ use App\Models\Option;
 use App\Models\Accessoire;
 use App\Models\Color;
 use App\Models\Gamme;
+use App\Models\Media;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
@@ -527,4 +528,28 @@ public function updateAccessoire(Request $request)
         }
     }
 
+    public function showAddPhoto(Request $request){
+        $idmoto = $request->input('idmoto');
+
+        return view('add-photo',['idmoto' => $idmoto]);
+    }
+
+    public function addphoto(Request $request){
+        $idmoto = $request->input('idmoto');
+        $lienmedia = $request->input('lienmedia');
+
+        //dd($request);
+
+        $media = new Media([
+            'idequipement' => Null,
+            'idmoto' => $idmoto,
+            'lienmedia' => $lienmedia,
+            'idpresentation' => Null,
+        ]);
+
+        // Save the new Stock record
+        $media->save();
+
+        return redirect()->route('showAddPhoto', ['id' => $idmoto]);
+    }
 }

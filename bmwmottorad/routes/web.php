@@ -161,6 +161,8 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
     Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
     Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
+    Route::get('/add/photo', [MotoController::class,'showAddPhoto'])->name('showAddPhoto');
+    Route::post('/add-photo', [MotoController::class,'addphoto'])->name('addPhoto');
 
 
     //////////////////////////      EDITING MOTOS      ///////////////////////////////

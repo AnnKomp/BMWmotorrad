@@ -39,6 +39,17 @@ h3{
     text-align: center;
 }
 
+h3.photos{
+    margin-block: 10%;
+}
+
+a.photos{
+    background-color: #333 ;
+    color: white;
+    padding-inline: 2vw;
+    padding-block: 1vh;
+}
+
 h4{
     font-style: italic;
     font-size: 24px;
@@ -52,3 +63,4 @@ h4{
 #eq {
     width: max-content;
 }
+
