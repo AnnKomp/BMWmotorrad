@@ -9,12 +9,15 @@ class CaracteristiqueController extends Controller
 {
 
     public function showAddingCarac(Request $request)
-    {
-        $idmoto = $request->input('idmoto');
-        $catcarac = $request->session()->get('catcarac'); // Change this line to the following
+{
+    $idmoto = $request->input('idmoto');
+    $catcarac = DB::table('categoriecaracteristique')
+        ->select('*')
+        ->get();
 
-        return view('add-caracteristique', ['idmoto' => $idmoto, 'catcarac' => $catcarac]);
-    }
+    return view('add-caracteristique', ['idmoto' => $idmoto, 'catcarac' => $catcarac]);
+}
+
 
     public function addCarac(Request $request)
     {

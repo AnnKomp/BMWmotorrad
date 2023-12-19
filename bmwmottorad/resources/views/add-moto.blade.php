@@ -32,7 +32,8 @@
         <label for="mediaPresentation">Lien photo de présentation :</label>
         <input type="text" name="mediaPresentation" id="mediaPresentation" required>
 
-        <button type="submit">Continuer la création </button>
+        <button type="submit">Continuer la création</button>
+        <button type="submit" name="action" value="finishLater">Finir la création plus tard</button>
     </form>
 
         </div></div></div>

@@ -1,5 +1,8 @@
 <x-commapp>
 
+    <link rel="stylesheet" type="text/css" href="{{asset('css/modif-eq.css')}}">
+
+
 @section('title', 'Ajouter une nouvelle option')
 
 <div class="py-12">
@@ -49,7 +52,14 @@
 
             <button type="submit" name="action" value="restart">Ajouter et Redémarrer</button>
             <button type="submit" name="action" value="proceedToAccessories">Ajouter et Passer aux Accessoires</button>
-            <a href="{{ route('startPage') }}"><button type="button">Annuler</button></a>
+
+            <a href="{{ route('showAcc', ['idmoto' => $idmoto]) }}">
+                <button type="button">Passer directement à Accessoires</button>
+            </a>
+
+            <a href="{{ route('showMotoCommercial', ['id' => $idmoto]) }}">
+                <button type="button">Annuler</button>
+            </a>
         </form>
     </div>
 
