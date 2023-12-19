@@ -12,6 +12,7 @@ use App\Models\Infocb;
 use App\Models\Professionnel;
 use App\Models\Prive;
 use App\Models\Commande;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -242,6 +243,13 @@ class ProfileController extends Controller
         $pro = Professionnel::where('idclient', $client->idclient)->first();
         $orders = Commande::where('idclient', $client->idclient)->get();
 
+        if($cb){
+            // Decrypting if the client has a saved Credit Card
+            $cb->numcarte = Crypt::decrypt($cb->numcarte);
+            $cb->titulairecompte = Crypt::decrypt($cb->titulairecompte);
+            $cb->dateexpiration = Crypt::decrypt($cb->dateexpiration);
+        }
+
         $pdf = PDF::loadView('pdf.client-data',  [
             'client' => $client,
             'adress' => $adress,
@@ -362,10 +370,8 @@ class ProfileController extends Controller
             ->where('idcoloris', $idcoloris)
             ->delete();
 
-<<<<<<< HEAD
                 return redirect()->route('profile.commands');
             }
-=======
         $nombreTotalArticles = DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->count();
@@ -375,7 +381,6 @@ class ProfileController extends Controller
             DB::table('commande')
                 ->where('idcommande', $idcommande)
                 ->update(['etat' => 2]);
->>>>>>> 9578d3ada443ebd3f2fdf24ed984f661f5b11361
 
             return redirect()->route('profile.commands')->with('success', 'Commande annulée avec succès.');
         }
@@ -383,14 +388,5 @@ class ProfileController extends Controller
         return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
             ->with('success', 'Article annulé avec succès, vous serez remboursé sous peu.');
     }
-
-    return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-        ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
-}
-
-
-
-
-
 }
 
