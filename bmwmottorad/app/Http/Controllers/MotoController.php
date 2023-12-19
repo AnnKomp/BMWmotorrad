@@ -10,6 +10,7 @@ use App\Models\Option;
 use App\Models\Accessoire;
 use App\Models\Color;
 use App\Models\Gamme;
+use App\Models\Media;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
@@ -237,12 +238,15 @@ class MotoController extends Controller
             ->where('idmoto', $idmoto)
             ->get();
 
+        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
+
         return view('moto-commercial', [
             'motoName' => $motoDetails->nommoto,
             'caracteristiques' => $caracteristiques,
             'options' => $options,
             'accessoires' => $accessoires,
             'idmoto' => $idmoto,
+            'packs' => $packs,
         ]);
     }
 
@@ -462,6 +466,90 @@ public function updateAccessoire(Request $request)
     }
 
 
+    public function showEditPack(Request $request)
+    {
+        $idmoto = $request->input('idmoto');
+        $idpack = $request->input('idpack');
+        // Retrieve the selected accessoire
+        $pack = DB::table('pack')
+            ->where('idmoto', $idmoto)
+            ->where('idpack', $idpack)
+            ->first();
 
+        return view('pack-update', [
+            'idmoto' => $idmoto,
+            'idpack' => $idpack,
+            'pack' => $pack,
+        ]);
+    }
 
+    public function updatePack(Request $request)
+    {
+        try {
+            $idmoto = $request->input('idmoto');
+            $idpack = $request->input('idpack');
+
+            $newPackName = $request->input('packName');
+            $newPackPrice = $request->input('packPrice');
+            $newPackDetail = $request->input('packDetail');
+            $newPackPhoto = $request->input('packPhoto');
+
+            // Update the accessoire
+            DB::table('pack')
+                ->where('idmoto', $idmoto)
+                ->where('idpack', $idpack)
+                ->update([
+                    'nompack' => $newPackName ,
+                    'prixpack' =>  $newPackPrice,
+                    'descriptionpack' => $newPackDetail,
+                    'photopack' =>  $newPackPhoto,
+                ]);
+
+            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deletePack(Request $request)
+    {
+        try {
+            $idmoto = $request->input('idmoto');
+            $idpack = $request->input('idpack');
+            // Retrieve the selected accessoire
+            DB::table('pack')
+                ->where('idmoto', $idmoto)
+                ->where('idpack', $idpack)
+                ->delete();
+
+            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function showAddPhoto(Request $request){
+        $idmoto = $request->input('idmoto');
+
+        return view('add-photo',['idmoto' => $idmoto]);
+    }
+
+    public function addphoto(Request $request){
+        $idmoto = $request->input('idmoto');
+        $lienmedia = $request->input('lienmedia');
+
+        //dd($request);
+
+        $media = new Media([
+            'idequipement' => Null,
+            'idmoto' => $idmoto,
+            'lienmedia' => $lienmedia,
+            'idpresentation' => Null,
+        ]);
+
+        // Save the new Stock record
+        $media->save();
+
+        return redirect()->route('showAddPhoto', ['id' => $idmoto]);
+    }
 }

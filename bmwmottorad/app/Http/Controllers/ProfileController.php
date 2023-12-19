@@ -334,7 +334,7 @@ class ProfileController extends Controller
         $quantite = $contenuCommande->quantite;
 
         // Effectuez le remboursement
-        $montantRemboursement = $prixEquipement * $quantite;
+        $montantRemboursement = -($prixEquipement * $quantite);
 
         // Ajoutez une transaction de remboursement dans la table "transaction"
         DB::table('transaction')->insert([

@@ -146,7 +146,10 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
 
     Route::get('/motos-commercial', [AdminController::class, 'motolistCom'])->name('motos-com');
 
-    ////////////////////////////  ADDING STUFF     /////////////////////////////
+    Route::get('/motos-commercial', [AdminController::class, 'motolistCom'])->name('motos-com');
+
+
+    ////////////////////////////  ADDING MOTOS     /////////////////////////////
 
     Route::get('/add/gamme', [GammeController::class, 'index'])->name('addGammeCom');
     Route::post('/add-gamme', [GammeController::class, 'addGamme']);
@@ -158,9 +161,11 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/add-moto-option', [OptionController::class,'addOption'])->name('addOption');
     Route::get('add/moto/accessoire', [AccessoireController::class,'showAddingAcc'])->name('showAcc');
     Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
+    Route::get('/add/photo', [MotoController::class,'showAddPhoto'])->name('showAddPhoto');
+    Route::post('/add-photo', [MotoController::class,'addphoto'])->name('addPhoto');
 
 
-    //////////////////////////      EDITING STUFF      ///////////////////////////////
+    //////////////////////////      EDITING MOTOS      ///////////////////////////////
 
     Route::get('/moto-commercial', [MotoController::class, 'showMotoCommercial'])->name('showMotoCommercial');
     Route::get('/edit-caracteristique', [MotoController::class, 'showEditCaracteristique'])->name('editCaracteristic');
@@ -169,11 +174,31 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/update-option', [MotoController::class, 'updateOption'])->name('updateOption');
     Route::get('/edit-accessoire', [MotoController::class, 'showEditAccessoire'])->name('editAccessoire');
     Route::post('/update-accessoire', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');
+    Route::get('/edit-pack', [MotoController::class, 'showEditPack'])->name('editPack');
+    Route::post('/update-pack', [MotoController::class, 'updatePack'])->name('updatePack');
 
-    //////////////////////////     DELETING STUFF    /////////////////////////////////////
+    //////////////////////////     DELETING MOTOS    /////////////////////////////////////
 
     Route::get('/delete-option', [MotoController::class, 'deleteOption'])->name('deleteOption');
     Route::get('/delete-accessoire', [MotoController::class, 'deleteAccessoire'])->name('deleteAccessoire');
+    Route::get('/delete-pack', [MotoController::class, 'deletePack'])->name('deletePack');
+
+
+    //////////////////////////     EDITING EQUIPMENTS    /////////////////////////////////////
+
+    Route::get('/modifequipment', [AdminController::class, 'modifequipment'])->name('modifequipment');
+    Route::post('/modify-equipment', [AdminController::class, 'showEquipmentModificationForm'])->name('equipment.modify');
+    Route::post('/update-equipment', [AdminController::class, 'updateEquipment'])->name('equipment.update');
+    Route::post('/add-coloris-equipment', [AdminController::class, 'addColorisEquipement'])->name('equipement.coloris.add');
+    Route::get('/update-result/{result}', [AdminController::class, 'showUpdateResult'])->name('update.result');
+
+
+    //////////////////////////     EDITING EQUIPMENTS    /////////////////////////////////////
+
+    Route::get('/modifequipment', [AdminController::class, 'modifequipment'])->name('modifequipment');
+    Route::post('/modify-equipment', [AdminController::class, 'showEquipmentModificationForm'])->name('equipment.modify');
+    Route::post('/update-equipment', [AdminController::class, 'updateEquipment'])->name('equipment.update');
+    Route::get('/update-result/{result}', [AdminController::class, 'showUpdateResult'])->name('update.result');
 
 
 });

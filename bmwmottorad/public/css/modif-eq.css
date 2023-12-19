@@ -9,3 +9,14 @@ button {
 #optPhoto, #accPhoto {
     width: 300px;
 }
+
+#packDetail {
+    height: 30vh;
+    width: 30vw;
+    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse */
+}
+
+#packPhoto {
+    width: 30vw;
+    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse */
+}

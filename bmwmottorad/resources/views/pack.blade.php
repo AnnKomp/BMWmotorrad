@@ -15,39 +15,6 @@
 <p> {{ $thepack->descriptionpack }}</p>
 @endforeach
 
-{{--
-<h2>Les options du pack :</h2>
-<table>
-    <tr>
-        <th>Nom</th>
-        <th>Detail</th>
-        <th>Plus d'infos</th>
-    </tr>
-</table>
-
-@forelse($options as $option)
-
-<table>
-
-<tr>
-    <td id="name">{{ $option->nomoption }}</td>
-    <td>{{ $option->detailoption }}</td>
-    <td><img src="{{ $option->photooption }}"></td>
-    <td>
-        <a href="{{ url('/option?id=' . $option->idoption . '&idpack=' . $idpack) . '&route=pack'}}">
-            <i class="fa fa-info-circle"></i>
-        </a>
-    </td>
-</tr>
-
-</table>
-@empty
-<p>Ce pack ne comporte pas d'options ou ils n'etaient pas encore spécifiés</p>
-@endforelse --}}
-
-
-
-
 <h2>Les options du pack :</h2>
 
 @if(count($options) > 0)
