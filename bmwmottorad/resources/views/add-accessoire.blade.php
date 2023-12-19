@@ -12,6 +12,7 @@
 
     <h2>Ajouter un accessoire</h2>
 
+    <br>
     <form action="{{ route('addAccessoire') }}" method="post">
         @csrf
 
@@ -28,6 +29,7 @@
         <label for="accName">Nom de l'accessoire :</label>
         <input type="text" name="accName" id="accName" required>
 
+        <br><br>
         <label for="accPrice">Prix :</label>
         <input type="number" name="accPrice" id="accPrice" required>
 
@@ -35,9 +37,10 @@
         <label for="accDetail">Détail :</label>
         <textarea rows="4" name="accDetail" id="accDetail" required></textarea>
 
+        <br><b></b>
         <label for="accPhoto">Lien photo :</label>
         <input type="url" name="accPhoto" id="accPhoto" required>
-<br>
+<br><br>
 
         <button type="submit" name="action" value="proceedAgain">Ajouter et Continuer</button>
         <button type="submit" name="action" value="next">Ajouter et Finir</button>

@@ -11,6 +11,7 @@
 
 
     <h2>Ajouter une nouvelle option</h2>
+    <br>
 
     <div class="option-form-container">
         <form action="{{ route('addOption') }}" method="post">
@@ -24,22 +25,27 @@
             <label for="newOptionPrice">Prix de la nouvelle option :</label>
             <input type="number" name="newOptionPrice" id="newOptionPrice" required>
 
+            <br><br>
             <label for="newOptionDetail">Détails de la nouvelle option :</label>
             <textarea name="newOptionDetail" id="newOptionDetail" rows="4" required></textarea>
 
+            <br><br>
             <label for="newOptionPhotoUrl">URL de la photo de la nouvelle option :</label>
             <input type="url" name="newOptionPhotoUrl" id="newOptionPhotoUrl" required>
 
+            <br><br>
             <button type="submit" name="action" value="restart">Ajouter et Redémarrer</button>
             <button type="submit" name="action" value="proceedToAccessories">Ajouter et Passer aux Accessoires</button>
         </form>
     </div>
 
+    <br><br><br>
     <div class="existing-options-container">
         <h3>Options existantes</h3>
         <form action="{{ route('addOption') }}" method="post">
             @csrf
 
+            <br>
             <input type="hidden" name="idmoto" value="{{ $idmoto }}">
 
             <label for="existingOption">Sélectionner une option existante :</label>
@@ -50,6 +56,7 @@
                 @endforeach
             </select>
 
+            <br><br>
             <button type="submit" name="action" value="restart">Ajouter et Redémarrer</button>
             <button type="submit" name="action" value="proceedToAccessories">Ajouter et Passer aux Accessoires</button>
 

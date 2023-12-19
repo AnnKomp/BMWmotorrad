@@ -23,15 +23,16 @@
         <label for="motoName">Nom de la moto :</label>
         <input type="text" name="motoName" id="motoName" required>
 
+        <br><br>
         <label for="motoDesc">Descriptif :</label>
         <textarea name="motoDesc" id="motoDesc" rows="4" required></textarea>
 
         <label for="motoPrice">Prix :</label>
         <input type="number" name="motoPrice" id="motoPrice" min=1 required>
-
+<br><br>
         <label for="mediaPresentation">Lien photo de présentation :</label>
         <input type="text" name="mediaPresentation" id="mediaPresentation" required>
-
+<br><br>
         <button type="submit">Continuer la création</button>
         <button type="submit" name="action" value="finishLater">Finir la création plus tard</button>
     </form>
