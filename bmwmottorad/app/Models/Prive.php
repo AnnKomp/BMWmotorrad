@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prive extends Model
 {
+    protected $fillable = [
+        'idclient'
+    ];
     use HasFactory;
     protected $table = "prive";
     protected $primaryKey = "idprive";

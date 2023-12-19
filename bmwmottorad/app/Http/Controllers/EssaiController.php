@@ -16,7 +16,13 @@ class EssaiController extends Controller
         return view("essai", ['idmoto' => $idmoto, 'concessionnaires' => Concessionnaire::all() ]);
     }
 
+    /**
+     * Store a new trial request
+     */
     public function store(Request $request){
+        /**
+         * Check that form was filled correctly
+         */
         $request->validate([
             'firstname' => ['required', 'string', 'max:100'],
             'lastname' => ['required', 'string', 'max:100'],
@@ -26,34 +32,30 @@ class EssaiController extends Controller
             'objet' => ['required', 'string', 'max:500']
         ]);
 
-        DB::table('contactinfo')->insert(
-            array(
-                'nomcontact' => $request->lastname,
-                'prenomcontact' => $request->firstname,
-                'datenaissancecontact' => $request->datenaissance,
-                'emailcontact' => $request->email,
-                'telcontact' => $request->telephone
-            )
-        );
+        /**
+         * Create the new contact information
+         */
+        $b = ContactInfo::Create([
+            'nomcontact' => $request->lastname,
+            'prenomcontact' => $request->firstname,
+            'datenaissancecontact' => $request->datenaissance,
+            'emailcontact' => $request->email,
+            'telcontact' => $request->telephone
+        ]);
 
+        /**
+         * Create the new trial request
+         */
+        DemandeEssai::Create([
+            'idconcessionnaire' => $request->concessionnaire,
+            'idmoto' => $request->idmoto,
+            'idcontact' => $b->idcontact,
+            'descriptifdemandeessai' => $request->objet
+        ]);
 
-        $b = new ContactInfo;
-        $b -> nomcontact = $request->lastname;
-        $b -> prenomcontact = $request->firstname;
-        $b -> datenaissancecontact = $request->datenaissance;
-        $b -> emailcontact = $request->email;
-        $b -> telcontact = $request->telephone;
-
-        $b -> save();
-
-        $c = new DemandeEssai;
-        $c->idconcessionnaire = $request->concessionnaire;
-        $c->idmoto = $request->idmoto;
-        $c->idcontact = $b->idcontact;
-        $c->descriptifdemandeessai = $request->objet;
-
-        $c->save();
-
+        /**
+         * Redirect to a simple view to confirm the request has been sent
+         */
         return redirect('/moto/essai/confirmation');
     }
 

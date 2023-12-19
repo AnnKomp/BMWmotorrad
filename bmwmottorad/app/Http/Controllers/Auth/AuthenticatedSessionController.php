@@ -34,17 +34,21 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // Check if the user finished his account creation
         if($request->user()->iscomplete == false){
             return redirect('registersuite');
         }
 
+        // Update the last connection date of the user
         $request->user()->lastconnected = date('Y-m-d');
         $request->user()->save();
 
+        // Redirect to the double authentification page if activated
         if($request->user()->doubleauth){
             return redirect('/login/phoneverification');
         }
 
+        // Else redirects to the user's dashboard
         return redirect('/dashboard');
     }
 

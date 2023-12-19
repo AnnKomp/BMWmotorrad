@@ -12,6 +12,10 @@ class AnonController extends Controller
         return view('profile.anon');
     }
 
+    /**
+     * Function that executes an sql function to anonymize all clients who have not connected since the date given in the requets form.
+     * The date has to be at least one year old from today
+     */
     public function execute(Request $request): RedirectResponse
     {
         $request->validate([
@@ -20,6 +24,6 @@ class AnonController extends Controller
 
         DB::select("select delete_inactive_clients('".date('Y-m-d', strtotime($request->date))."')");
 
-        return redirect()->route('dpoanon')->with('success', 'Comptes anonymisés.');
+        return redirect()->route('dpoanon')->with('status', 'data_anonymised');
     }
 }

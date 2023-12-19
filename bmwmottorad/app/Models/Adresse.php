@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Adresse extends Model
 {
+
+    protected $fillable = [
+        'nompays',
+        'adresse'
+    ];
     use HasFactory;
     protected $table = "adresse";
     protected $primaryKey = "numadresse";

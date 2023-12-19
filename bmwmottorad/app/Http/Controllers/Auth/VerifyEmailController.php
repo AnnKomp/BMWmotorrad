@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
+//Not used
 class VerifyEmailController extends Controller
 {
     /**

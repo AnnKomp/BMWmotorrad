@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Professionnel extends Model
 {
+    protected $fillable = [
+        'idclient',
+        'nomcompagnie'
+    ];
     use HasFactory;
     protected $table = "professionnel";
     protected $primaryKey = "idpro";

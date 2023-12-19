@@ -127,12 +127,15 @@ Route::middleware('auth')->group(function () {
     //Controller for the Phone verification
     Route::get('/login/phoneverification', [PhoneVerificationController::class, 'create'])->name('phoneverification');
     Route::post('/login/phoneverification', [PhoneVerificationController::class, 'store'])->name('phoneverification');
-    //Controller for the commands
+    //Controller for the orders
+    // Stripe payment
     Route::get('/panier/commandestripe', [CommandeController::class, 'createstripe']);
     Route::post('/panier/commandestripe', [CommandeController::class, 'paystripe'])->name('paymentstripe');
     Route::get('/panier/commande/success', [CommandeController::class, 'success'])->name('commandesuccess');
+    // CB payment
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
+    // Client data 
     Route::get('/profiledata', [ProfileController::class, 'indexPDF'])->name('profile.clientdata');
     Route::post('/profiledata', [ProfileController::class, 'generatePDF'])->name('profile.clientdownload');
 });
