@@ -129,9 +129,10 @@
     </table>
 
     <h3 class="photos"><a class="photos" href="/add/photo?idmoto={{$idmoto}}">Ajouter photos</a></h3>
-    <h3 class="photos"><a class="photos" href="/add/moto/caracteristic?idmoto={{$idmoto}}">Ajouter caracteristiques</a></h3>
+    <h3 class="photos"><a class="photos" href="/add/moto/characteristic?idmoto={{$idmoto}}">Ajouter caracteristiques</a></h3>
     <h3 class="photos"><a class="photos" href="/add/moto/option?idmoto={{$idmoto}}">Ajouter options</a></h3>
     <h3 class="photos"><a class="photos" href="/add/moto/accessoire?idmoto={{$idmoto}}">Ajouter accessoires</a></h3>
+    <h3 class="photos"><a class="photos" href="/add/moto/pack?idmoto={{$idmoto}}">Ajouter Packs</a></h3>
         </div>
     </div>
 </div>

@@ -86,6 +86,28 @@ class PackController extends Controller
         return redirect('/options?id=' . $idmoto);
     }
 
+    public function showAddingPack(Request $request)
+    {
+        $idmoto = $request->input('idmoto');
 
+        return view('add-pack', ['idmoto' => $idmoto]);
+    }
+
+    public function addPack(Request $request)
+    {
+
+        $pack = new Pack([
+            'idmoto' => $request->input('idmoto'),
+            'nompack' => $request->input('nompack'),
+            'descriptionpack' => $request->input('descriptionpack'),
+            'photopack' => $request->input('photopack'),
+            'prixpack' => $request->input('prixpack'),
+        ]);
+
+        $pack->save();
+
+
+        return redirect()->route('nom_de_votre_route');
+    }
 
 }

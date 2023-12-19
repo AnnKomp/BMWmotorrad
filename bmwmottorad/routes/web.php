@@ -160,6 +160,8 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/add-moto-accessoire', [AccessoireController::class,'addAcc'])->name('addAccessoire');
     Route::get('/add/photo', [MotoController::class,'showAddPhoto'])->name('showAddPhoto');
     Route::post('/add-photo', [MotoController::class,'addphoto'])->name('addPhoto');
+    Route::get('/add/moto/pack', [PackController::class,'showAddingPack'])->name('showPack');
+    Route::post('/add-moto-pack', [PackController::class, 'addPack'])->name('addPack');
 
 
     //////////////////////////      EDITING MOTOS      ///////////////////////////////
