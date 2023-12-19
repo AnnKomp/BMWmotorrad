@@ -147,7 +147,6 @@ class MotoController extends Controller
         $idmoto = $request->input('id');
         $packs = Pack::where('idmoto', $idmoto)->get();
 
-        // Assuming you have the necessary data for $motos
         $motos = DB::table('modelemoto')
         ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
         ->whereColumn('idmediapresentation','idmedia')
@@ -162,7 +161,6 @@ class MotoController extends Controller
         $idmoto = $request->input('id');
         $colors = Color::where('idmoto', $idmoto)->get();
 
-        // Assuming you have the necessary data for $motos
         $motos = DB::table('modelemoto')
             ->select('*')
             ->join('media', 'media.idmoto','=','modelemoto.idmoto')
@@ -184,7 +182,7 @@ class MotoController extends Controller
 
     public function addMoto(Request $request) {
         try {
-            /*
+
         $newMotoGamme = $request->input('motoGamme');
         $newMotoName = $request->input('motoName');
         $newMotoDesc = $request->input('motoDesc');
@@ -201,8 +199,7 @@ class MotoController extends Controller
         $idmedia = DB::getPdo()->lastInsertId();
 
         DB::update('UPDATE MODELEMOTO SET idmediapresentation = ' .$idmedia. 'where idmoto = ' .$idmoto);
-*/
-            $idmoto=11;
+
 
             $catcarac = DB::table('categoriecaracteristique')
             ->select('*')
@@ -211,10 +208,8 @@ class MotoController extends Controller
             $action = $request->input('action');
 
         if ($action === 'finishLater') {
-            // Redirect to showMotoCommercial route with id = *put the idmoto here*
             return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
         } else {
-            // Redirect to showCarac with the idmoto and catcarac data
             return redirect()->route('showCarac', ['idmoto' => $idmoto])->with('catcarac', $catcarac);
         }
     } catch (\Exception $e) {
@@ -293,7 +288,6 @@ class MotoController extends Controller
         $newCarName = $request->input('carName');
         $newCarValue = $request->input('carValue');
 
-        // Update the characteristic
         DB::table('caracteristique')
             ->where('idmoto', $idmoto)
             ->where('idcaracteristique', $idcaracteristique)
@@ -303,7 +297,6 @@ class MotoController extends Controller
                 'valeurcaracteristique' => $newCarValue,
             ]);
 
-        // Fetch updated data
         $caracteristiques = DB::table('caracteristique as c')
             ->join('categoriecaracteristique as cc', 'c.idcatcaracteristique', '=', 'cc.idcatcaracteristique')
             ->where('c.idmoto', $idmoto)
@@ -320,10 +313,8 @@ class MotoController extends Controller
             ->where('idmoto', $idmoto)
             ->get();
 
-        // Fetch moto details
         $motoDetails = DB::table('modelemoto')->where('idmoto', $idmoto)->first();
 
-        // Redirect back to moto-commercial page with updated data
         return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
 
     } catch (\Exception $e) {
@@ -341,7 +332,7 @@ class MotoController extends Controller
 
         $idmoto = $request->input('idmoto');
         $idoption = $request->input('idoption');
-        // Retrieve the selected option
+
         $option = DB::table('option as o')
             ->join('specifie as s', 'o.idoption', '=', 's.idoption')
             ->where('s.idmoto', $idmoto)
@@ -363,7 +354,6 @@ class MotoController extends Controller
 
         $idmoto = $request->input('idmoto');
         $idaccessoire = $request->input('idaccessoire');
-        // Retrieve the selected accessoire
         $accessoire = DB::table('accessoire')
             ->where('idmoto', $idmoto)
             ->where('idaccessoire', $idaccessoire)
@@ -387,7 +377,6 @@ class MotoController extends Controller
         $newOptDetail = $request->input('optDetail');
         $newOptPhoto = $request->input('optPhoto');
 
-        // Update the option
         DB::table('option as o')
             ->join('specifie as s', 'o.idoption', '=', 's.idoption')
             ->where('idmoto', $idmoto)
@@ -416,7 +405,6 @@ public function updateAccessoire(Request $request)
         $newAccDetail = $request->input('accDetail');
         $newAccPhoto = $request->input('accPhoto');
 
-        // Update the accessoire
         DB::table('accessoire')
             ->where('idmoto', $idmoto)
             ->where('idaccessoire', $idaccessoire)
@@ -442,7 +430,6 @@ public function updateAccessoire(Request $request)
             $idmoto = $request->input('idmoto');
             $idoption = $request->input('idoption');
 
-            // Delete the option from the 'specifie' table
             DB::table('specifie')
                 ->where('idmoto', $idmoto)
                 ->where('idoption', $idoption)
@@ -460,7 +447,6 @@ public function updateAccessoire(Request $request)
             $idmoto = $request->input('idmoto');
             $idaccessoire = $request->input('idaccessoire');
 
-            // Delete the accessoire from the 'accessoire' table
             DB::table('accessoire')
                 ->where('idmoto', $idmoto)
                 ->where('idaccessoire', $idaccessoire)

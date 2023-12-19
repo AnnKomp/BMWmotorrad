@@ -110,19 +110,12 @@ class OptionController extends Controller
                 $idoption = null;
 
                 if ($request->has('newOptionName')) {
-                    // Adding a new option
+
                     $newOptionName = $request->input('newOptionName');
                     $newOptionPrice = $request->input('newOptionPrice');
                     $newOptionDetail = $request->input('newOptionDetail');
                     $newOptionPhotoUrl = $request->input('newOptionPhotoUrl');
 
-                    // Insert into the 'option' table
-                    /*$idoption = DB::table('option')->insertGetId([
-                        'nomoption' => $newOptionName,
-                        'prixoption' => $newOptionPrice,
-                        'detailoption' => $newOptionDetail,
-                        'photooption' => $newOptionPhotoUrl,
-                    ]);*/
 
                     DB::insert('INSERT INTO option(nomoption, prixoption,detailoption,photooption) values (?,?,?,?)',
                      [$newOptionName, $newOptionPrice, $newOptionDetail, $newOptionPhotoUrl]);
@@ -133,11 +126,9 @@ class OptionController extends Controller
 
 
                 } elseif ($request->has('existingOption')) {
-                    // Adding an existing option
                     $idoption = $request->input('existingOption');
                 }
 
-                // Insert into the 'specifie' table
                 DB::table('specifie')->insert([
                     'idmoto' => $idmoto,
                     'idoption' => $idoption,
@@ -148,7 +139,6 @@ class OptionController extends Controller
                     return redirect()->route('showOption', ['idmoto' => $idmoto]);
 
                 } elseif ($action === 'proceedToAccessories') {
-                    // Redirect to the accessories view or add logic as needed
                     return redirect()->route('showAcc', ['idmoto' => $idmoto]);
                 }
             } else {

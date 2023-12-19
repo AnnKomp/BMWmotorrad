@@ -50,24 +50,6 @@ class PackController extends Controller
     }
 
 
-/// inutile?
-    // public function selectedOptions(Request $request)
-    // {
-    //     $idmoto = $request->input('id');
-
-    //     $selectedPacks = $request->input('packs',[]);
-
-    //     $options = Option::join('specifie','option.idoption','=','specifie.idoption')
-    //                     ->where('specifie.idmoto','=',$idmoto)
-    //                     ->get();
-
-
-    //     return view('optionSelection', ['selectedPacks'=> $selectedPacks,
-    //                                     'idmoto'=>$idmoto,
-    //                                     'options'=>$options]);
-    // }
-
-
     public function showPacksForm(Request $request)
     {
         $idmoto = $request->input('id');

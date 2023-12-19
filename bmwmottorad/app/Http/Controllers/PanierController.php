@@ -13,7 +13,6 @@ class PanierController extends Controller
     $cart = $request->session()->get('cart', []);
     $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
 
-    // Retrieve coloris, taille, and quantity names based on their IDs
     foreach ($equipements as $equipement) {
         foreach ($cart[$equipement->idequipement] as &$cartItem) {
             $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
@@ -23,21 +22,23 @@ class PanierController extends Controller
             $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
 
             $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
+
+            // Add stock information to the cart item
+            $cartItem['stock'] = $this->getStock($equipement->idequipement, $cartItem['coloris'], $cartItem['taille']);
         }
     }
 
     return view('panier', compact('equipements', 'cart'));
 }
 
+
     private function getColorisName($colorisId)
     {
-        // Retrieve coloris name based on ID
         return DB::table('coloris')->where('idcoloris', $colorisId)->value('nomcoloris');
     }
 
     private function getTailleName($tailleId)
     {
-        // Retrieve taille name based on ID
         return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
     }
 
@@ -77,42 +78,34 @@ class PanierController extends Controller
         'taille' => $request->input('taille'),
     ];
 
-    // Get the available stock for the requested coloris and taille
     $stock = $this->getStock($id, $cartItem['coloris'], $cartItem['taille']);
 
-    // Check if the item already exists in the cart with the same coloris and taille
+    if (!$this->canAddToCart($cartItem, $stock)) {
+        return response()->json(['success' => false, 'message' => 'Cannot add more items than available in stock']);
+    }
+
     $existingItemIndex = $this->findCartItemIndex($cart, $id, $cartItem['coloris'], $cartItem['taille']);
 
     if ($existingItemIndex !== null) {
-        // Update the quantity if the item with the same coloris and taille already exists
         $cart[$id][$existingItemIndex]['quantity'] += $cartItem['quantity'];
     } else {
-        // Ensure each item in the cart is an array
         $cart[$id][] = $cartItem;
-    }
-
-    // Ensure the quantity does not exceed the available stock
-    $totalQuantity = 0;
-    foreach ($cart[$id] as &$item) {
-        $totalQuantity += $item['quantity'];
-    }
-    if ($totalQuantity > $stock) {
-        // Adjust quantities to not exceed the available stock
-        $factor = $stock / $totalQuantity;
-        foreach ($cart[$id] as &$item) {
-            $item['quantity'] = ceil($item['quantity'] * $factor);
-        }
     }
 
     $request->session()->put('cart', $cart);
 
-    // You can return a response if needed
     return response()->json(['success' => true, 'message' => 'Equipement ajouté au panier']);
+}
+
+private function canAddToCart($cartItem, $stock)
+{
+    $requestedQuantity = $cartItem['quantity'];
+
+    return $stock >= $requestedQuantity;
 }
 
 
 
-// Helper function to get the available stock for the given equipement, coloris, and taille
 private function getStock($equipementId, $colorisId, $tailleId)
 {
     return DB::table('stock')
@@ -121,7 +114,6 @@ private function getStock($equipementId, $colorisId, $tailleId)
         ->where('idtaille', $tailleId)
         ->value('quantite');
 }
-
 
 
 
@@ -166,7 +158,6 @@ private function canIncrement($equipementId, $coloris, $taille, $requestedQuanti
 
     private function findCartItemIndex($cart, $id, $coloris, $taille)
     {
-        // Find the index of the item in the cart with the same coloris and taille
         if (isset($cart[$id])) {
             foreach ($cart[$id] as $index => $item) {
                 if (
@@ -184,7 +175,6 @@ private function canIncrement($equipementId, $coloris, $taille, $requestedQuanti
 
     private function getFirstColorisOptionForEquipement($equipementId)
     {
-        // Retrieve the first coloris option for the equipement         MANQUE LE JOIN
         return DB::table('coloris')
             ->select('coloris.idcoloris')
             ->join('stock','stock.idcoloris','=','coloris.idcoloris')
@@ -194,20 +184,14 @@ private function canIncrement($equipementId, $coloris, $taille, $requestedQuanti
     }
 
 
-
-
-
-
     public function removeItem(Request $request, $id, $index)
 {
     $cart = $request->session()->get('cart', []);
 
-    // Remove the item at the specified index
     if (isset($cart[$id][$index])) {
         unset($cart[$id][$index]);
 
-        // If the item array is empty, remove the whole entry
-        if (empty($cart[$id])) {
+            if (empty($cart[$id])) {
             unset($cart[$id]);
         }
 
