@@ -483,12 +483,38 @@ public function updateAccessoire(Request $request)
             ->where('idpack', $idpack)
             ->first();
 
+        $options = DB::table('secompose')
+            ->select('*')
+            ->join('option','secompose.idoption','=','option.idoption')
+            ->where('idpack','=',$idpack)
+            ->get();
+
+        $AllOption = Option::all();
+
         return view('pack-update', [
             'idmoto' => $idmoto,
             'idpack' => $idpack,
             'pack' => $pack,
+            'options' => $options,
+            'alloptions' => $AllOption,
         ]);
     }
+
+
+    public function addOptionPack(Request $request)
+    {
+        //dd($request);
+        $idoption = $request->input('idoption');
+        $idpack = $request->idpack;
+
+        DB::table('secompose')->insert([
+            'idoption' => $idoption,
+            'idpack' => $idpack,
+        ]);
+
+        return redirect()->route('update.result', ['result' => 'ajouter']);
+    }
+
 
     public function updatePack(Request $request)
     {
@@ -564,5 +590,19 @@ public function updateAccessoire(Request $request)
         $media->save();
 
         return redirect()->route('showAddPhoto', ['id' => $idmoto]);
+    }
+
+    public function deleteOptPack(Request $request)
+    {
+
+        $idoption = $request->input('idoption');
+        $idpack = $request->input('idpack');
+
+        DB::table('secompose')
+            ->where('idoption', $idoption)
+            ->where('idpack', $idpack)
+            ->delete();
+
+            return redirect()->route('update.result', ['result' => 'optsuppr']);
     }
 }

@@ -175,12 +175,14 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/update-accessoire', [MotoController::class, 'updateAccessoire'])->name('updateAccessoire');
     Route::get('/edit-pack', [MotoController::class, 'showEditPack'])->name('editPack');
     Route::post('/update-pack', [MotoController::class, 'updatePack'])->name('updatePack');
+    Route::post('/add-pack-option', [MotoController::class, 'addOptionPack'])->name('addOptionPack');
 
     //////////////////////////     DELETING MOTOS    /////////////////////////////////////
 
     Route::get('/delete-option', [MotoController::class, 'deleteOption'])->name('deleteOption');
     Route::get('/delete-accessoire', [MotoController::class, 'deleteAccessoire'])->name('deleteAccessoire');
     Route::get('/delete-pack', [MotoController::class, 'deletePack'])->name('deletePack');
+    Route::get('/delete-option-pack', [MotoController::class, 'deleteOptPack'])->name('deleteOptPack');
 
 
     //////////////////////////     EDITING EQUIPMENTS    /////////////////////////////////////
@@ -191,13 +193,6 @@ Route::middleware(['auth', 'checkAdminType'])->group(function () {
     Route::post('/add-coloris-equipment', [AdminController::class, 'addColorisEquipement'])->name('equipement.coloris.add');
     Route::get('/update-result/{result}', [AdminController::class, 'showUpdateResult'])->name('update.result');
 
-
-    //////////////////////////     EDITING EQUIPMENTS    /////////////////////////////////////
-
-    Route::get('/modifequipment', [AdminController::class, 'modifequipment'])->name('modifequipment');
-    Route::post('/modify-equipment', [AdminController::class, 'showEquipmentModificationForm'])->name('equipment.modify');
-    Route::post('/update-equipment', [AdminController::class, 'updateEquipment'])->name('equipment.update');
-    Route::get('/update-result/{result}', [AdminController::class, 'showUpdateResult'])->name('update.result');
 
 
 });

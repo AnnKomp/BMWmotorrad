@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pack;
 use App\Models\Option;
+use Illuminate\Support\Facades\DB;
 
 class PackController extends Controller
 {
@@ -95,9 +96,11 @@ class PackController extends Controller
 
     public function addPack(Request $request)
     {
+        try{
+        $idmoto = $request->input('idmoto');
 
         $pack = new Pack([
-            'idmoto' => $request->input('idmoto'),
+            'idmoto' => $idmoto,
             'nompack' => $request->input('nompack'),
             'descriptionpack' => $request->input('descriptionpack'),
             'photopack' => $request->input('photopack'),
@@ -106,8 +109,10 @@ class PackController extends Controller
 
         $pack->save();
 
-
-        return redirect()->route('nom_de_votre_route');
+        return redirect()->route('update.result',['result' => 'negative']);
     }
+    catch (\Exception $e) {
+        return redirect()->route('update.result', ['result' => 'pack-nom']);
+    }}
 
 }

@@ -16,6 +16,12 @@
                     <p>Le prix doit être positif et non null.</p>
                 @elseif($result === 'add-success')
                     <p>Coloris ajouté avec succès !</p>
+                @elseif($result === 'pack-nom')
+                    <p>Impossible de créer plusieurs packs ayant le même nom !</p>
+                @elseif($result === 'ajouter')
+                    <p>Option ajouté avec succès !</p>
+                @elseif($result === 'optsuppr')
+                    <p>Option supprimée avec succès !</p>
                 @else
                     <p>Une erreur s'est produite lors de la mise à jour.</p>
                 @endif

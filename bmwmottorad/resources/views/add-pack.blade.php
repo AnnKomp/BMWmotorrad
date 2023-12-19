@@ -5,6 +5,7 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <link rel="stylesheet" type="text/css" href="{{asset('css/modif-eq.css')}}">
 
 
     <h2>Ajouter un pack</h2>
@@ -14,21 +15,22 @@
 
         <input type="hidden" name="idmoto" value="{{ $idmoto }}">
 
-        <label for="accName">Nom du pack :</label>
-        <input type="text" name="accName" id="accName" required>
+        <label for="nompack">Nom du pack :</label>
+        <input type="text" name="nompack" id="nompack" required>
+        <label for="nompack" style="color: red">Attention ! Une moto ne peut pas avoir plusieurs packs avec le même nom !</label>
         <br>
-        <label for="accPrice">Prix :</label>
-        <input type="number" name="accPrice" id="accPrice" required>
+        <label for="prixpack">Prix :</label>
+        <input type="number" name="prixpack" id="prixpack" required>
 
         <br>
-        <label for="accDetail">Détail pack :</label>
-        <textarea rows="4" name="accDetail" id="accDetail" required></textarea>
+        <label for="descriptionpack">Détail pack :</label>
+        <textarea rows="4" name="descriptionpack" id="descriptionpack" required></textarea>
         <br>
-        <label for="accPhoto">Lien photo pack :</label>
-        <textarea type="url" name="accPhoto" id="accPhoto" required></textarea>
-<br>
+        <label for="photopack">Lien photo pack :</label>
+        <textarea type="url" name="photopack" id="photopack" required></textarea>
+        <br>
 
-        <button  type="submit" name="action" value="proceedAgain">Ajouter et Continuer</button>
+        <button  type="submit" name="action" value="proceedAgain">Ajouter</button>
 
         <a href="{{ route('startPage') }}"><button type="button">Annuler</button></a>
     </form>
@@ -36,5 +38,7 @@
         </div>
     </div>
 </div>
+
+
 
 </x-commapp>
