@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Check if the data is in a valid format
+        // Check if the form has been correctly filled
         $request->validate([
             'civilite' => ['required'],
             'firstname' => ['required', 'string', 'max:100'],
@@ -52,7 +52,6 @@ class RegisteredUserController extends Controller
 
         // The user is logged in
         event(new Registered($user));
-
         Auth::login($user);
 
         // Redirects to the next part of the account registration

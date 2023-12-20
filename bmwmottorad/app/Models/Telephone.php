@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Telephone extends Model
 {
+    protected $fillable = [
+        'numtelephone',
+        'fonction',
+        'type',
+        'idclient'
+    ];
     use HasFactory;
     protected $table = "telephone";
     protected $primaryKey = "idtelephone";

@@ -12,6 +12,9 @@ class PDFController extends Controller
 
 
 
+    /**
+     *  Generate a PDF of the configuration made by a user
+     */
     public function generatePdf(Request $request)
     {
         $idmoto = $request->input('id');

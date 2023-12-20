@@ -25,10 +25,6 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        Client::where('idclient', $request->user()->idclient)->update([
-            'mdpclient' => $request->user()->password,
-        ]);
-
         return back()->with('status', 'password-updated');
     }
 }

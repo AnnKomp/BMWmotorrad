@@ -44,78 +44,70 @@ class RegisterSuiteController extends Controller
 
         // ---------------------------------------------------- Adress creation  ----------------------------------------------------------------------
         // Creating the adress for the new user
-
-        $b = new Adresse;
-        $b->nompays = $request->input("nompays");
-        $b->adresse = $request->input("adresse");
-
-        $b->save();
+        $b = Adresse::create([
+            'nompays' => $request->nompays,
+            'adresse' => $request->adresse
+        ]);
 
         // ---------------------------------------------------- Client creation ----------------------------------------------------------------------
-        // Creating a new client for the new user (TODO : Remove client table and replace by users table)
-        $c = new Client;
-        $c->civilite = $request->user()->civilite;
-        $c->mdpclient = $request->user()->password;
-        $c->nomclient = $request->user()->lastname;
-        $c->prenomclient = $request->user()->firstname;
-        $c->datenaissanceclient = $request->input("datenaissanceclient");
-        $c->emailclient = $request->user()->email;
-        $c->numadresse = $b->numadresse;
-
-        $c->save();
-
+        $c = Client::create([
+            'civilite' => $request->user()->civilite,
+            'nomclient' => $request->user()->lastname,
+            'prenomclient' => $request->user()->firstname,
+            'datenaissanceclient' => $request->datenaissanceclient,
+            'emailclient' => $request->user()->email,
+            'numadresse' => $b->numadresse
+        ]);
 
         // ---------------------------------------------------- Phone number creation ----------------------------------------------------------------------
-        // Creating the four phone numbers for the new user
-        $t = new Telephone;
-        $t->numtelephone = $request->telephonepvmb;
-        $t->fonction = 'Privé';
-        $t->type = 'Mobile';
-        $t->idclient = $c->idclient;
 
-        $t->save();
+        Telephone::create([
+            'numtelephone' => $request->telephonepvmb,
+            'fonction' => 'Privé',
+            'type' => 'Mobile',
+            'idclient' => $c->idclient
+        ]);
+        
+        Telephone::create([
+            'numtelephone' => $request->telephonepfmb,
+            'fonction' => 'Professionnel',
+            'type' => 'Mobile',
+            'idclient' => $c->idclient
+        ]);
+        
+        Telephone::create([
+            'numtelephone' => $request->telephonepvfx,
+            'fonction' => 'Privé',
+            'type' => 'Fixe',
+            'idclient' => $c->idclient
+        ]);
 
-        $t = new Telephone;
-        $t->numtelephone = $request->telephonepfmb;
-        $t->fonction = 'Professionnel';
-        $t->type = 'Mobile';
-        $t->idclient = $c->idclient;
-
-        $t->save();
-
-        $t = new Telephone;
-        $t->numtelephone = $request->telephonepvfx;
-        $t->fonction = 'Privé';
-        $t->type = 'Fixe';
-        $t->idclient = $c->idclient;
-
-        $t->save();
-
-        $t = new Telephone;
-        $t->numtelephone = $request->telephonepffx;
-        $t->fonction = 'Professionnel';
-        $t->type = 'Fixe';
-        $t->idclient = $c->idclient;
-
-        $t->save();
+        
+        Telephone::create([
+            'numtelephone' => $request->telephonepffx,
+            'fonction' => 'Professionnel',
+            'type' => 'Fixe',
+            'idclient' => $c->idclient
+        ]);
 
         // ---------------------------------------------------- User update ----------------------------------------------------------------------
-        // Linking user and client table (To be removed)
+
         User::where('id', auth()->user()->id)->update([
             'idclient'=>$c->idclient,
             'iscomplete'=>true,
         ]);
 
         // ---------------------------------------------------- Account type linking ----------------------------------------------------------------------
+        
         if($request->input("accounttype") == "private"){
-            $p = new Prive;
-            $p->idclient = $c->idclient;
-            $p->save();
+            Prive::create([
+                'idclient' => $c->idclient
+            ]);
         }else{
-            $p = new Professionnel;
-            $p->idclient = $c->idclient;
-            $p->nomcompagnie = $request->input("nomcompagnie");
-            $p->save();
+            Professionnel::create([
+                'idclient' => $c->idclient,
+                'nomcompagnie' => $request->nomcompagnie,
+            ]);
         }
 
         // Redirect to the registerfinished view

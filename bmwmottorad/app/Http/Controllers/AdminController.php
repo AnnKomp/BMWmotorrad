@@ -19,6 +19,7 @@ class AdminController extends Controller
         return view("fraislivraison", compact('fraisLivraison'));
     }
 
+    // Function to update the threshold for delivering fees
     public function updateDeliveringFees(Request $request)
     {
         $request->validate([

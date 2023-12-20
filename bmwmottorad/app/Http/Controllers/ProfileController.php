@@ -12,6 +12,7 @@ use App\Models\Infocb;
 use App\Models\Professionnel;
 use App\Models\Prive;
 use App\Models\Commande;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -210,11 +211,9 @@ class ProfileController extends Controller
 
         Client::where('idclient', $user->idclient)->update([
             'civilite'=>'x',
-            'mdpclient'=>'x',
             'nomclient'=>'x',
             'prenomclient'=>'x',
-            'emailclient'=>'xxxx@xxxxx.xxxxx',
-
+            'emailclient'=>'xxxx@xxxxx.xxxxx'
         ]);
 
         Infocb::where('idclient', $user->idclient)->delete();
@@ -227,10 +226,15 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+    // ===================================================== DATA PDF ====================================================================
+
     public function indexPDF(){
         return view('clientdata');
     }
 
+    /**
+     * Generates a PDG containing all the stored data of the connected user
+     */
     public function generatePDF(Request $request){
         $client = Client::where('idclient', $request->user()->idclient)->first();
         $adress = Adresse::where('numadresse', $client->numadresse)->get();
@@ -238,6 +242,13 @@ class ProfileController extends Controller
         $cb = Infocb::where('idclient', $client->idclient)->first();
         $pro = Professionnel::where('idclient', $client->idclient)->first();
         $orders = Commande::where('idclient', $client->idclient)->get();
+
+        if($cb){
+            // Decrypting if the client has a saved Credit Card
+            $cb->numcarte = Crypt::decrypt($cb->numcarte);
+            $cb->titulairecompte = Crypt::decrypt($cb->titulairecompte);
+            $cb->dateexpiration = Crypt::decrypt($cb->dateexpiration);
+        }
 
         $pdf = PDF::loadView('pdf.client-data',  [
             'client' => $client,
@@ -251,13 +262,14 @@ class ProfileController extends Controller
         return $pdf->download('données.pdf');
     }
 
+    // ============================================================ ORDERS ==============================================================
     public function commands(): View
     {
         $idclient = auth()->user()->idclient;
         $commands = DB::table('commande')
                     ->select('*')
                     ->where('idclient', $idclient)
-                    ->orderBy('datecommande') // Assurez-vous de trier par date avant de regrouper
+                    ->orderBy('datecommande') 
                     ->get();
 
         //dd($commands);
@@ -358,6 +370,8 @@ class ProfileController extends Controller
             ->where('idcoloris', $idcoloris)
             ->delete();
 
+                return redirect()->route('profile.commands');
+            }
         $nombreTotalArticles = DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->count();
@@ -374,14 +388,5 @@ class ProfileController extends Controller
         return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
             ->with('success', 'Article annulé avec succès, vous serez remboursé sous peu.');
     }
-
-    return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
-        ->with('error', 'L\'article n\'existe pas ou a déjà été annulé.');
-}
-
-
-
-
-
 }
 

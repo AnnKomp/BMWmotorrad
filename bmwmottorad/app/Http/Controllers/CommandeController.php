@@ -10,6 +10,7 @@ use App\Models\Commande;
 use App\Models\Infocb;
 use App\Models\Parametres;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
@@ -20,42 +21,46 @@ class CommandeController extends Controller
     // ====================================== CARD PART =================================================================================
     
     public function createcb(){
-        if(auth()->user()){
-            $cart = session()->get('cart', []);
-            $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
-            foreach ($equipements as $equipement) {
-                foreach ($cart[$equipement->idequipement] as &$cartItem) {
-                    // Check if coloris key exists
-                    $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
-        
-                    // Check if taille key exists
-                    $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
-        
-                    // Check if quantity key exists
-                    $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
-                    $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
-                }
-            };
-            $cb = Infocb::where('idclient', auth()->user()->idclient)->first();
-            $total = 0;
-            foreach($equipements as $equipement){
-                foreach($cart[$equipement->idequipement] as $cartItem){
-                    $total += $equipement->prixequipement * $cartItem['quantity'];
-                }
+        // Get cart data and equipments
+        $cart = session()->get('cart', []);
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
+        foreach ($equipements as $equipement) {
+            foreach ($cart[$equipement->idequipement] as &$cartItem) {
+                // Check if coloris key exists
+                $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
+                     // Check if taille key exists
+                $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
+                     // Check if quantity key exists
+                $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+                $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
             }
-            // Fee is 9 euros
-            $fee = 9;
-            $feelimit = Parametres::find('montantfraislivraison');
-            // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O 
-            if($feelimit->description > $total){
-                $total += $fee;
-            }else{
-                $fee = 0;
-            }
-            return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
-        }else{
-            return view('auth.login');
+        };
+        // Get CB informations if client has saved one
+        $cb = Infocb::firstWhere('idclient', auth()->user()->idclient);
+        if($cb){
+            // Decrypting if the client has a saved Credit Card
+            $cb->numcarte = Crypt::decrypt($cb->numcarte);
+            $cb->titulairecompte = Crypt::decrypt($cb->titulairecompte);
+            $cb->dateexpiration = Crypt::decrypt($cb->dateexpiration);
         }
+        
+
+        $total = 0;
+        foreach($equipements as $equipement){
+            foreach($cart[$equipement->idequipement] as $cartItem){
+                $total += $equipement->prixequipement * $cartItem['quantity'];
+            }
+        }
+        // Fee is 9 euros
+        $fee = 9;
+        $feelimit = Parametres::find('montantfraislivraison');
+        // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O 
+        if($feelimit->description > $total){
+            $total += $fee;
+        }else{
+            $fee = 0;
+        }
+        return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
     }
 
     public function paycb(Request $request)  : RedirectResponse
@@ -70,16 +75,16 @@ class CommandeController extends Controller
         if($request->saveinfo){
             if(Infocb::where('idclient', auth()->user()->idclient)->first()){
                 Infocb::where('idclient', auth()->user()->idclient)->update([
-                   'numcarte' => $request->cardnumber,
-                   'titulairecompte' => $request->owner,
-                   'dateexpiration' => $request->expiration
+                   'numcarte' => Crypt::encrypt($request->cardnumber),
+                   'titulairecompte' => Crypt::encrypt($request->owner),
+                   'dateexpiration' => Crypt::encrypt($request->expiration)
                 ]);
             }else{
                 Infocb::insert([
                     'idclient' => auth()->user()->idclient,
-                    'numcarte' => $request->cardnumber,
-                    'titulairecompte' => $request->owner,
-                    'dateexpiration' => $request->expiration
+                    'numcarte' => Crypt::encrypt($request->cardnumber),
+                    'titulairecompte' => Crypt::encrypt($request->owner),
+                    'dateexpiration' => Crypt::encrypt($request->expiration)
                 ]);
             }
         }
@@ -173,7 +178,6 @@ class CommandeController extends Controller
         return view('commandesuccess', compact('equipements', 'cart'));
     }
 
-    // ==================================== GETTERS ===========================================================
     private function createOrder($type){
         // Get necessary data
         $cart = session()->get('cart', []);
@@ -197,10 +201,12 @@ class CommandeController extends Controller
                 'idcoloris' => $item[0]['coloris'],
                 'idtaille' => $item[0]['taille'],
             ]);
-            Equipement::where('idequipement', $item[0]['id'])->decrement('stockequipement', $item[0]['quantity']);
+            DB::table('stock')
+            ->where('idequipement', '=', $item[0]['id'])
+            ->where('idtaille', '=', $item[0]['taille'])
+            ->where('idcoloris', '=', $item[0]['coloris'])
+            ->decrement('quantite', $item[0]['quantity']);
         }
-
-        
         foreach($equipements as $equipement){
             foreach($cart[$equipement->idequipement] as $cartItem){
                 $total += $equipement->prixequipement * $cartItem['quantity'];
@@ -217,10 +223,11 @@ class CommandeController extends Controller
         DB::table('transaction')->insert([
             'idcommande' => $order->idcommande,
             'type' => $type,
-            'montant' => -$total
+            'montant' => $total
         ]);
     }
-    
+
+    // ==================================== GETTERS ===========================================================  
     private function getColorisName($colorisId)
     {
         // Retrieve coloris name based on ID

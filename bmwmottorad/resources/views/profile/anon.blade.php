@@ -17,7 +17,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Les changements effectués par la fonction d'anonymisation ne sont annulables, une fois l'anonymisation terminée, il sera impossible de récupérer les comptes en cas de problème.") }}
+            {{ __("Les changements effectués par la fonction d'anonymisation ne sont pas réversibles, une fois l'anonymisation terminée, il sera impossible de récupérer les comptes en cas de problème.") }}
         </p>
     </header>
 
@@ -31,6 +31,15 @@
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Anonymiser') }}</x-primary-button>
+            @if (session('status') === 'data_anonymised')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600 dark:text-gray-400"
+                >{{ __('Comptes anonymisés avec succès.') }}</p>
+            @endif
         </div>
     </form>
 </section>

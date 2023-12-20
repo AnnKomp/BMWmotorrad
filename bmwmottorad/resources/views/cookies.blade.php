@@ -177,7 +177,7 @@
             <tr>
                 <td>AMCVS_*AdobeOrg</td>
                 <td>Durée de la session</td>
-                <td>Stocker et tracker les interactions sur le site/td>
+                <td>Stocker et tracker les interactions sur le site</td>
             </tr>
         </tbody>
     </table>
