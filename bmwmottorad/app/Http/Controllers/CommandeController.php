@@ -60,10 +60,11 @@ class CommandeController extends Controller
         $fee = Parametres::find('fraislivraison')->description;
         $feelimit = Parametres::find('montantfraislivraison')->description;
 
-        // If total is inferior to the needed minimal price, fee is applied to the total, else
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee is 0
         if($feelimit > $total){
             $total += $fee ;
         }
+        else { $fee = 0; }
 
         return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
     }
@@ -144,13 +145,12 @@ class CommandeController extends Controller
         $fee = Parametres::find('fraislivraison')->description;
         $feelimit = Parametres::find('montantfraislivraison')->description;
 
-        // If total is inferior to the needed minimal price, fee is applied to the total, else fee = 0
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee is 0
         if($feelimit > $total){
             $total += $fee;
         }
-        else  {
-            $fee = 0;
-        }
+        else {  $fee = 0;   }
+
         return view('commandestripe', compact('equipements', 'cart', 'total', 'fee'));
     }
 
@@ -250,13 +250,14 @@ class CommandeController extends Controller
         }
 
         // Get the amounts in the 'parametres' table
-        $fee = Parametres::find('fraislivraison');
-        $feelimit = Parametres::find('montantfraislivraison');
+        $fee = Parametres::find('fraislivraison')->description;
+        $feelimit = Parametres::find('montantfraislivraison')->description;
 
-        // If total is inferior to the needed minimal price, fee is applied to the total
-        if($feelimit->description > $total){
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee is 0
+        if($feelimit > $total){
             $total += $fee;
         }
+        else{   $fee = 0;    }
 
         // Add a new transaction into the 'transaction' table
         DB::table('transaction')->insert([
@@ -281,8 +282,12 @@ class CommandeController extends Controller
         return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
     }
 
+    /*
+    *   Get the link to the media for a color of an equipment
+    */
     private function getEquipementPhotos($equipementId, $colorisId)
     {
+        // Get the id of the presentation image
         $idpresentation = DB::table('presentation_eq')
             ->select('idpresentation')
             ->where('idequipement', $equipementId)
@@ -290,6 +295,8 @@ class CommandeController extends Controller
             ->get();
 
         if ($idpresentation->isNotEmpty()) {
+
+            // Get the idpesentation as a string instead of an array
             $idpresentation = $idpresentation[0]->idpresentation;
 
             $lienmedia = DB::table('media')

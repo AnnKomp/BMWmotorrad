@@ -19,6 +19,7 @@ class PDFController extends Controller
     {
         $idmoto = $request->input('id');
 
+        // Get the options selected by the user
         $selectedPacks = session('selectedPacks', []);
         $selectedOptions = session('selectedOptions', []);
         $selectedAccessoires = session('selectedAccessoires', []);
@@ -29,6 +30,8 @@ class PDFController extends Controller
                 ->where('idmoto',$idmoto)
                 ->first();
 
+
+        // Calculating the total price
 
         $totalPrice = $moto->prixmoto;
 
@@ -43,7 +46,7 @@ class PDFController extends Controller
         $totalPrice += $moto->styles->whereIn('idstyle', $selectedStyle)->sum('prixstyle');
 
 
-
+        // Generate and display the recap PDF (not a download)
         $pdf = PDF::loadView('pdf.moto-config',  [
             'selectedPacks' => $moto->packs->whereIn('idpack',$selectedPacks),
             'idmoto' => $idmoto,
