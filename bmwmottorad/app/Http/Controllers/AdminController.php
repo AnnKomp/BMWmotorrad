@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+
+    // Function to show the delivering fees view
     public function deliveringFees()
     {
         $fraisLivraison = FraisLivraison::where('nomparametre', 'montantfraislivraison')->firstOrFail();
@@ -36,31 +38,28 @@ class AdminController extends Controller
         return redirect()->route('delivering-fees')->with('success', 'Montant des frais de livraison mis à jour avec succès.');
     }
 
+    // Function to show all equipements
     public function modifequipment()
     {
-        $equipements = Equipement::all(); // Fetch all equipements
+        $equipements = Equipement::all();
 
         return view("modifequipement", compact('equipements'));
     }
 
+    // Function to show the information of the equipement to update
     public function showEquipmentModificationForm(Request $request)
     {
-        //dd($request);
-        // Votre logique pour afficher le formulaire de modification avec le prix de base
+        //getting the data
         $identifiantEquipment = $request->input('equipement');
-        $prix = DB::table("equipement")
-                    ->select('prixequipement')
-                    ->where('idequipement','=',$identifiantEquipment)
-                    ->first();
 
-        $colorisIds = DB::table('stock')
-                    ->select('idcoloris')
-                    ->where('idequipement', $identifiantEquipment)
+        $prix = Equipement::where('idequipement','=',$identifiantEquipment)
+                    ->first('prixequipement');
+
+        $colorisIds = Stock::where('idequipement', $identifiantEquipment)
                     ->pluck('idcoloris')
-                    ->toArray();
+                    ->toArray('idcoloris');
 
-        $colorisOptions = DB::table('coloris')
-                    ->select('idcoloris', 'nomcoloris')
+        $colorisOptions = Coloris::select('idcoloris', 'nomcoloris')
                     ->whereIn('idcoloris', $colorisIds)
                     ->get();
 
@@ -68,11 +67,11 @@ class AdminController extends Controller
 
         $coloris = Coloris::all();
 
-        //dd($coloris);
 
         return view('modify-equipment-form', ['identifiantEquipment' => $identifiantEquipment, 'prixDeBase' => $prixDeBase, 'colorisOptions' => $colorisOptions, 'coloris' => $coloris ]);
     }
 
+    // Function to proceed to the update of the equipement in the DB
     public function updateEquipment(Request $request)
     {
         // Retrieve the equipment to update
@@ -99,7 +98,7 @@ class AdminController extends Controller
         }
     }
 
-
+    // Function to add a new coloris for the equipement and the stock for it
     public function addColorisEquipement(Request $request)
     {
         $colorisId = (int) $request->input('idcoloris');
@@ -124,7 +123,7 @@ class AdminController extends Controller
 
 
 
-
+    // Function to show the result of the equipement update
     public function showUpdateResult($result)
     {
         return view('update-result', ['result' => $result]);
@@ -132,7 +131,7 @@ class AdminController extends Controller
 
 
 
-
+    // Function to show the list of all motos
     public function motolistCom()
     {
         $ranges = Gamme::all();

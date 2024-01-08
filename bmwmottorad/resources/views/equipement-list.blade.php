@@ -91,7 +91,6 @@
 
     <div class ='equipement_display'>
         @foreach ($equipements as $equipement)
-        {{-- rajouter idcoloris du bon coloris de base--}}
         <a href="/equipement?id={{ $equipement->idequipement }}" class = "equipement_lien">
 
             <div class = 'equipement_box'>

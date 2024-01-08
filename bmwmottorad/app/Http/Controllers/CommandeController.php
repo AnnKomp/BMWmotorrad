@@ -68,6 +68,7 @@ class CommandeController extends Controller
         return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
     }
 
+    //
     public function paycb(Request $request)  : RedirectResponse
     {
         // Verify all the fields requiered are filled
@@ -150,6 +151,8 @@ class CommandeController extends Controller
         return view('commandestripe', compact('equipements', 'cart', 'total', 'fee'));
     }
 
+
+    //
     public function paystripe(Request $request)  : RedirectResponse
     {
 
@@ -191,6 +194,7 @@ class CommandeController extends Controller
             foreach ($cart[$equipement->idequipement] as &$cartItem) {
                 // Check if coloris key exists
                 $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
+
 
                 // Check if taille key exists
                 $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
@@ -267,6 +271,7 @@ class CommandeController extends Controller
         return DB::table('coloris')->where('idcoloris', $colorisId)->value('nomcoloris');
     }
 
+    //
     private function getTailleName($tailleId)
     {
         // Retrieve taille name based on ID
