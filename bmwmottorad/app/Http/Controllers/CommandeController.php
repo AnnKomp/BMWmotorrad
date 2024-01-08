@@ -57,12 +57,12 @@ class CommandeController extends Controller
         }
 
         // Get the amounts in the 'parametres' table
-        $fee = Parametres::find('fraislivraison');
-        $feelimit = Parametres::find('montantfraislivraison');
+        $fee = Parametres::find('fraislivraison')->description;
+        $feelimit = Parametres::find('montantfraislivraison')->description;
 
-        // If total is inferior to the needed minimal price, fee is applied to the total
-        if($feelimit->description > $total){
-            $total += $fee->description ;
+        // If total is inferior to the needed minimal price, fee is applied to the total, else
+        if($feelimit > $total){
+            $total += $fee ;
         }
 
         return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
@@ -141,12 +141,15 @@ class CommandeController extends Controller
         }
 
         // Get the amounts in the 'parametres' table
-        $fee = Parametres::find('fraislivraison');
-        $feelimit = Parametres::find('montantfraislivraison');
+        $fee = Parametres::find('fraislivraison')->description;
+        $feelimit = Parametres::find('montantfraislivraison')->description;
 
-        // If total is inferior to the needed minimal price, fee is applied to the total
-        if($feelimit->description > $total){
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee = 0
+        if($feelimit > $total){
             $total += $fee;
+        }
+        else  {
+            $fee = 0;
         }
         return view('commandestripe', compact('equipements', 'cart', 'total', 'fee'));
     }
