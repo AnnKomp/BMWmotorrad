@@ -29,48 +29,57 @@ class EquipementController extends Controller
 
 
         $equipements = DB::table('equipement')
-            ->select('equipement.*', 'media.*', 'categorieequipement.*', DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite'))
-            ->leftJoin('media', 'media.idequipement', '=', 'equipement.idequipement')
-            ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
-            ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
-            ->leftJoin('collection', 'collection.idcollection', '=', 'equipement.idcollection')
-            ->where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
-                             ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
-            })
-            ->when($categoryId, function ($queryBuilder) use ($categoryId) {
-                $queryBuilder->where('equipement.idcatequipement', $categoryId);
-            })
-            ->when($collectionId, function ($queryBuilder) use ($collectionId) {
-                $queryBuilder->where('equipement.idcollection', $collectionId);
-            })
-            ->when($sex, function ($queryBuilder) use ($sex) {
-                $queryBuilder->where('equipement.sexeequipement', $sex);
-            })
-            ->when($segment, function ($queryBuilder) use ($segment) {
-                $queryBuilder->where('equipement.segment', $segment);
-            })
-            ->when(request('tendencies'), function ($queryBuilder) {
-                $queryBuilder->where('equipement.tendance', true);
-            })
-            ->whereColumn('idmediapresentation', '=', 'idmedia')
-            ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
-                $queryBuilder->orderBy('prixequipement', $priceOrder);
-            })
-            ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
-                $queryBuilder->orderBy('prixequipement', $priceOrder);
-            })
-            // Ajout de la condition sur le prix minimum et maximum
-            ->when($prix_min, function ($queryBuilder) use ($prix_min) {
-                $queryBuilder->where('prixequipement', '>=', $prix_min);
-            })
-            ->when($prix_max, function ($queryBuilder) use ($prix_max) {
-                $queryBuilder->where('prixequipement', '<=', $prix_max);
-            })
-            ->groupBy('equipement.idequipement', 'media.idmedia', 'categorieequipement.idcatequipement')
-            ->get();
+    ->select(
+        'equipement.*',
+        DB::raw('(SELECT media.lienmedia FROM media
+                    WHERE media.idequipement = equipement.idequipement
+                    ORDER BY media.idpresentation
+                    LIMIT 1) as lienmedia'),
+        'categorieequipement.*',
+        DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite')
+    )
+    ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
+    ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
+    ->leftJoin('collection', 'collection.idcollection', '=', 'equipement.idcollection')
+    ->leftJoin('presentation_eq', 'presentation_eq.idequipement', '=', 'equipement.idequipement')
+    ->where(function ($queryBuilder) use ($query) {
+        $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
+            ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
+    })
+    ->when($categoryId, function ($queryBuilder) use ($categoryId) {
+        $queryBuilder->where('equipement.idcatequipement', $categoryId);
+    })
+    ->when($collectionId, function ($queryBuilder) use ($collectionId) {
+        $queryBuilder->where('equipement.idcollection', $collectionId);
+    })
+    ->when($sex, function ($queryBuilder) use ($sex) {
+        $queryBuilder->where('equipement.sexeequipement', $sex);
+    })
+    ->when($segment, function ($queryBuilder) use ($segment) {
+        $queryBuilder->where('equipement.segment', $segment);
+    })
+    ->when(request('tendencies'), function ($queryBuilder) {
+        $queryBuilder->where('equipement.tendance', true);
+    })
+    ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
+        $queryBuilder->orderBy('prixequipement', $priceOrder);
+    })
+    ->when($prix_min, function ($queryBuilder) use ($prix_min) {
+        $queryBuilder->where('prixequipement', '>=', $prix_min);
+    })
+    ->when($prix_max, function ($queryBuilder) use ($prix_max) {
+        $queryBuilder->where('prixequipement', '<=', $prix_max);
+    })
+    ->groupBy('equipement.idequipement', 'categorieequipement.idcatequipement')
+    ->distinct()
+    ->get();
 
-        return view("equipement-list", ['equipements'=>$equipements, 'categories' => $categories, 'collections' => $collections ]);
+return view("equipement-list", [
+    'equipements' => $equipements,
+    'categories' => $categories,
+    'collections' => $collections
+]);
+
     }
 
 
