@@ -8,13 +8,14 @@ use Illuminate\Http\RedirectResponse;
 
 class AnonController extends Controller
 {
+    // Function to show the anonymisation view
     public function create(){
         return view('profile.anon');
     }
 
-    /**
-     * Function that executes an sql function to anonymize all clients who have not connected since the date given in the requets form.
-     * The date has to be at least one year old from today
+    /*
+     Function that executes an sql function to anonymize all clients who have not connected since the date given in the requets form.
+     The date has to be at least one year old from today
      */
     public function execute(Request $request): RedirectResponse
     {
