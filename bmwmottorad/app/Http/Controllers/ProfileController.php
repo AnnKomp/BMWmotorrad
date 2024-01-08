@@ -24,19 +24,30 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class ProfileController extends Controller
 {
-    /**
+    /*
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
         //Getting Necessary data from the table
         $user = auth()->user();
-        $client = DB::table('client')->select('datenaissanceclient', 'civilite'
-        )->where('idclient', '=', $user->idclient)->first();
-        $company = DB::table('professionnel')->select('nomcompagnie')->where('idclient', '=', $user->idclient)->first();
-        $phone = Telephone::where('idclient', '=', $user->idclient)->get();
-        $adress = DB::table('adresse')->select('nompays','adresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', "=", $user->idclient)->first();
-        $orders = Commande::where('idclient', auth()->user()->idclient)->first();
+        $client = DB::table('client')->select('datenaissanceclient', 'civilite')
+                ->where('idclient', '=', $user->idclient)
+                ->first();
+        $company = DB::table('professionnel')
+                ->select('nomcompagnie')
+                ->where('idclient', '=', $user->idclient)
+                ->first();
+        $phone = Telephone::where('idclient', '=', $user->idclient)
+                ->get();
+        $adress = DB::table('adresse')
+                ->select('nompays','adresse')
+                ->join('client', 'adresse.numadresse', '=', 'client.numadresse')
+                ->join('users', 'users.idclient', '=', 'client.idclient')
+                ->where('client.idclient', "=", $user->idclient)
+                ->first();
+        $orders = Commande::where('idclient', auth()->user()->idclient)
+                ->first();
         // Return the edit view with the necessary data in parameter
         return view('profile.edit', [
             'user' => $user,
@@ -49,7 +60,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
+    /*
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
@@ -80,7 +91,7 @@ class ProfileController extends Controller
         // Save the data
         $request->user()->save();
 
-        // Reflecting the data update on the client table (TODO: Remove the client table and make the users table the new client table)
+        // Reflecting the data update on the client table
         Client::where('idclient', $request->user()->idclient)->update([
             'civilite'=>$request->civilite,
             'nomclient'=>$request->lastname,
@@ -108,11 +119,17 @@ class ProfileController extends Controller
         // ---------------------------------------------------- Adress update ----------------------------------------------------------------------
 
         // Updating the Adress
-        $adress = DB::table('adresse')->select('adresse.numadresse')->join('client', 'adresse.numadresse', '=', 'client.numadresse')->join('users', 'users.idclient', '=', 'client.idclient')->where('client.idclient', '=', auth()->user()->idclient)->first();
-        Adresse::where('numadresse', $adress->numadresse)->update([
-            'nompays'=>$request->nompays,
-            'adresse'=>$request->adresse,
-        ]);
+        $adress = DB::table('adresse')
+                ->select('adresse.numadresse')
+                ->join('client', 'adresse.numadresse', '=', 'client.numadresse')
+                ->join('users', 'users.idclient', '=', 'client.idclient'
+                )->where('client.idclient', '=', auth()->user()->idclient)
+                ->first();
+        Adresse::where('numadresse', $adress->numadresse)
+                ->update([
+                    'nompays'=>$request->nompays,
+                    'adresse'=>$request->adresse,
+                ]);
 
         // Updating the company name of the account
         if($request->nomcompagnie){
@@ -137,23 +154,35 @@ class ProfileController extends Controller
             return redirect('/profile');
         }
         // Update the phone numbers
-        Telephone::where('idclient', $request->user()->idclient)->where('type', 'Mobile')->where('fonction', 'Privé')->update([
-            'numtelephone' => $request->MobilePrivé
-        ]);
-        Telephone::where('idclient', $request->user()->idclient)->where('type', 'Mobile')->where('fonction', 'Professionnel')->update([
-            'numtelephone' => $request->MobileProfessionnel
-        ]);
-        Telephone::where('idclient', $request->user()->idclient)->where('type', 'Fixe')->where('fonction', 'Privé')->update([
-            'numtelephone' => $request->FixePrivé
-        ]);
-        Telephone::where('idclient', $request->user()->idclient)->where('type', 'Fixe')->where('fonction', 'Professionnel')->update([
-            'numtelephone' => $request->FixeProfessionnel
-        ]);
+        Telephone::where('idclient', $request->user()->idclient)
+                ->where('type', 'Mobile')
+                ->where('fonction', 'Privé')
+                ->update([
+                    'numtelephone' => $request->MobilePrivé
+                ]);
+        Telephone::where('idclient', $request->user()->idclient)
+                ->where('type', 'Mobile')
+                ->where('fonction', 'Professionnel')
+                ->update([
+                    'numtelephone' => $request->MobileProfessionnel
+                ]);
+        Telephone::where('idclient', $request->user()->idclient)
+                ->where('type', 'Fixe')
+                ->where('fonction', 'Privé')
+                ->update([
+                    'numtelephone' => $request->FixePrivé
+                ]);
+        Telephone::where('idclient', $request->user()->idclient)
+                ->where('type', 'Fixe')
+                ->where('fonction', 'Professionnel')
+                ->update([
+                    'numtelephone' => $request->FixeProfessionnel
+                ]);
         // Redirect to the same view with a status update
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
+    /*
      * Delete the user's account.
      */
     public function destroy(Request $request): RedirectResponse
@@ -164,19 +193,26 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        $client = Client::where('idclient', $user->idclient)->first();
+        $client = Client::where('idclient', $user->idclient)
+                ->first();
 
-        Telephone::where('idclient', $user->idclient)->delete();
+        Telephone::where('idclient', $user->idclient)
+                ->delete();
 
-        Professionnel::where('idclient', $user->idclient)->delete();
+        Professionnel::where('idclient', $user->idclient)
+                ->delete();
 
-        Prive::where('idclient', $user->idclient)->delete();
+        Prive::where('idclient', $user->idclient)
+                ->delete();
 
-        Infocb::where('idclient', $user->idclient)->delete();
+        Infocb::where('idclient', $user->idclient)
+                ->delete();
 
-        Client::where('idclient', $user->idclient)->delete();
+        Client::where('idclient', $user->idclient)
+                ->delete();
 
-        Adresse::where('numadresse', $client->numadresse)->delete();
+        Adresse::where('numadresse', $client->numadresse)
+                ->delete();
 
         Auth::logout();
 
@@ -184,10 +220,14 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        // Return to the home page
         return Redirect::to('/');
 
     }
 
+    /*
+     * Anonymize the user's account.
+     */
     public function anonymize(Request $request): RedirectResponse{
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
@@ -195,28 +235,34 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        $client = Client::where('idclient', $user->idclient)->first();
+        $client = Client::where('idclient', $user->idclient)
+                ->first();
 
-        Adresse::where('numadresse', $client->numadresse)->update([
-            'adresse'=>'x',
-        ]);
+        Adresse::where('numadresse', $client->numadresse)
+                ->update([
+                    'adresse'=>'x',
+                ]);
 
-        Telephone::where('idclient', $user->idclient)->update([
-            'numtelephone'=>'0999999999'
-        ]);
+        Telephone::where('idclient', $user->idclient)
+                ->update([
+                    'numtelephone'=>'0999999999'
+                ]);
 
-        Professionnel::where('idclient', $user->idclient)->update([
-            'nomcompagnie'=>'x'
-        ]);
+        Professionnel::where('idclient', $user->idclient)
+                ->update([
+                    'nomcompagnie'=>'x'
+                ]);
 
-        Client::where('idclient', $user->idclient)->update([
-            'civilite'=>'x',
-            'nomclient'=>'x',
-            'prenomclient'=>'x',
-            'emailclient'=>'xxxx@xxxxx.xxxxx'
-        ]);
+        Client::where('idclient', $user->idclient)
+                ->update([
+                    'civilite'=>'x',
+                    'nomclient'=>'x',
+                    'prenomclient'=>'x',
+                    'emailclient'=>'xxxx@xxxxx.xxxxx'
+                ]);
 
-        Infocb::where('idclient', $user->idclient)->delete();
+        Infocb::where('idclient', $user->idclient)
+                ->delete();
 
         Auth::logout();
         $user->delete();
@@ -228,28 +274,38 @@ class ProfileController extends Controller
 
     // ===================================================== DATA PDF ====================================================================
 
+
     public function indexPDF(){
+        // Return view 'clientdata'
         return view('clientdata');
     }
 
-    /**
+    /*
      * Generates a PDG containing all the stored data of the connected user
      */
     public function generatePDF(Request $request){
-        $client = Client::where('idclient', $request->user()->idclient)->first();
-        $adress = Adresse::where('numadresse', $client->numadresse)->get();
-        $phones = Telephone::where('idclient', $client->idclient)->get();
-        $cb = Infocb::where('idclient', $client->idclient)->first();
-        $pro = Professionnel::where('idclient', $client->idclient)->first();
-        $orders = Commande::where('idclient', $client->idclient)->get();
+        // Gettign the user's data
+        $client = Client::where('idclient', $request->user()->idclient)
+                ->first();
+        $adress = Adresse::where('numadresse', $client->numadresse)
+                ->get();
+        $phones = Telephone::where('idclient', $client->idclient)
+                ->get();
+        $cb = Infocb::where('idclient', $client->idclient)
+                ->first();
+        $pro = Professionnel::where('idclient', $client->idclient)
+                ->first();
+        $orders = Commande::where('idclient', $client->idclient)
+                ->get();
 
+        // Decrypting if the client has a saved Credit Card
         if($cb){
-            // Decrypting if the client has a saved Credit Card
             $cb->numcarte = Crypt::decrypt($cb->numcarte);
             $cb->titulairecompte = Crypt::decrypt($cb->titulairecompte);
             $cb->dateexpiration = Crypt::decrypt($cb->dateexpiration);
         }
 
+        //Generate the pdf with the user's data
         $pdf = PDF::loadView('pdf.client-data',  [
             'client' => $client,
             'adress' => $adress,
@@ -259,76 +315,84 @@ class ProfileController extends Controller
             'orders' => $orders
          ]);
 
+        // Download the pdf
         return $pdf->download('données.pdf');
     }
 
     // ============================================================ ORDERS ==============================================================
+
+    /*
+    * Display all the user's command
+    */
     public function commands(): View
     {
         $idclient = auth()->user()->idclient;
         $commands = DB::table('commande')
                     ->select('*')
                     ->where('idclient', $idclient)
-                    ->orderBy('datecommande') 
+                    ->orderBy('datecommande')
                     ->get();
 
-        //dd($commands);
         return view('profile.commands', [
             'idclient' => $idclient,
             'commands' => $commands
         ]);
     }
 
+    /*
+    * Display the detail of a specific command
+    */
     public function command_detail(Request $request): View
     {
         $idcommand = $request->input('idcommand');
+
+        // Get the information for each item
         $command = DB::table('contenucommande')
-                        ->select(
-                            'contenucommande.idcommande',
-                            'contenucommande.idequipement',
-                            'contenucommande.quantite',
-                            'taille.idtaille',
-                            'taille.libelletaille',
-                            'taille.desctaille',
-                            'coloris.idcoloris',
-                            'coloris.nomcoloris',
-                            'equipement.nomequipement',
-                            'commande.etat',
-                            'media.lienmedia'
-                        )
-                        ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
-                        ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
-                        ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
-                        ->join('commande', 'contenucommande.idcommande', '=', 'commande.idcommande')
-                        ->leftJoin('presentation_eq', function ($join) {
-                            $join->on('equipement.idequipement', '=', 'presentation_eq.idequipement');
-                            $join->on('coloris.idcoloris', '=', 'presentation_eq.idcoloris');
-                        })
-                        ->leftJoin('media', function ($join) {
-                            $join->on('presentation_eq.idpresentation', '=', 'media.idpresentation');
-                            $join->whereRaw('media.idmedia = (SELECT MIN(idmedia) FROM media WHERE media.idpresentation = presentation_eq.idpresentation)');
-                        })
-                        ->where('contenucommande.idcommande', $idcommand)
-                        ->get();
+                ->select(
+                    'contenucommande.idcommande',
+                    'contenucommande.idequipement',
+                    'contenucommande.quantite',
+                    'taille.idtaille',
+                    'taille.libelletaille',
+                    'taille.desctaille',
+                    'coloris.idcoloris',
+                    'coloris.nomcoloris',
+                    'equipement.nomequipement',
+                    'commande.etat',
+                    'media.lienmedia'
+                )
+                ->join('taille', 'contenucommande.idtaille', '=', 'taille.idtaille')
+                ->join('coloris', 'contenucommande.idcoloris', '=', 'coloris.idcoloris')
+                ->join('equipement', 'contenucommande.idequipement', '=', 'equipement.idequipement')
+                ->join('commande', 'contenucommande.idcommande', '=', 'commande.idcommande')
+                ->leftJoin('presentation_eq', function ($join) {
+                    $join->on('equipement.idequipement', '=', 'presentation_eq.idequipement');
+                    $join->on('coloris.idcoloris', '=', 'presentation_eq.idcoloris');
+                })
+                ->leftJoin('media', function ($join) {
+                    $join->on('presentation_eq.idpresentation', '=', 'media.idpresentation');
+                    $join->whereRaw('media.idmedia = (SELECT MIN(idmedia) FROM media WHERE media.idpresentation = presentation_eq.idpresentation)');
+                })
+                ->where('contenucommande.idcommande', $idcommand)
+                ->get();
 
-
-
-
-        //dd($command);
-
+        // Return the view with the information
         return view('profile.commanddetail', [
             'command' => $command
         ]);
     }
 
+    /*
+    * Cancel an item from an order
+    */
     public function annulerCommande($idcommande, $idequipement, $idtaille, $idcoloris, $quantite)
-{
-    // Récupérez la commande
+    {
+    // Get the order
     $commande = DB::table('commande')
         ->where('idcommande', $idcommande)
         ->first();
 
-    // Récupérez l'article de la commande
+    // Get the item from the order
     $contenuCommande = DB::table('contenucommande')
         ->where('idcommande', $idcommande)
         ->where('idequipement', $idequipement)
@@ -336,33 +400,33 @@ class ProfileController extends Controller
         ->where('idcoloris', $idcoloris)
         ->first();
 
-    // Si l'article existe
+    // Verify if the item exists
     if ($contenuCommande) {
-        // Récupérez le prix de l'équipement
+        // Get the item price
         $prixEquipement = DB::table('equipement')
             ->where('idequipement', $idequipement)
             ->value('prixequipement');
 
         $quantite = $contenuCommande->quantite;
 
-        // Effectuez le remboursement
+        // Get the amount of the refund
         $montantRemboursement = -($prixEquipement * $quantite);
 
-        // Ajoutez une transaction de remboursement dans la table "transaction"
+        // Add a refund transaction in the 'transaction' table
         DB::table('transaction')->insert([
             'idcommande' => $idcommande,
             'type' => 'remboursement',
             'montant' => $montantRemboursement,
         ]);
 
-        // Mettez à jour la table "stock" en ajoutant la quantité annulée
+        // Update the 'stock' table adding the canceled amount of the
         DB::table('stock')
             ->where('idequipement', $idequipement)
             ->where('idtaille', $idtaille)
             ->where('idcoloris', $idcoloris)
             ->increment('quantite', $quantite);
 
-        // Supprimez l'article de la commande
+        // Delete the item from the order
         DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->where('idequipement', $idequipement)
@@ -372,19 +436,23 @@ class ProfileController extends Controller
 
                 return redirect()->route('profile.commands');
             }
+
+        // Get the number of items in the order
         $nombreTotalArticles = DB::table('contenucommande')
             ->where('idcommande', $idcommande)
             ->count();
 
-        // Mettez à jour l'état de la commande à 2 si la commande est vide
+        // Update the state of the order to 2 if there is no items
         if ($nombreTotalArticles === 0) {
             DB::table('commande')
                 ->where('idcommande', $idcommande)
                 ->update(['etat' => 2]);
 
-            return redirect()->route('profile.commands')->with('success', 'Commande annulée avec succès.');
+            // Return to the orders
+            return redirect()->route('profile.commands');
         }
 
+        // Update the page with a message of success
         return redirect()->route('profile.commands.detail', ['idcommand' => $idcommande])
             ->with('success', 'Article annulé avec succès, vous serez remboursé sous peu.');
     }
