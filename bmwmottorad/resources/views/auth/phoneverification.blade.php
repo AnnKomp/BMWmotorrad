@@ -7,7 +7,7 @@
         @csrf
 
 
-        <H1>Un code d'authentification' a été envoyé au : {{ $numero->numtelephone }}</H1>
+        <H1>Un code d'authentification' a été envoyé au : {{ $numero }}</H1>
 
         <div>
             <x-input-label for="code" :value="__('Code d\'authentification')" />
