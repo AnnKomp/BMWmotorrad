@@ -87,7 +87,7 @@
 </table>
 @endif
 
-@if($orders)
+@if(!empty($orders))
 <h2>Commandes</h2>
 
 <table>
