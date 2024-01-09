@@ -60,9 +60,6 @@
                 <p>Tendances</p>
             </div>
 
-            <button type="reset">Réinitialiser</button>
-            <button type="submit">Rechercher</button>
-
 
             <div class="range_container">
                 <div class="sliders_control">
@@ -80,6 +77,9 @@
                     </div>
                 </div>
             </div>
+
+            <button type="reset">Réinitialiser</button>
+            <button type="submit">Rechercher</button>
         </div>
 
     </form>

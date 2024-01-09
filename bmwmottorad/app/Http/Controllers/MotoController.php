@@ -100,8 +100,9 @@ class MotoController extends Controller
         $idmoto = $request->input('id');
         $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
         $motos = DB::table('modelemoto')
-            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
+            ->select('*')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('ispresentation', '=', 'TRUE')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
         return view ("moto-pack", ['packs' => $packs, 'idmoto' => $idmoto, "motos" => $motos ]);
@@ -155,8 +156,9 @@ class MotoController extends Controller
         $packs = Pack::where('idmoto', $idmoto)->get();
 
         $motos = DB::table('modelemoto')
-        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-        ->whereColumn('idmediapresentation','idmedia')
+        ->select('*')
+        ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->where('ispresentation', '=', 'TRUE')
         ->where('modelemoto.idmoto', '=', $idmoto)
         ->get();
 

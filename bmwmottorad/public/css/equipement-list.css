@@ -96,7 +96,7 @@ tr {
     display: flex;
     flex-direction: column;
     width: 80%;
-    margin: 35% auto;
+    margin: 10% auto;
   }
 
   .sliders_control {
@@ -147,7 +147,7 @@ tr {
     color: #8a8383;
     width: 80;
     height: 30px;
-    font-size: 20px;
+    font-size: 0.8em;
     border: none;
   }
 
@@ -169,4 +169,8 @@ tr {
   #fromSlider {
     height: 0;
     z-index: 1;
+  }
+
+  .form_control_container__time {
+    font-size: 1em;
   }
