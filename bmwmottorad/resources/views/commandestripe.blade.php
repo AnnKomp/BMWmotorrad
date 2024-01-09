@@ -29,7 +29,6 @@
             @foreach ($cart[$equipement->idequipement] as $cartItem)
             <tr>
                 <td id=name>{{ $equipement->nomequipement }}</td>
-                <!-- Make the price equal to the unitary price times the quantity -->
                 <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
                 <td id=photo>
                     <img src="{{ $cartItem['photo']->lienmedia }}" alt="Equipement Photo" class="equipement-photo">

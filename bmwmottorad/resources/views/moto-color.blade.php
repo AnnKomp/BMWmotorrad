@@ -13,7 +13,7 @@
     <div class = 'header_category'>
         <a href="/moto?id={{$idmoto}}" class = "categories">{{ $motoname }}</a>
         <a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{$idcouleur}}" class = "categories">Configuration</a>
-{{--        <a href="/moto/pack?id={{$idmoto}}" class = "categories">Packs</a>--}}
+
     </div>
 @endsection
 
@@ -57,7 +57,6 @@
                 <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $style->idstyle }}&type=style"><img src="{{$style->photostyle}}"></a></td>
                 <td class="couleur">{{ $style->nomstyle }}</td>
                 <td class="pack">{{ $style->prixstyle }} €</td>
-                {{--<td class="couleur"><i class="fa fa-info-circle"></i></a></td> TODO--}}
             </tr>
             @endforeach
         </table>

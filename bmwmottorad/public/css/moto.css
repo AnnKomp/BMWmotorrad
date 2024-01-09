@@ -89,12 +89,12 @@ h1 {
 
 .slick-prev::before,
 .slick-next::before {
-    content: '\2190'; /* Code Unicode pour une flèche vers la gauche */
-    font-family: 'Arial', sans-serif; /* Utilisez une police qui prend en charge le symbole */
+    content: '\2190'; /*  Unicode for <- */
+    font-family: 'Arial', sans-serif;
 }
 
 .slick-next::before {
-    content: '\2192'; /* Code Unicode pour une flèche vers la droite */
+    content: '\2192'; /* Unicode for -> */
 }
 
 hr {
@@ -178,8 +178,8 @@ button.config {
     width: 15%;
     left: 50%;
     top: 50%;
-    margin-top: 2.5%;   /* = -height / 2   */
-    margin-left: 42.5%; /* = -width / 2    */
+    margin-top: 2.5%;
+    margin-left: 42.5%;
     font-size: 20;
 }
 

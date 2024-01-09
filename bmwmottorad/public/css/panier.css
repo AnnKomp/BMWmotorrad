@@ -11,24 +11,11 @@ th{
     text-align: center;
 }
 
-#name{
+#name, #coloris{
     width: 25%;
 }
 
-#price{
-    width: 15%;
-}
-
-#coloris{
-    width: 25%
-}
-
-#taille{
-    width: 15%;
-
-}
-
-#quantity{
+#price,#taille,#quantity{
     width: 15%;
 }
 

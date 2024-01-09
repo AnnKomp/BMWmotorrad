@@ -37,8 +37,8 @@ button {
     width: 15%;
     left: 50%;
     top: 50%;
-    margin-top: 2.5%;   /* = -height / 2   */
-    margin-left: 42.5%; /* = -width / 2    */
+    margin-top: 2.5%;
+    margin-left: 42.5%;
     font-size: 20;
 }
 
