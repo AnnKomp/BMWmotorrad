@@ -13,7 +13,7 @@
     <form id="filterForm" action="{{ url('/equipements') }}" method="post">
         @csrf
         <div class="filters">
-            <input type="text" name="search" placeholder="Rechercher des équipements" value="{{ old('search', session('search')) }}">
+            <input type="text" placeholder="Rechercher des équipements" value="{{ old('search', session('search')) }}">
 
             <select name="category">
                 <option value="">Toutes les catégories</option>
