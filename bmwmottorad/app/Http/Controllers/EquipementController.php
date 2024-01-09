@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Moto;
-use App\Models\Pack;
-use App\Models\Option;
-use App\Models\Accessoire;
+use App\Models\Taille;
+use App\Models\Stock;
+use App\Models\Coloris;
+use App\Models\Equipement;
 use App\Models\CategorieEquipement;
 use App\Models\Collection;
 use Illuminate\Support\Facades\Log;
 
 class EquipementController extends Controller
 {
+
+    // Function to show the list of all equipements
     public function index(Request $request) {
+
         $query = $request->input('search');
         $categories = CategorieEquipement::all();
         $collections = Collection::all();
@@ -29,119 +32,100 @@ class EquipementController extends Controller
 
 
         $equipements = DB::table('equipement')
-    ->select(
-        'equipement.*',
-        DB::raw('(SELECT media.lienmedia FROM media
-                    WHERE media.idequipement = equipement.idequipement
-                    ORDER BY media.idpresentation
-                    LIMIT 1) as lienmedia'),
-        'categorieequipement.*',
-        DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite')
-    )
-    ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
-    ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
-    ->leftJoin('collection', 'collection.idcollection', '=', 'equipement.idcollection')
-    ->leftJoin('presentation_eq', 'presentation_eq.idequipement', '=', 'equipement.idequipement')
-    ->where(function ($queryBuilder) use ($query) {
-        $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
-            ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
-    })
-    ->when($categoryId, function ($queryBuilder) use ($categoryId) {
-        $queryBuilder->where('equipement.idcatequipement', $categoryId);
-    })
-    ->when($collectionId, function ($queryBuilder) use ($collectionId) {
-        $queryBuilder->where('equipement.idcollection', $collectionId);
-    })
-    ->when($sex, function ($queryBuilder) use ($sex) {
-        $queryBuilder->where('equipement.sexeequipement', $sex);
-    })
-    ->when($segment, function ($queryBuilder) use ($segment) {
-        $queryBuilder->where('equipement.segment', $segment);
-    })
-    ->when(request('tendencies'), function ($queryBuilder) {
-        $queryBuilder->where('equipement.tendance', true);
-    })
-    ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
-        $queryBuilder->orderBy('prixequipement', $priceOrder);
-    })
-    ->when($prix_min, function ($queryBuilder) use ($prix_min) {
-        $queryBuilder->where('prixequipement', '>=', $prix_min);
-    })
-    ->when($prix_max, function ($queryBuilder) use ($prix_max) {
-        $queryBuilder->where('prixequipement', '<=', $prix_max);
-    })
-    ->groupBy('equipement.idequipement', 'categorieequipement.idcatequipement')
-    ->distinct()
-    ->get();
+            ->select(
+                'equipement.*',
+                DB::raw('(SELECT media.lienmedia FROM media
+                            WHERE media.idequipement = equipement.idequipement
+                            ORDER BY media.idpresentation
+                            LIMIT 1) as lienmedia'),
+                'categorieequipement.*',
+                DB::raw('COALESCE(SUM(stock.quantite), 0) as totalQuantite')
+            )
+            ->leftJoin('categorieequipement', 'equipement.idcatequipement', '=', 'categorieequipement.idcatequipement')
+            ->leftJoin('stock', 'stock.idequipement', '=', 'equipement.idequipement')
+            ->leftJoin('collection', 'collection.idcollection', '=', 'equipement.idcollection')
+            ->leftJoin('presentation_eq', 'presentation_eq.idequipement', '=', 'equipement.idequipement')
+            ->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where("nomequipement", 'ilike', '%' . $query . '%')
+                    ->orWhere("descriptionequipement", 'ilike', '%' . $query . '%');
+            })
+            ->when($categoryId, function ($queryBuilder) use ($categoryId) {
+                $queryBuilder->where('equipement.idcatequipement', $categoryId);
+            })
+            ->when($collectionId, function ($queryBuilder) use ($collectionId) {
+                $queryBuilder->where('equipement.idcollection', $collectionId);
+            })
+            ->when($sex, function ($queryBuilder) use ($sex) {
+                $queryBuilder->where('equipement.sexeequipement', $sex);
+            })
+            ->when($segment, function ($queryBuilder) use ($segment) {
+                $queryBuilder->where('equipement.segment', $segment);
+            })
+            ->when(request('tendencies'), function ($queryBuilder) {
+                $queryBuilder->where('equipement.tendance', true);
+            })
+            ->when(request('price'), function ($queryBuilder) use ($priceOrder) {
+                $queryBuilder->orderBy('prixequipement', $priceOrder);
+            })
+            ->when($prix_min, function ($queryBuilder) use ($prix_min) {
+                $queryBuilder->where('prixequipement', '>=', $prix_min);
+            })
+            ->when($prix_max, function ($queryBuilder) use ($prix_max) {
+                $queryBuilder->where('prixequipement', '<=', $prix_max);
+            })
+            ->groupBy('equipement.idequipement', 'categorieequipement.idcatequipement')
+            ->distinct()
+            ->get();
 
-return view("equipement-list", [
-    'equipements' => $equipements,
-    'categories' => $categories,
-    'collections' => $collections
-]);
+        return view("equipement-list", [
+            'equipements' => $equipements,
+            'categories' => $categories,
+            'collections' => $collections
+        ]);
 
     }
 
 
-
-
-
+    // Function to show the details of one equipement
     public function detail(Request $request ) {
         $idequipement = $request->input('id');
         $idcoloris = $request->input('idcoloris');
 
-        $equipement = DB::table('equipement')->select('*')->where('idequipement', $idequipement)->first();
+        $equipement = Equipement::select('*')->where('idequipement', $idequipement)->first();
 
-        $colorisIds = DB::table('stock')
-                    ->select('idcoloris')
+        $colorisIds = Stock::select('idcoloris')
                     ->where('idequipement', $idequipement)
                     ->pluck('idcoloris')
                     ->toArray();
 
-        $tailleIds = DB::table('stock')
-                    ->select('idtaille')
+        $tailleIds = Stock::select('idtaille')
                     ->where('idequipement', $idequipement)
                     ->pluck('idtaille')
                     ->toArray();
 
-        $colorisOptions = DB::table('coloris')
-                    ->select('idcoloris', 'nomcoloris')
+        $colorisOptions = Coloris::select('idcoloris', 'nomcoloris')
                     ->whereIn('idcoloris', $colorisIds)
                     ->get();
 
-                    \Log::info('tailleIds:', $tailleIds);
 
-                    $tailleOptions = DB::table('taille')
-                        ->select('idtaille', 'libelletaille')
-                        ->whereIn('idtaille', $tailleIds)
-                        ->get();
-
-                    \Log::info('tailleOptions:', $tailleOptions->toArray());
+        $tailleOptions = Taille::select('idtaille', 'libelletaille')
+                    ->whereIn('idtaille', $tailleIds)
+                    ->get();
 
 
         if ($idcoloris == null)
             $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
 
 
+        $equipement_pics = $this->getEquipementPhotosData($idequipement, $idcoloris);
 
-        $equipement_pics = DB::table('presentation_eq')
-                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
-                    ->select('media.lienmedia')
-                    ->where('presentation_eq.idequipement', $idequipement)
-                    ->where('presentation_eq.idcoloris', $idcoloris)
-                    ->get();
 
-        $equipement = DB::table('equipement')
-                    ->select('*')
+        $equipement = Equipement::all()
                     ->where('idequipement', $idequipement)
                     ->first();
 
-        $stock = DB::table('stock')
-                    ->where('idequipement', $idequipement)
-                    ->where('idcoloris', $idcoloris)
-                    ->where('idtaille', $tailleOptions->first()->idtaille)
-                    ->value('quantite');
 
+        $stock = $this->getEquipementStockData($idequipement, $idcoloris, $tailleOptions->first()->idtaille, $tailleOptions);
 
         return view("equipement", [
             "equipement_pics" => $equipement_pics,
@@ -159,15 +143,11 @@ return view("equipement-list", [
         }
 
 
+        // Functions to get the photos of an equipement and coloris
         public function getEquipementPhotos($idequipement, $idcoloris)
         {
             try {
-                $equipement_pics = DB::table('presentation_eq')
-                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
-                    ->select('media.lienmedia')
-                    ->where('presentation_eq.idequipement', $idequipement)
-                    ->where('presentation_eq.idcoloris', $idcoloris)
-                    ->get();
+                $equipement_pics = $this->getEquipementPhotosData($idequipement, $idcoloris);
 
                 return response()->json(['equipement_pics' => $equipement_pics]);
             } catch (\Exception $e) {
@@ -176,16 +156,27 @@ return view("equipement-list", [
                 return response()->json(['error' => 'Internal Server Error'], 500);
             }
         }
+        //
+        private function getEquipementPhotosData($idequipement, $idcoloris)
+        {
+            return DB::table('presentation_eq')
+                ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+                ->select('media.lienmedia')
+                ->where('presentation_eq.idequipement', $idequipement)
+                ->where('presentation_eq.idcoloris', $idcoloris)
+                ->get();
+        }
 
 
+        // Function to get stock of the equipement
         public function getEquipementStock($idequipement, $idcoloris, $idtaille)
         {
             try {
-                $stock = DB::table('stock')
-                    ->where('idequipement', $idequipement)
-                    ->where('idcoloris', $idcoloris)
-                    ->where('idtaille', $idtaille)
-                    ->value('quantite');
+                $tailleOptions = Taille::select('idtaille', 'libelletaille')
+                                ->where('idtaille', $idtaille)
+                                ->get();
+
+                $stock = $this->getEquipementStockData($idequipement, $idcoloris, $idtaille, $tailleOptions);
 
                 return response()->json(['stock' => $stock]);
             } catch (\Exception $e) {
@@ -196,9 +187,19 @@ return view("equipement-list", [
         }
 
 
+        private function getEquipementStockData($idequipement, $idcoloris, $idtaille, $tailleOptions)
+        {
+            return Stock::where('idequipement', $idequipement)
+                ->where('idcoloris', $idcoloris)
+                ->where('idtaille', $idtaille)
+                ->value('quantite');
+        }
 
 
 
+
+
+        //
         public function fetchEquipmentPhotos(Request $request)
         {
 
