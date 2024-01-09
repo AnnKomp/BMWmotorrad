@@ -17,7 +17,8 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 class MotoController extends Controller
 {
     public function index() {
-        $ranges = Gamme::select('idgamme', 'libellegamme')->get()->toArray();
+        $ranges = Gamme::select('idgamme', 'libellegamme')
+                        ->get()->toArray();
         $motos = DB::table('modelemoto')
             ->select('modelemoto.idmoto',
                     'nommoto',
@@ -32,7 +33,11 @@ class MotoController extends Controller
     public function detail(Request $request ) {
         $idmoto = $request->input('id');
         $moto_infos = DB::table('modelemoto')
-            ->select('*')
+            ->select('nomcatcaracteristique',
+                    'nomcaracteristique',
+                    'valeurcaracteristique',
+                    'nommoto',
+                    'descriptifmoto')
             ->join('caracteristique','caracteristique.idmoto','=','modelemoto.idmoto')
             ->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')
             ->where('caracteristique.idmoto','=',$idmoto)
@@ -42,7 +47,8 @@ class MotoController extends Controller
             ->where('idmoto','=',$idmoto)
             ->get();
         $moto_options = DB::table('specifie')
-            ->select('*')
+            ->select('nomoption',
+                    'detailoption')
             ->join('option','option.idoption','=','specifie.idoption')
             ->where('specifie.idmoto','=',$idmoto)
             ->get();
