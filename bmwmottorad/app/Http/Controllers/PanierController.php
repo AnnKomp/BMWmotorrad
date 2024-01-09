@@ -18,29 +18,21 @@ class PanierController extends Controller
 
         // Iterate through each equipement in the result set
         foreach ($equipements as $equipement) {
-            // Iterate through each cart item for the current equipement
-            foreach ($cart[$equipement->idequipement] as $cartItem) {
-                // Set the 'coloris_name' in the cart item, using the getColorisName function if 'coloris' is set
+            foreach ($cart[$equipement->idequipement] as &$cartItem) {  // Use &$cartItem to modify the original array
                 $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
-
-                // Set the 'taille_name' in the cart item, using the getTailleName function if 'taille' is set
                 $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
-
-                // Set the 'quantity' in the cart item, or an empty string if it's not set
                 $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
-
-                // Set the 'photo' in the cart item using the getEquipementPhotos function
                 $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
-
-                // Add stock information to the cart item using the getStock function
                 $cartItem['stock'] = $this->getStock($equipement->idequipement, $cartItem['coloris'], $cartItem['taille']);
             }
         }
 
+        // Update the original $cart array with the modified $cartItem values
+        $request->session()->put('cart', $cart);
+
         // Pass the equipements and cart data to the 'panier' view
         return view('panier', compact('equipements', 'cart'));
     }
-
 
 
     /*
