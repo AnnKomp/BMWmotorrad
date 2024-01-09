@@ -51,10 +51,14 @@ class MotoController extends Controller
 
     public function filter(Request $request) {
         $moto_range = $request->input('id');
-        $ranges = Gamme::all();
+        $ranges = Gamme::select('idgamme', 'libellegamme')->get()->toArray();
         $motos = DB::table('modelemoto')
-            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
+            ->select('modelemoto.idmoto',
+                'nommoto',
+                'lienmedia',
+                'prixmoto')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('ispresentation', '=', 'TRUE')
             ->where('modelemoto.idgamme', '=', $moto_range)
             ->get();
         return view("moto-list-filtered", ["motos" => $motos, 'ranges'=>$ranges]);
