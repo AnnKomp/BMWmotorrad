@@ -9,10 +9,8 @@
 <table>
 @foreach ($options as $option)
 <ul>
-     <h2>Option :</h2>
-     <h3 id="nom">{{ $option->nomoption }}</h3>
-     <h3>Prix : &#xA0;</h3>
-     <li>  {{ $option->prixoption }}  €</li>
+     <h2>Option : {{ $option->nomoption }}</h2>
+     <h3>Prix : {{ $option->prixoption }}  €</h3>
      <h3>Description de l'option :</h3>
      <p>{{ $option->detailoption}}</p>
      <h3>Image de l'option :</h3>

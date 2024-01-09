@@ -10,13 +10,11 @@
 <table>
 @foreach ($accessoires as $accessoire)
 <ul>
-    <h2>Option :</h2>
-    <h3 id="nom"> {{ $accessoire->nomaccessoire }} </h3>
-    <h3>Prix : &#xA0;</h3>
-    <li>  {{ $accessoire->prixaccessoire }}  €</li>
-    <h3>Description de l'option :</h3>
-    <p> {{ $accessoire->detailaccessoire }} </p>
-    <h3>Image de l'option :</h3>
+    <h2>Accessoire : {{ $accessoire->nomaccessoire }}</h2>
+    <h3>Prix :  {{ $accessoire->prixaccessoire }}  €</h3>
+    <h3>Description de l'accessoire :</h3>
+    <p id=desc> {{ $accessoire->detailaccessoire }} </p>
+    <h3>Image de l'accessoire :</h3>
     <img src={{$accessoire->photoaccessoire}} >
 </ul>
 @endforeach

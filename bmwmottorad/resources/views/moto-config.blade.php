@@ -17,17 +17,15 @@
 <h2 id=nom>Packs : </h2>
 <table>
     <tr>
-        <th>Nom</th>
-        <th>Prix</th>
-        <th>Photo</th>
-        <th>Info</th>
+        <th id=name>Nom</th>
+        <th id=price>Prix</th>
+        <th id=photo>Photo</th>
     </tr>
     @foreach($selectedPacks as $pack)
         <tr>
-            <td>{{ $pack->nompack }}</td>
-            <td>{{ $pack->prixpack }}</td>
-            <td><img src="{{ $pack->photopack }}" alt="{{ $pack->nompack }}"></td>
-            <td class="pack"><a href="/pack?id={{ $pack->idpack }}&idmoto={{$idmoto}}"><i class="fa fa-info-circle"></i></a></td>
+            <td id=name>{{ $pack->nompack }}</td>
+            <td id=price>{{ $pack->prixpack }}</td>
+            <td id=photo><img src="{{ $pack->photopack }}" alt="{{ $pack->nompack }}"></td>
         </tr>
     @endforeach
 </table>
@@ -40,17 +38,15 @@
 <h2 id=nom>Options : </h2>
 <table>
     <tr>
-        <th>Nom</th>
-        <th>Prix</th>
-        <th>Photo</th>
-        <th>Info</th>
+        <th id=name>Nom</th>
+        <th id=price>Prix</th>
+        <th id=photo>Photo</th>
     </tr>
     @foreach($selectedOptions as $option)
         <tr>
             <td>{{ $option->nomoption }}</td>
             <td>{{ $option->prixoption }}</td>
             <td><img src="{{ $option->photooption }}" alt="{{ $option->nomoption }}"></td>
-            <td class="option"><a href="/option?id={{ $option->idoption }}&idmoto={{$idmoto}}"><i class="fa fa-info-circle"></i></a></td>
         </tr>
     @endforeach
 </table>
@@ -62,17 +58,15 @@
 <h2 id=nom>Accessoires : </h2>
 <table>
     <tr>
-        <th>Nom</th>
-        <th>Prix</th>
-        <th>Photo</th>
-        <th>Info</th>
+        <th id=name>Nom</th>
+        <th id=price>Prix</th>
+        <th id=photo>Photo</th>
     </tr>
     @foreach($selectedAccessoires as $accessoire)
         <tr>
             <td>{{ $accessoire->nomaccessoire }}</td>
             <td>{{ $accessoire->prixaccessoire }}</td>
             <td><img src="{{ $accessoire->photoaccessoire }}" alt="{{ $accessoire->nomaccessoire }}"></td>
-            <td class="accessoire"><a href="/accessoire?id={{ $accessoire->idaccessoire }}&idmoto={{$idmoto}}"><i class="fa fa-info-circle"></i></a></td>
         </tr>
     @endforeach
 </table>
