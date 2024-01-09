@@ -9,6 +9,7 @@
     }
 
     $motoname = $infos[0]->nommoto;
+    $description = $infos[0]->descriptifmoto;
 @endphp
 
 @extends('layouts.menus')
@@ -51,6 +52,7 @@
 {{-- End of the part for the slider --}}
 
 <h1>La BMW {{ $motoname }}</h1>
+<p style="margin: auto 5%"> {{ $description }}</p>
 
 
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>
