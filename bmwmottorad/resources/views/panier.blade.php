@@ -26,7 +26,6 @@
             <tr>
                 <td id=name>{{ $equipement->nomequipement }}</td>
                 <td id=price>{{ $equipement->prixequipement * $cartItem['quantity']  }} €</td>
-
                 <td id=photo>
                     <img src="{{ $cartItem['photo'] }}" alt="Equipement Photo" class="equipement-photo">
                 </td>

@@ -18,13 +18,16 @@ use Stripe;
 
 class CommandeController extends Controller
 {
-    // =================================================================== CARD PART ===============================================================================
+    // ====================================== CARD PART =================================================================================
 
-    //function to
+    /*
+    * Client pays using credit/debit card
+    */
     public function createcb(){
         // Get cart data and equipments
         $cart = session()->get('cart', []);
-        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))
+                ->get();
         foreach ($equipements as $equipement) {
             foreach ($cart[$equipement->idequipement] as &$cartItem) {
                 // Check if coloris key exists
@@ -45,28 +48,31 @@ class CommandeController extends Controller
             $cb->dateexpiration = Crypt::decrypt($cb->dateexpiration);
         }
 
-
+        // Calculating the total
         $total = 0;
         foreach($equipements as $equipement){
             foreach($cart[$equipement->idequipement] as $cartItem){
                 $total += $equipement->prixequipement * $cartItem['quantity'];
             }
         }
-        // Fee is 9 euros
-        $fee = 9;
-        $feelimit = Parametres::find('montantfraislivraison');
-        // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O
-        if($feelimit->description > $total){
-            $total += $fee;
-        }else{
-            $fee = 0;
+
+        // Get the amounts in the 'parametres' table
+        $fee = Parametres::find('fraislivraison')->description;
+        $feelimit = Parametres::find('montantfraislivraison')->description;
+
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee is 0
+        if($feelimit > $total){
+            $total += $fee ;
         }
+        else { $fee = 0; }
+
         return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
     }
 
     //
     public function paycb(Request $request)  : RedirectResponse
     {
+        // Verify all the fields requiered are filled
         $request->validate([
             'cardnumber' => ['required', 'string', 'min:16' ,'max:16', 'regex:/^[3-5]{1}[0-9]{15}$/i'],
             'owner' => ['required', 'string'],
@@ -74,14 +80,18 @@ class CommandeController extends Controller
             'cvv' => ['required', 'string', 'min:3', 'max:3', 'regex:/^[0-9]{3}$/i'],
         ]);
 
+        // If the client saved his infos, auto fill
         if($request->saveinfo){
-            if(Infocb::where('idclient', auth()->user()->idclient)->first()){
-                Infocb::where('idclient', auth()->user()->idclient)->update([
-                   'numcarte' => Crypt::encrypt($request->cardnumber),
-                   'titulairecompte' => Crypt::encrypt($request->owner),
-                   'dateexpiration' => Crypt::encrypt($request->expiration)
-                ]);
-            }else{
+            if(Infocb::where('idclient', auth()->user()->idclient)
+                    ->first()){
+                Infocb::where('idclient', auth()->user()->idclient)
+                    ->update([
+                        'numcarte' => Crypt::encrypt($request->cardnumber),
+                        'titulairecompte' => Crypt::encrypt($request->owner),
+                        'dateexpiration' => Crypt::encrypt($request->expiration)
+                    ]);
+            }
+            else {
                 Infocb::insert([
                     'idclient' => auth()->user()->idclient,
                     'numcarte' => Crypt::encrypt($request->cardnumber),
@@ -93,47 +103,55 @@ class CommandeController extends Controller
 
         $this->createOrder('CB');
 
+        // Redirect to the recap of the order validated
         return redirect('/panier/commande/success');
     }
 
 
 
-    //  =================================================================== STRIPE PART ===============================================================================
+    //  ===================================== STRIPE PART ===============================================================================
 
-
-    //
+    /*
+    * The client pays using Stripe
+    */
     public function createstripe(){
-            $cart = session()->get('cart', []);
-            $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
-            foreach ($equipements as $equipement) {
-                foreach ($cart[$equipement->idequipement] as &$cartItem) {
-                    // Check if coloris key exists
-                    $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
+        // Get cart data and equipments
+        $cart = session()->get('cart', []);
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))
+                ->get();
+        foreach ($equipements as $equipement) {
+            foreach ($cart[$equipement->idequipement] as &$cartItem) {
+                // Check if coloris key exists
+                $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
 
-                    // Check if taille key exists
-                    $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
+                // Check if taille key exists
+                $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
 
-                    // Check if quantity key exists
-                    $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
-                    $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
-                }
-            };
-            $total = 0;
-            foreach($equipements as $equipement){
-                foreach($cart[$equipement->idequipement] as $cartItem){
-                    $total += $equipement->prixequipement * $cartItem['quantity'];
-                }
+                // Check if quantity key exists
+                $cartItem['quantity'] = isset($cartItem['quantity']) ? $cartItem['quantity'] : '';
+                $cartItem['photo'] = $this->getEquipementPhotos($equipement->idequipement, $cartItem['coloris']);
             }
-            // Fee is 9 euros
-            $fee = 9;
-            $feelimit = Parametres::find('montantfraislivraison');
-            // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O
-            if($feelimit->description > $total){
-                $total += $fee;
-            }else{
-                $fee = 0;
+        };
+
+        // Calculating the total
+        $total = 0;
+        foreach($equipements as $equipement){
+            foreach($cart[$equipement->idequipement] as $cartItem){
+                $total += $equipement->prixequipement * $cartItem['quantity'];
             }
-            return view('commandestripe', compact('equipements', 'cart', 'total', 'fee'));
+        }
+
+        // Get the amounts in the 'parametres' table
+        $fee = Parametres::find('fraislivraison')->description;
+        $feelimit = Parametres::find('montantfraislivraison')->description;
+
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee is 0
+        if($feelimit > $total){
+            $total += $fee;
+        }
+        else {  $fee = 0;   }
+
+        return view('commandestripe', compact('equipements', 'cart', 'total', 'fee'));
     }
 
 
@@ -141,15 +159,18 @@ class CommandeController extends Controller
     public function paystripe(Request $request)  : RedirectResponse
     {
 
+        // Calculating the total
         $total = 0;
         $cart = session()->get('cart', []);
-        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))
+                ->get();
         foreach($equipements as $equipement){
             foreach($cart[$equipement->idequipement] as $cartItem){
                 $total += $equipement->prixequipement * $cartItem['quantity'];
             }
         }
 
+        // Connect to Stripe's API
         $sourceToken = $request->stripeToken;
 
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -163,10 +184,10 @@ class CommandeController extends Controller
 
         $this->createOrder('stripe');
 
-        return redirect('/panier/commandestripe/success');
+        // Redirect to the recap of the order validated
+        return redirect('/panier/commande/success');
     }
 
-    //
     public function success(){
         // Get necessary data
         $cart = session()->get('cart', []);
@@ -177,6 +198,7 @@ class CommandeController extends Controller
                 // Check if coloris key exists
                 $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
 
+
                 // Check if taille key exists
                 $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
             }
@@ -186,7 +208,9 @@ class CommandeController extends Controller
         return view('commandesuccess', compact('equipements', 'cart'));
     }
 
-    //
+    /*
+    *   Create an order from the cart
+    */
     private function createOrder($type){
         // Get necessary data
         $cart = session()->get('cart', []);
@@ -202,6 +226,7 @@ class CommandeController extends Controller
 
         $total = 0;
 
+        // Insert into 'contenucommande' the items in the order and update the available stock
         foreach($cart as $item){
             DB::table('contenucommande')->insert([
                 'idcommande' => $order->idcommande,
@@ -216,19 +241,25 @@ class CommandeController extends Controller
             ->where('idcoloris', '=', $item[0]['coloris'])
             ->decrement('quantite', $item[0]['quantity']);
         }
+
+
         foreach($equipements as $equipement){
             foreach($cart[$equipement->idequipement] as $cartItem){
                 $total += $equipement->prixequipement * $cartItem['quantity'];
             }
         }
-        // Fee is 9 euros
-        $fee = 9;
-        $feelimit = Parametres::find('montantfraislivraison');
-        // If total is inferior to the needed minimal price, fee is applied to the total, else it is not and the fee is set to O
-        if($feelimit->description > $total){
+
+        // Get the amounts in the 'parametres' table
+        $fee = Parametres::find('fraislivraison')->description;
+        $feelimit = Parametres::find('montantfraislivraison')->description;
+
+        // If total is inferior to the needed minimal price, fee is applied to the total, else fee is 0
+        if($feelimit > $total){
             $total += $fee;
         }
+        else{   $fee = 0;    }
 
+        // Add a new transaction into the 'transaction' table
         DB::table('transaction')->insert([
             'idcommande' => $order->idcommande,
             'type' => $type,
@@ -238,7 +269,6 @@ class CommandeController extends Controller
 
     // ==================================== GETTERS ===========================================================
 
-    //
     private function getColorisName($colorisId)
     {
         // Retrieve coloris name based on ID
@@ -252,8 +282,12 @@ class CommandeController extends Controller
         return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
     }
 
+    /*
+    *   Get the link to the media for a color of an equipment
+    */
     private function getEquipementPhotos($equipementId, $colorisId)
     {
+        // Get the id of the presentation image
         $idpresentation = DB::table('presentation_eq')
             ->select('idpresentation')
             ->where('idequipement', $equipementId)
@@ -261,15 +295,18 @@ class CommandeController extends Controller
             ->get();
 
         if ($idpresentation->isNotEmpty()) {
+
+            // Get the idpesentation as a string instead of an array
             $idpresentation = $idpresentation[0]->idpresentation;
 
             $lienmedia = DB::table('media')
                 ->select('lienmedia')
                 ->where('idpresentation', $idpresentation)
+                ->select('lienmedia')
                 ->first();
 
             if ($lienmedia) {
-                return $lienmedia->lienmedia;
+                return $lienmedia;
             }
         }
 
