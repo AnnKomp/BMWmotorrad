@@ -7,9 +7,11 @@ table {
     width: 80%;
     margin-top: 3%;
 }
+
 td,th {
     padding-inline: 2%;
     border-bottom: solid 1px;
+    text-align: center;
 }
 
 
@@ -35,8 +37,8 @@ button {
     width: 15%;
     left: 50%;
     top: 50%;
-    margin-top: 2.5%;   /* = -height / 2   */
-    margin-left: 42.5%; /* = -width / 2    */
+    margin-top: 2.5%;
+    margin-left: 42.5%;
     font-size: 20;
 }
 
@@ -46,4 +48,16 @@ button {
 
 #price{
     margin-left: 8%;
+}
+
+#name{
+    width: 40%;
+}
+
+#price{
+    width : 20%;
+}
+
+#photo{
+    width: 40%;
 }

@@ -13,7 +13,7 @@
     <form id="filterForm" action="{{ url('/equipements') }}" method="post">
         @csrf
         <div class="filters">
-            <input type="text" name="search" placeholder="Rechercher des équipements" value="{{ old('search', session('search')) }}">
+            <input type="text" placeholder="Rechercher des équipements" value="{{ old('search', session('search')) }}">
 
             <select name="category">
                 <option value="">Toutes les catégories</option>
@@ -60,9 +60,6 @@
                 <p>Tendances</p>
             </div>
 
-            <button type="reset">Réinitialiser</button>
-            <button type="submit">Rechercher</button>
-
 
             <div class="range_container">
                 <div class="sliders_control">
@@ -80,6 +77,9 @@
                     </div>
                 </div>
             </div>
+
+            <button type="reset">Réinitialiser</button>
+            <button type="submit">Rechercher</button>
         </div>
 
     </form>

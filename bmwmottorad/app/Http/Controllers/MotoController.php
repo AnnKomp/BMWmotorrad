@@ -17,11 +17,15 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 class MotoController extends Controller
 {
     public function index() {
-        $ranges = Gamme::all();
+        $ranges = Gamme::select('idgamme', 'libellegamme')
+                        ->get()->toArray();
         $motos = DB::table('modelemoto')
-            ->select('*')
+            ->select('modelemoto.idmoto',
+                    'nommoto',
+                    'lienmedia',
+                    'prixmoto')
             ->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
+            ->where('ispresentation', '=', 'TRUE')
             ->get();
         return view ("moto-list", ['motos'=>$motos, 'ranges'=>$ranges]);
     }
@@ -29,7 +33,11 @@ class MotoController extends Controller
     public function detail(Request $request ) {
         $idmoto = $request->input('id');
         $moto_infos = DB::table('modelemoto')
-            ->select('*')
+            ->select('nomcatcaracteristique',
+                    'nomcaracteristique',
+                    'valeurcaracteristique',
+                    'nommoto',
+                    'descriptifmoto')
             ->join('caracteristique','caracteristique.idmoto','=','modelemoto.idmoto')
             ->join('categoriecaracteristique', 'categoriecaracteristique.idcatcaracteristique','=','caracteristique.idcatcaracteristique')
             ->where('caracteristique.idmoto','=',$idmoto)
@@ -39,7 +47,8 @@ class MotoController extends Controller
             ->where('idmoto','=',$idmoto)
             ->get();
         $moto_options = DB::table('specifie')
-            ->select('*')
+            ->select('nomoption',
+                    'detailoption')
             ->join('option','option.idoption','=','specifie.idoption')
             ->where('specifie.idmoto','=',$idmoto)
             ->get();
@@ -48,10 +57,14 @@ class MotoController extends Controller
 
     public function filter(Request $request) {
         $moto_range = $request->input('id');
-        $ranges = Gamme::all();
+        $ranges = Gamme::select('idgamme', 'libellegamme')->get()->toArray();
         $motos = DB::table('modelemoto')
-            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
+            ->select('modelemoto.idmoto',
+                'nommoto',
+                'lienmedia',
+                'prixmoto')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('ispresentation', '=', 'TRUE')
             ->where('modelemoto.idgamme', '=', $moto_range)
             ->get();
         return view("moto-list-filtered", ["motos" => $motos, 'ranges'=>$ranges]);
@@ -93,8 +106,9 @@ class MotoController extends Controller
         $idmoto = $request->input('id');
         $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
         $motos = DB::table('modelemoto')
-            ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation','idmedia')
+            ->select('*')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('ispresentation', '=', 'TRUE')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
         return view ("moto-pack", ['packs' => $packs, 'idmoto' => $idmoto, "motos" => $motos ]);
@@ -148,8 +162,9 @@ class MotoController extends Controller
         $packs = Pack::where('idmoto', $idmoto)->get();
 
         $motos = DB::table('modelemoto')
-        ->select('*')->join('media', 'media.idmoto','=','modelemoto.idmoto')
-        ->whereColumn('idmediapresentation','idmedia')
+        ->select('*')
+        ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+        ->where('ispresentation', '=', 'TRUE')
         ->where('modelemoto.idmoto', '=', $idmoto)
         ->get();
 

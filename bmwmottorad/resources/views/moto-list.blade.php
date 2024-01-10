@@ -6,10 +6,10 @@
 
 @section('categories')
     <div class = 'header_category'>
-        <a href="/motos" class="categories">Voir tout</a>
+        <a href="/motos" class="categories">Toutes</a>
         @foreach ($ranges as $range)
-            <a href="/motos-filtered?id={{ $range->idgamme }}" class="categories">
-                {{ $range->libellegamme }}
+            <a href="/motos-filtered?id={{ $range['idgamme'] }}" class="categories">
+                {{ $range['libellegamme'] }}
             </a>
         @endforeach
     </div>

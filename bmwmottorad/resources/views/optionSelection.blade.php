@@ -14,13 +14,6 @@
 @csrf
 <h2>Options (montées d'usine)</h2>
 <table>
-  <tr>
-    <th> </th>
-    <th> Photo </th>
-    <th> Nom </th>
-    <th> Prix </th>
-    <th> Info </th>
-</tr>
    @foreach ($options as $option)
 <tr>
     <td class="option">

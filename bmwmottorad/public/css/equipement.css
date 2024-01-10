@@ -53,12 +53,12 @@ h1 {
 
 .slick-prev::before,
 .slick-next::before {
-    content: '\2190'; /* Code Unicode pour une flèche vers la gauche */
-    font-family: 'Arial', sans-serif; /* Utilisez une police qui prend en charge le symbole */
+    content: '\2190';
+    font-family: 'Arial', sans-serif;
 }
 
 .slick-next::before {
-    content: '\2192'; /* Code Unicode pour une flèche vers la droite */
+    content: '\2192';
 }
 
 hr {
@@ -86,17 +86,6 @@ a {
 input {
     width: 50px;
 }
-/*
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}*/
 
 
 #lancerconfig {

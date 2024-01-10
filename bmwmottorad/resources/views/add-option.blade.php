@@ -50,7 +50,6 @@
 
             <label for="existingOption">Sélectionner une option existante :</label>
             <select name="existingOption" id="existingOption">
-                {{-- Populate options based on your exOptions data --}}
                 @foreach ($exOptions as $option)
                     <option value="{{ $option->idoption }}">{{ $option->nomoption }}</option>
                 @endforeach

@@ -1,7 +1,6 @@
 @php
     $categories = [];
 
-    // Compter le nombre de lignes par catégorie
     foreach ($infos as $info) {
         $categories[$info->nomcatcaracteristique] = isset($categories[$info->nomcatcaracteristique])
             ? $categories[$info->nomcatcaracteristique] + 1
@@ -9,6 +8,7 @@
     }
 
     $motoname = $infos[0]->nommoto;
+    $description = $infos[0]->descriptifmoto;
 @endphp
 
 @extends('layouts.menus')
@@ -21,7 +21,6 @@
     <div class = 'header_category'>
         <a href="/moto?id={{$idmoto}}" class = "categories">{{ $motoname }}</a>
         <a href="/moto/color?idmoto={{$idmoto}}" class = "categories">Configuration</a>
-{{--        <a href="/moto/pack?id={{$idmoto}}" class = "categories">Packs</a>--}}
     </div>
 @endsection
 
@@ -51,6 +50,7 @@
 {{-- End of the part for the slider --}}
 
 <h1>La BMW {{ $motoname }}</h1>
+<p style="margin: auto 5%"> {{ $description }}</p>
 
 
 <p><hr NOSHADE  ALIGN=CENTER WIDTH="40%" SIZE='5'></p>

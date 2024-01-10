@@ -17,15 +17,15 @@ td, th {
 }
 
 .photo-cell {
-    max-width: 200px; /* Ajustez la largeur maximale souhaitée pour la colonne de la photo */
+    max-width: 200px;
     text-align: center;
 }
 
 img {
     max-width: 100%;
     height: auto;
-    display: inline-block; /* Ajustez cela pour centrer l'image horizontalement */
-    margin: 0 auto; /* Centre l'image horizontalement */
+    display: inline-block;
+    margin: 0 auto;
 }
 
 .alert {

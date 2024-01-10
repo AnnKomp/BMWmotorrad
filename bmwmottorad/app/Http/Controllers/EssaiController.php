@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class EssaiController extends Controller
 {
+
+    // Function to show the view for essai
     public function create(Request $request){
         $idmoto = $request->input('idmoto');
         return view("essai", ['idmoto' => $idmoto, 'concessionnaires' => Concessionnaire::all() ]);
@@ -59,6 +61,7 @@ class EssaiController extends Controller
         return redirect('/moto/essai/confirmation');
     }
 
+    // Function to show the view for essai confirmation
     public function confirm(){
         return view('essaiconfirmation');
     }
