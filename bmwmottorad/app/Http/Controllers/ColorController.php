@@ -9,7 +9,7 @@ class ColorController extends Controller
     /**
      * Save the selected color/style for a motorcycle and proceed to packs selection.
      */
-    public function processColorsForm(Request $request): RedirectResponse
+    public function processColorsForm(Request $request)
     {
         // Retrieving data
         $idmoto = $request->input('id');

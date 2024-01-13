@@ -43,7 +43,7 @@ class AnonController extends Controller
      * Execute an SQL function to anonymize clients who haven't connected since the specified date.
      * The date must be at least one year old from today.
      */
-    public function execute(Request $request): RedirectResponse
+    public function execute(Request $request)
     {
         $request->validate([
             'date' => ['required', 'date', 'before:' . now()->subYears(1)->format('Y-m-d')],

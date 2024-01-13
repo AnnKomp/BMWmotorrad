@@ -11,7 +11,7 @@ class RegisterFinishedController extends Controller
     /**
      * Display the registerfinished view.
      */
-    public function create(): View
+    public function create()
     {
         return view('auth.registerfinished');
     }

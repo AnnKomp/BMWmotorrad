@@ -47,7 +47,6 @@ Route::get("/accessoire",[AccessoireController::class, "info" ]);
 Route::get("/motos",[MotoController::class, "index" ]);
 Route::get("/moto",[MotoController::class, "detail" ]);
 Route::get("/motos-filtered",[MotoController::class, "filter" ]);
-Route::get("/moto/color",[MotoController::class, "color" ]);
 Route::get("/pack",[PackController::class, "info" ]);
 
 Route::get("/moto/essai",[EssaiController::class, "create"]);
@@ -130,7 +129,7 @@ Route::middleware('auth')->group(function () {
     // CB payment
     Route::get('/panier/commandecb', [CommandeController::class, 'createcb']);
     Route::post('/panier/commandecb', [CommandeController::class, 'paycb'])->name('paymentcb');
-    // Client data 
+    // Client data
     Route::get('/profiledata', [ProfileController::class, 'indexPDF'])->name('profile.clientdata');
     Route::post('/profiledata', [ProfileController::class, 'generatePDF'])->name('profile.clientdownload');
 });
@@ -219,8 +218,8 @@ Route::get('/accessoires',  [AccessoireController::class, 'showAccessoiresForm']
 Route::post('/accessoires', [AccessoireController::class,'processAccessoiresForm'])->name('processAccessoires');
 
 ///choix couleurs
-Route::get('/colors', [MotoController::class,'showColorsForm']);
-Route::post('/colors', [ColorController::class,'processColorsForm'])->name('processColors');
+Route::get("/moto/color",[MotoController::class, "color" ]);
+Route::post('/moto/color', [ColorController::class,'processColorsForm'])->name('processColors');
 
 ///fin de config
 Route::get('/moto-config',  [MotoController::class, 'showMotoConfig']);

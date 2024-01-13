@@ -16,10 +16,7 @@ class EquipementController extends Controller
 {
 
     /**
-     * Display the list of all equipements based on the search and filter criteria.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\View\View
+     * Display the list of all equipements based on the search and filter criteria
      */
     public function index(Request $request)
     {
@@ -101,7 +98,9 @@ class EquipementController extends Controller
         $idcoloris = $request->input('idcoloris');
 
         // Get equipement details
-        $equipement = Equipement::select('*')->where('idequipement', $idequipement)->first();
+        $equipement = Equipement::select('*')
+                ->where('idequipement', $idequipement)
+                ->first();
 
         // Get coloris and taille IDs associated with the equipement
         $colorisIds = Stock::select('idcoloris')

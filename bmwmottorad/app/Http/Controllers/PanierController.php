@@ -14,7 +14,7 @@ class PanierController extends Controller
      * @param Request $request
      * @return View
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
         // Retrieve the 'cart' data from the session or an empty array if it doesn't exist
         $cart = $request->session()->get('cart', []);
@@ -98,7 +98,7 @@ class PanierController extends Controller
     /**
      * Add an equipement to the shopping cart.
      */
-    public function addToCart(Request $request, $id): JsonResponse
+    public function addToCart(Request $request, $id)
     {
         // Retrieve the current cart from the session or create an empty array if it doesn't exist
         $cart = $request->session()->get('cart', []);
@@ -198,7 +198,7 @@ class PanierController extends Controller
     /**
      * Decrement the quantity of a specific item in the cart.
      */
-    public function decrementQuantity(Request $request, $id, $index): RedirectResponse
+    public function decrementQuantity(Request $request, $id, $index)
     {
         // Retrieve the current cart from the session or create an empty array if it doesn't exist
         $cart = $request->session()->get('cart', []);
@@ -220,7 +220,7 @@ class PanierController extends Controller
     /**
      * Check if it's possible to increment the quantity of an item in the cart based on available stock.
      */
-    private function canIncrement($equipementId, $coloris, $taille, $requestedQuantity = 1): bool
+    private function canIncrement($equipementId, $coloris, $taille, $requestedQuantity = 1)
     {
         // Use the DB facade to query the 'stock' table and retrieve the 'quantite' column
         $stock = DB::table('stock')
@@ -238,7 +238,7 @@ class PanierController extends Controller
     /**
      * Find the index of a specific cart item in the cart array based on equipement id, coloris, and taille.
      */
-    private function findCartItemIndex(array $cart, int $id, int $coloris, int $taille): ?int
+    private function findCartItemIndex(array $cart, int $id, int $coloris, int $taille)
     {
         // Check if the equipement id exists in the cart
         if (isset($cart[$id])) {
@@ -262,7 +262,7 @@ class PanierController extends Controller
     /**
      * Get the first coloris option for a specific equipement.
      */
-    private function getFirstColorisOptionForEquipement(int $equipementId): ?object
+    private function getFirstColorisOptionForEquipement(int $equipementId)
     {
         // Use the DB facade to query the 'coloris' table and retrieve the first coloris id
         return DB::table('coloris')
@@ -275,7 +275,7 @@ class PanierController extends Controller
     /**
      * Remove a specific item from the cart based on equipement id and index.
      */
-    public function removeItem(Request $request, int $id, int $index): RedirectResponse
+    public function removeItem(Request $request, int $id, int $index)
     {
         // Retrieve the current cart from the session or create an empty array if it doesn't exist
         $cart = $request->session()->get('cart', []);

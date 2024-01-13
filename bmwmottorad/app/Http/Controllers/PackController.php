@@ -13,7 +13,7 @@ class PackController extends Controller
     /**
      * Display information about a specific pack.
      */
-    public function info(Request $request): View
+    public function info(Request $request)
     {
         $idpack = $request->input('id');
 
@@ -33,7 +33,7 @@ class PackController extends Controller
     /**
      * Display the index of packs.
      */
-    public function index(): View
+    public function index()
     {
         return view("packs", ['packs' => Pack::all()]);
     }
@@ -41,7 +41,7 @@ class PackController extends Controller
     /**
      * Display packs for a specific moto.
      */
-    public function store(Request $request): View
+    public function store(Request $request)
     {
         $idmoto = $request->input('id');
 
@@ -64,7 +64,7 @@ class PackController extends Controller
      * @param Request $request
      * @return View
      */
-    public function showPacksForm(Request $request): View
+    public function showPacksForm(Request $request)
     {
         $idmoto = $request->input('id');
         $packs = Pack::select('*')->where('idmoto', "=", $idmoto)->get();
@@ -75,7 +75,7 @@ class PackController extends Controller
     /**
      * Process the selected packs form.
      */
-    public function processPacksForm(Request $request): RedirectResponse
+    public function processPacksForm(Request $request)
     {
         $idmoto = $request->input('id');
         $selectedPacks = $request->input('packs', []);
@@ -88,7 +88,7 @@ class PackController extends Controller
     /**
      * Display the form for adding a pack.
      */
-    public function showAddingPack(Request $request): View
+    public function showAddingPack(Request $request)
     {
         $idmoto = $request->input('idmoto');
 
@@ -98,7 +98,7 @@ class PackController extends Controller
     /**
      * Add a new pack.
      */
-    public function addPack(Request $request): RedirectResponse
+    public function addPack(Request $request)
     {
         try {
             $idmoto = $request->input('idmoto');

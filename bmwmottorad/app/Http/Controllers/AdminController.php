@@ -145,9 +145,12 @@ class AdminController extends Controller
     {
         $ranges = Gamme::all();
         $motos = DB::table('modelemoto')
-            ->select('*')
-            ->join('media', 'media.idmoto', '=', 'modelemoto.idmoto')
-            ->whereColumn('idmediapresentation', 'idmedia')
+            ->select('modelemoto.idmoto',
+                    'nommoto',
+                    'lienmedia',
+                    'prixmoto')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('ispresentation', '=', 'TRUE')
             ->get();
 
         return view("motos-com", ['motos' => $motos, 'ranges' => $ranges]);

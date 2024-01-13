@@ -167,32 +167,6 @@ class MotoController extends Controller
     }
 
     /**
-     * Controller method for retrieving and displaying motorcycle packs and related information.
-     */
-    function pack(Request $request) {
-        // Retrieve input value for idmoto
-        $idmoto = $request->input('id');
-
-        // Retrieve packs associated with the motorcycle
-        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
-
-        // Retrieve motorcycle information and associated media
-        $motos = DB::table('modelemoto')
-            ->select('*')
-            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->where('ispresentation', '=', 'TRUE')
-            ->where('modelemoto.idmoto', '=', $idmoto)
-            ->get();
-
-        // Return the view with the necessary data
-        return view("moto-pack", [
-            'packs' => $packs,
-            'idmoto' => $idmoto,
-            "motos" => $motos
-        ]);
-    }
-
-    /**
      * Controller method for retrieving and displaying the motorcycle configuration.
      */
     function showMotoConfig(Request $request) {
@@ -246,37 +220,12 @@ class MotoController extends Controller
 
         // Retrieve motorcycle information and associated media
         $motos = DB::table('modelemoto')
-            ->select('*')
-            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->where('ispresentation', '=', 'TRUE')
+            ->select('nommoto')
             ->where('modelemoto.idmoto', '=', $idmoto)
             ->get();
 
         // Return the view with the necessary data
         return view('moto-pack', ['packs' => $packs, 'idmoto' => $idmoto, 'motos' => $motos]);
-    }
-
-    /**
-     * Controller method for displaying the form to add colors for a specific motorcycle.
-     */
-    public function showColorsForm(Request $request)
-    {
-        // Retrieve input value for idmoto
-        $idmoto = $request->input('id');
-
-        // Retrieve colors associated with the motorcycle
-        $colors = Color::where('idmoto', $idmoto)->get();
-
-        // Retrieve motorcycle information and associated media
-        $motos = DB::table('modelemoto')
-            ->select('*')
-            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
-            ->whereColumn('idmediapresentation', 'idmedia')
-            ->where('modelemoto.idmoto', '=', $idmoto)
-            ->get();
-
-        // Return the view with the necessary data
-        return view('moto-color', ['colors' => $colors, 'idmoto' => $idmoto, 'motos' => $motos]);
     }
 
     /**
@@ -286,7 +235,8 @@ class MotoController extends Controller
     {
         // Retrieve all gammes of motorcycles
         $gammes = DB::table('gammemoto')
-            ->select('*')
+            ->select('idgamme',
+                    'libellegamme')
             ->get();
 
         // Return the view with the necessary data
@@ -372,7 +322,13 @@ class MotoController extends Controller
             ->get();
 
         // Retrieve packs associated with the motorcycle
-        $packs = Pack::select('*')->where('idmoto', "=", $idmoto)->get();
+        $packs = Pack::select('nompack',
+                    'prixpack',
+                    'descriptionpack',
+                    'photopack',
+                    'idpack')
+                ->where('idmoto', "=", $idmoto)
+                ->get();
 
         // Return the view with the necessary data
         return view('moto-commercial', [
@@ -417,54 +373,6 @@ class MotoController extends Controller
             'selectedCatId' => $selectedCatId,
             'caracteristique' => $caracteristique,
         ]);
-    }
-
-    /**
-     * Controller method for updating a characteristic of a motorcycle.
-     */
-    public function updateCaracteristique(Request $request, $idmoto, $idcaracteristique)
-    {
-        try {
-            // Retrieve input values from the request
-            $newCatId = $request->input('carCat');
-            $newCarName = $request->input('carName');
-            $newCarValue = $request->input('carValue');
-
-            // Update the characteristic details in the database
-            DB::table('caracteristique')
-                ->where('idmoto', $idmoto)
-                ->where('idcaracteristique', $idcaracteristique)
-                ->update([
-                    'idcatcaracteristique' => $newCatId,
-                    'nomcaracteristique' => $newCarName,
-                    'valeurcaracteristique' => $newCarValue,
-                ]);
-
-            // Retrieve updated characteristics, options, accessories, and motorcycle details
-            $caracteristiques = DB::table('caracteristique as c')
-                ->join('categoriecaracteristique as cc', 'c.idcatcaracteristique', '=', 'cc.idcatcaracteristique')
-                ->where('c.idmoto', $idmoto)
-                ->select('cc.nomcatcaracteristique', 'c.nomcaracteristique', 'c.valeurcaracteristique', 'c.idcaracteristique', 'c.idmoto')
-                ->get();
-
-            $options = DB::table('option as o')
-                ->join('specifie as s', 'o.idoption', '=', 's.idoption')
-                ->where('s.idmoto', $idmoto)
-                ->select('o.*', 's.idoption', 's.idmoto')
-                ->get();
-
-            $accessoires = DB::table('accessoire')
-                ->where('idmoto', $idmoto)
-                ->get();
-
-            $motoDetails = DB::table('modelemoto')->where('idmoto', $idmoto)->first();
-
-            // Redirect to the commercial details page
-            return redirect()->route('showMotoCommercial', ['id' => $idmoto]);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
     }
 
     /**
@@ -637,14 +545,18 @@ class MotoController extends Controller
         $idpack = $request->input('idpack');
 
         // Retrieve the selected pack
-        $pack = DB::table('pack')
+        $pack = Pack::select('nompack',
+                'prixpack',
+                'descriptionpack',
+                'photopack',
+                'idpack')
             ->where('idmoto', $idmoto)
             ->where('idpack', $idpack)
             ->first();
 
         // Retrieve options associated with the pack
         $options = DB::table('secompose')
-            ->select('*')
+            ->select('nomoption')
             ->join('option', 'secompose.idoption', '=', 'option.idoption')
             ->where('idpack', '=', $idpack)
             ->get();

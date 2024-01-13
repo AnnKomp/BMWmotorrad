@@ -12,7 +12,7 @@ class CaracteristiqueController extends Controller
     /**
      * Show the add characteristic form for a motorcycle.
      */
-    public function showAddingCarac(Request $request): View
+    public function showAddingCarac(Request $request)
     {
         $idmoto = $request->input('idmoto');
         $catcarac = CategorieCaracteristique::all();
@@ -23,7 +23,7 @@ class CaracteristiqueController extends Controller
     /**
      * Proceed with the insertion of the characteristic into the database.
      */
-    public function addCarac(Request $request): RedirectResponse
+    public function addCarac(Request $request)
     {
         try {
             // Retrieving data

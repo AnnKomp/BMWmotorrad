@@ -16,9 +16,7 @@
     </div>
 @endsection
 
-
 @section('content')
-
 <form action="{{ route('processColors')}}?id={{$idmoto}}" method="post" >
     @csrf
     <div class="couleur">

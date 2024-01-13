@@ -22,7 +22,7 @@ class RegisterSuiteController extends Controller
     /**
      * Controller method for displaying the second part of the account registration form.
      */
-    public function create(): View
+    public function create()
     {
         // Load the view for the second part of the account registration
         return view('auth.registersuite', ['pays' => Pays::all()]);
@@ -32,7 +32,7 @@ class RegisterSuiteController extends Controller
     /**
      * Store method for processing and storing user registration data.
      */
-    public function store(): RedirectResponse
+    public function store()
     {
         // Check if at least one phone number was given
         if (empty(request('telephonepvmb')) && empty(request('telephonepvfx')) && empty(request('telephonepfmb')) && empty(request('telephonepffx'))) {

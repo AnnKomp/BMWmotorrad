@@ -14,7 +14,7 @@ class OptionController extends Controller
     /**
      * Display the index view with all available options.
      */
-    public function index(): View
+    public function index()
     {
         // Fetch all options from the 'Option' model
         $options = Option::all();
@@ -26,7 +26,7 @@ class OptionController extends Controller
     /**
      * Display the info view for a specific option.
      */
-    public function info(Request $request): View
+    public function info(Request $request)
     {
         // Retrieve input values from the request
         $idoption = $request->input('id');
@@ -44,7 +44,7 @@ class OptionController extends Controller
     /**
      * Display the option selection view for a specific motorcycle.
      */
-    public function optionSelection(Request $request): View
+    public function optionSelection(Request $request)
     {
         // Retrieve input values from the request
         $idmoto = $request->input('id');
@@ -61,7 +61,7 @@ class OptionController extends Controller
     /**
      * Save the selected options.
      */
-    public function save(Request $request): RedirectResponse
+    public function save(Request $request)
     {
         // Redirect back to the previous page
         return redirect()->back();
@@ -70,7 +70,7 @@ class OptionController extends Controller
     /**
      * Get the selected options.
      */
-    public function getOptions(array $selectedOptions): Collection
+    public function getOptions(array $selectedOptions)
     {
         // Retrieve options from the 'Option' model based on the selected option IDs
         return Option::whereIn('idoption', $selectedOptions)->get();
@@ -79,7 +79,7 @@ class OptionController extends Controller
     /**
      * Display the selected accessories view.
      */
-    public function selectedAccessories(Request $request): View
+    public function selectedAccessories(Request $request)
     {
         // Retrieve input values from the request
         $idmoto = $request->input('id');
@@ -99,7 +99,7 @@ class OptionController extends Controller
     /**
      * Show the options form view.
      */
-    public function showOptionsForm(Request $request): View
+    public function showOptionsForm(Request $request)
     {
         // Retrieve input value for the motorcycle ID
         $idmoto = $request->input('id');
@@ -116,7 +116,7 @@ class OptionController extends Controller
     /**
      * Process the options form submission.
      */
-    public function processOptionsForm(Request $request): RedirectResponse
+    public function processOptionsForm(Request $request)
     {
         // Retrieve input values from the request
         $idmoto = $request->input('id');

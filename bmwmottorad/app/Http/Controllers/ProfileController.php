@@ -27,7 +27,7 @@ class ProfileController extends Controller
     /*
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request)
     {
         //Getting Necessary data from the table
         $user = auth()->user();
@@ -63,7 +63,7 @@ class ProfileController extends Controller
     /*
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
         // The email format is checked only if it was modifie because of the unique clause
         if($request->email != $request->user()->email){
@@ -105,7 +105,7 @@ class ProfileController extends Controller
     }
 
     // Update de user's adress information
-    public function updateadress(Request $request): RedirectResponse
+    public function updateadress(Request $request)
     {
         // Validating the data format
         $request->validate([
@@ -185,7 +185,7 @@ class ProfileController extends Controller
     /*
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
@@ -228,7 +228,8 @@ class ProfileController extends Controller
     /*
      * Anonymize the user's account.
      */
-    public function anonymize(Request $request): RedirectResponse{
+    public function anonymize(Request $request)
+    {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
@@ -324,7 +325,7 @@ class ProfileController extends Controller
     /*
     * Display all the user's command
     */
-    public function commands(): View
+    public function commands()
     {
         $idclient = auth()->user()->idclient;
         $commands = DB::table('commande')
@@ -342,7 +343,7 @@ class ProfileController extends Controller
     /*
     * Display the detail of a specific command
     */
-    public function command_detail(Request $request): View
+    public function command_detail(Request $request)
     {
         $idcommand = $request->input('idcommand');
 
