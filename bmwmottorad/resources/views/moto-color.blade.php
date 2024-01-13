@@ -13,7 +13,6 @@
     <div class = 'header_category'>
         <a href="/moto?id={{$idmoto}}" class = "categories">{{ $motoname }}</a>
         <a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{$idcouleur}}" class = "categories">Configuration</a>
-{{--        <a href="/moto/pack?id={{$idmoto}}" class = "categories">Packs</a>--}}
     </div>
 @endsection
 

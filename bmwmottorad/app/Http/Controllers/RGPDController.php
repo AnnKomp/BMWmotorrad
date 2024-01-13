@@ -6,13 +6,22 @@ use Illuminate\Http\Request;
 
 class RGPDController extends Controller
 {
-    public function createcookies(){
+    /**
+     * Controller method for displaying the cookies view.
+     */
+    public function createCookies()
+    {
         // Return view 'cookies'
         return view('cookies');
     }
 
-    public function createconfidentialite(){
+    /**
+     * Controller method for displaying the confidentiality view.
+     */
+    public function createConfidentialite()
+    {
         // Return view 'confidentialite'
         return view('confidentialite');
     }
+
 }
