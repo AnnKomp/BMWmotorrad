@@ -15,7 +15,6 @@
 
         <label for="carCat">Catégorie de Caractéristique :</label>
         <select name="carCat" id="carCat">
-            {{-- Populate options based on your categoieCaracteristique data --}}
             @foreach ($catcarac as $categorie)
                 <option value="{{ $categorie->idcatcaracteristique }}" {{ $categorie->idcatcaracteristique == $selectedCatId ? 'selected' : '' }}>{{ $categorie->nomcatcaracteristique }}</option>
             @endforeach

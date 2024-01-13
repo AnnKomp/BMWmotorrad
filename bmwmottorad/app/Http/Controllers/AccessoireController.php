@@ -30,7 +30,6 @@ class AccessoireController extends Controller
     // show the configurated moto after the accessory selection
     public function displayMotoConfig(Request $request)
     {
-
         $idmoto = $request->input('id');
         $selectedAccessories = $request->input('selectedPacks',[]);
 
@@ -40,7 +39,6 @@ class AccessoireController extends Controller
             'selectedAccessories'=> $selectedAccessories,
             'idmoto' => $idmoto
         ]);
-
     }
 
     //show the selection of accessories for the moto

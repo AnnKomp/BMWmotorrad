@@ -93,7 +93,6 @@
     </script>
 
     <h3 id=price>Prix : {{ $prixequipement }} €</h3>
-    {{-- faire en sorte de le stock change en tant que les photos --}}
     <h3 id=stock>Stock : {{ $stock }}</h3>
 
     <form id="addToCartForm">
@@ -122,7 +121,6 @@
             </div>
 
             <label for="quantity">Quantité :</label>
-            {{-- faire en sorte de le stock change en tant que les photos et redevient 1--}}
             <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}" oninput="validateQuantity()">
             <p id="errorMessage" style="color: red;"></p>
 

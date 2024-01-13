@@ -14,13 +14,6 @@
 @csrf
 <h2>Accessoires (installés chez votre Concessionnaire)</h2>
 <table>
-  <tr>
-    <th> </th>
-    <th> Photo</th>
-    <th> Nom</th>
-    <th> Prix</th>
-    <th> Info </th>
-</tr>
 @foreach ($accessoires as $accessoire)
 <tr>
     <td class="option">

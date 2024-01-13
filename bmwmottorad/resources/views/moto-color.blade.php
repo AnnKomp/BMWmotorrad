@@ -56,7 +56,6 @@
                 <td class="couleur"><a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{ $style->idstyle }}&type=style"><img src="{{$style->photostyle}}"></a></td>
                 <td class="couleur">{{ $style->nomstyle }}</td>
                 <td class="pack">{{ $style->prixstyle }} €</td>
-                {{--<td class="couleur"><i class="fa fa-info-circle"></i></a></td> TODO--}}
             </tr>
             @endforeach
         </table>

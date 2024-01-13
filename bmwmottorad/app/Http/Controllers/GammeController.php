@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Gamme;
 use Illuminate\Support\Facades\DB;
 
 class GammeController extends Controller
 {
+    // Function to show the view to add a new gamme
     public function index() {
-        $gammes = DB::table('gammemoto')
-            ->select('*')
-            ->get();
+        $gammes = Gamme::all();
         return view ("add-gamme", ['gammes'=>$gammes]);
     }
 
+
+    //Function to add the new gamme in the DB
     public function addGamme(Request $request) {
         try {
         $newGammeName = $request->input('gammeName');

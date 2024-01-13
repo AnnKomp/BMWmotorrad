@@ -10,8 +10,6 @@
 
 <x-guest-layout>
     <link rel="stylesheet" href="/css/register.css">
-        
-        <!-- Redirection page after creating a new account -->
 
         <h2>Votre commande a été validée avec succès!</h2>
         <h3>Récapitulatif de votre commande : </h3>
@@ -35,7 +33,6 @@
                 <td id=coloris>{{ $cartItem['coloris_name'] }}</td>
                 <td id=taille>{{ $cartItem['taille_name'] }}</td>
                 <td id=quantity>{{ isset($cartItem['quantity']) ? $cartItem['quantity'] : ''}}</td>
-                <!-- Make the price equal to the unitary price times the quantity -->
                 <td id=price>{{ $equipement->prixequipement * $cartItem['quantity'] }} €</td>
             </tr>
             @endforeach
