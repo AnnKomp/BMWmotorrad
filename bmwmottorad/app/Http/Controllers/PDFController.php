@@ -10,8 +10,6 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 class PDFController extends Controller
 {
 
-
-
     /**
      *  Generate a PDF of the configuration made by a user
      */
@@ -60,5 +58,4 @@ class PDFController extends Controller
 
         return $pdf->download('moto_config.pdf');
     }
-
 }

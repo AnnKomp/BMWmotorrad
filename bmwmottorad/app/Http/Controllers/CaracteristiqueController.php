@@ -9,20 +9,24 @@ use Illuminate\Support\Facades\DB;
 class CaracteristiqueController extends Controller
 {
 
-    // Function to show the add caracteristic for a moto form
-    public function showAddingCarac(Request $request)
-{
-    $idmoto = $request->input('idmoto');
-    $catcarac = CategorieCaracteristique::all();
+    /**
+     * Show the add characteristic form for a motorcycle.
+     */
+    public function showAddingCarac(Request $request): View
+    {
+        $idmoto = $request->input('idmoto');
+        $catcarac = CategorieCaracteristique::all();
 
-    return view('add-caracteristique', ['idmoto' => $idmoto, 'catcarac' => $catcarac]);
-}
+        return view('add-caracteristique', ['idmoto' => $idmoto, 'catcarac' => $catcarac]);
+    }
 
-    // Function to proceed the insertion of the caracteristic into the DB
-    public function addCarac(Request $request)
+    /**
+     * Proceed with the insertion of the characteristic into the database.
+     */
+    public function addCarac(Request $request): RedirectResponse
     {
         try {
-            //retrieving data
+            // Retrieving data
             $idmoto = $request->input('idmoto');
             $newCarCat = $request->input('carCat');
             $newCarName = $request->input('carName');
@@ -31,12 +35,10 @@ class CaracteristiqueController extends Controller
 
             $catcarac = CategorieCaracteristique::all();
 
-
-            //insertion
+            // Insertion
             DB::insert('INSERT INTO caracteristique(idmoto, idcatcaracteristique, nomcaracteristique, valeurcaracteristique)
                 VALUES (?,?,?,?)',
                 [$idmoto, $newCarCat, $newCarName, $newCarVal]);
-
 
             if ($action === 'proceedAgain') {
                 return redirect()->route('showCarac', ['idmoto' => $idmoto])->with('catcarac', $catcarac);
@@ -50,6 +52,4 @@ class CaracteristiqueController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
 }

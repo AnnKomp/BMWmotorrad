@@ -6,6 +6,9 @@ use Closure;
 
 class CheckAdminType
 {
+    /**
+     * Handle an incoming request.
+     */
     public function handle($request, Closure $next)
     {
         if (auth()->check()) {
@@ -18,7 +21,7 @@ class CheckAdminType
         // Return to the login page
         //return redirect()->route('login');
 
-        // Retuturn an error with Denied Acess
+        // Return an error with Denied Access
         abort(403, 'Accès interdit');
     }
 }

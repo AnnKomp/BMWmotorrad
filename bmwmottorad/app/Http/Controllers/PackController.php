@@ -10,91 +10,112 @@ use Illuminate\Support\Facades\DB;
 class PackController extends Controller
 {
 
-    public function info(Request $request) {
+    /**
+     * Display information about a specific pack.
+     */
+    public function info(Request $request): View
+    {
         $idpack = $request->input('id');
 
         $idmoto = Pack::select('idmoto')->where('idpack', $idpack)->first();
         $idmotoValue = $idmoto ? $idmoto->idmoto : null;
 
-        $pack = Pack::where('idpack','=',$idpack)->get();
-
+        $pack = Pack::where('idpack', '=', $idpack)->get();
 
         session(['lastUsedView' => 'pack']);
 
-        $options = Option::join('secompose','option.idoption','=','secompose.idoption')
-                                ->where('secompose.idpack',"=", $idpack)->get();
+        $options = Option::join('secompose', 'option.idoption', '=', 'secompose.idoption')
+            ->where('secompose.idpack', '=', $idpack)->get();
 
-
-        return view("pack",['options'=>$options,'pack'=>$pack, 'idmoto'=>$idmotoValue, 'idpack' => $idpack]);
+        return view("pack", ['options' => $options, 'pack' => $pack, 'idmoto' => $idmotoValue, 'idpack' => $idpack]);
     }
 
-    public function index() {
-        return view("packs",['packs'=>Pack::all() ] );
+    /**
+     * Display the index of packs.
+     */
+    public function index(): View
+    {
+        return view("packs", ['packs' => Pack::all()]);
     }
 
-
-    public function store(Request $request) {
+    /**
+     * Display packs for a specific moto.
+     */
+    public function store(Request $request): View
+    {
         $idmoto = $request->input('id');
 
-        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
+        $packs = Pack::select('*')->where('idmoto', '=', $idmoto)->get();
 
-
-        return view ("packs", ['packs' => $packs],['idmoto' => $idmoto ]);
-
+        return view("packs", ['packs' => $packs, 'idmoto' => $idmoto]);
     }
 
-
-    public function getPacks($selectedPacks)
+    /**
+     * Get packs based on selected pack IDs.
+     */
+    public function getPacks(array $selectedPacks)
     {
         return Pack::whereIn('idpack', $selectedPacks)->get();
     }
 
-
-    public function showPacksForm(Request $request)
+    /**
+     * Display the form for selecting packs.
+     *
+     * @param Request $request
+     * @return View
+     */
+    public function showPacksForm(Request $request): View
     {
         $idmoto = $request->input('id');
+        $packs = Pack::select('*')->where('idmoto', "=", $idmoto)->get();
 
-        $packs = Pack::select('*')->where('idmoto',"=", $idmoto)->get();
-
-        return view('moto-pack', ['packs' => $packs,'idmoto' => $idmoto ]);
+        return view('moto-pack', ['packs' => $packs, 'idmoto' => $idmoto]);
     }
 
-    public function processPacksForm(Request $request)
+    /**
+     * Process the selected packs form.
+     */
+    public function processPacksForm(Request $request): RedirectResponse
     {
-
         $idmoto = $request->input('id');
-
-        $selectedPacks = $request->input('packs',[]);
+        $selectedPacks = $request->input('packs', []);
         session(['selectedPacks' => $selectedPacks]);
+
         return redirect('/options?id=' . $idmoto);
     }
 
-    public function showAddingPack(Request $request)
+
+    /**
+     * Display the form for adding a pack.
+     */
+    public function showAddingPack(Request $request): View
     {
         $idmoto = $request->input('idmoto');
 
         return view('add-pack', ['idmoto' => $idmoto]);
     }
 
-    public function addPack(Request $request)
+    /**
+     * Add a new pack.
+     */
+    public function addPack(Request $request): RedirectResponse
     {
-        try{
-        $idmoto = $request->input('idmoto');
+        try {
+            $idmoto = $request->input('idmoto');
 
-        $pack = new Pack([
-            'idmoto' => $idmoto,
-            'nompack' => $request->input('nompack'),
-            'descriptionpack' => $request->input('descriptionpack'),
-            'photopack' => $request->input('photopack'),
-            'prixpack' => $request->input('prixpack'),
-        ]);
+            $pack = new Pack([
+                'idmoto' => $idmoto,
+                'nompack' => $request->input('nompack'),
+                'descriptionpack' => $request->input('descriptionpack'),
+                'photopack' => $request->input('photopack'),
+                'prixpack' => $request->input('prixpack'),
+            ]);
 
-        $pack->save();
+            $pack->save();
 
-        return redirect()->route('update.result',['result' => 'negative']);
+            return redirect()->route('update.result', ['result' => 'negative']);
+        } catch (\Exception $e) {
+            return redirect()->route('update.result', ['result' => 'pack-nom']);
+        }
     }
-    catch (\Exception $e) {
-        return redirect()->route('update.result', ['result' => 'pack-nom']);
-    }}
-
 }

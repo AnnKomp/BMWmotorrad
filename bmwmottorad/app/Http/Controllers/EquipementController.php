@@ -15,9 +15,15 @@ use Illuminate\Support\Facades\Log;
 class EquipementController extends Controller
 {
 
-    // Function to show the list of all equipements
-    public function index(Request $request) {
-
+    /**
+     * Display the list of all equipements based on the search and filter criteria.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        // Retrieve search and filter parameters from the request
         $query = $request->input('search');
         $categories = CategorieEquipement::all();
         $collections = Collection::all();
@@ -30,7 +36,7 @@ class EquipementController extends Controller
         $prix_min = $request->input('Min');
         $prix_max = $request->input('Max');
 
-
+        // Build the equipement query with various conditions according to the filters
         $equipements = DB::table('equipement')
             ->select(
                 'equipement.*',
@@ -77,56 +83,55 @@ class EquipementController extends Controller
             ->distinct()
             ->get();
 
+        // Return the equipement list view with relevant data
         return view("equipement-list", [
             'equipements' => $equipements,
             'categories' => $categories,
             'collections' => $collections
         ]);
-
     }
 
-
-    // Function to show the details of one equipement
-    public function detail(Request $request ) {
+    /**
+     * Display the details of a specific equipement.
+     */
+    public function detail(Request $request)
+    {
+        // Retrieve equipement and coloris information from the request
         $idequipement = $request->input('id');
         $idcoloris = $request->input('idcoloris');
 
+        // Get equipement details
         $equipement = Equipement::select('*')->where('idequipement', $idequipement)->first();
 
+        // Get coloris and taille IDs associated with the equipement
         $colorisIds = Stock::select('idcoloris')
-                    ->where('idequipement', $idequipement)
-                    ->pluck('idcoloris')
-                    ->toArray();
+            ->where('idequipement', $idequipement)
+            ->pluck('idcoloris')
+            ->toArray();
 
         $tailleIds = Stock::select('idtaille')
-                    ->where('idequipement', $idequipement)
-                    ->pluck('idtaille')
-                    ->toArray();
+            ->where('idequipement', $idequipement)
+            ->pluck('idtaille')
+            ->toArray();
 
+        // Get coloris and taille options based on IDs
         $colorisOptions = Coloris::select('idcoloris', 'nomcoloris')
-                    ->whereIn('idcoloris', $colorisIds)
-                    ->get();
-
+            ->whereIn('idcoloris', $colorisIds)
+            ->get();
 
         $tailleOptions = Taille::select('idtaille', 'libelletaille')
-                    ->whereIn('idtaille', $tailleIds)
-                    ->get();
+            ->whereIn('idtaille', $tailleIds)
+            ->get();
 
-
+        // Set the default coloris if not provided
         if ($idcoloris == null)
             $idcoloris = !empty($colorisIds) ? $colorisIds[0] : null;
 
-
+        // Get equipement pictures, stock, and other relevant data
         $equipement_pics = $this->getEquipementPhotosData($idequipement, $idcoloris);
-
-
-        $equipement = Equipement::all()
-                    ->where('idequipement', $idequipement)
-                    ->first();
-
-
         $stock = $this->getEquipementStockData($idequipement, $idcoloris, $tailleOptions->first()->idtaille, $tailleOptions);
 
+        // Return the equipement details view with necessary data
         return view("equipement", [
             "equipement_pics" => $equipement_pics,
             "idequipement" => $idequipement,
@@ -140,92 +145,90 @@ class EquipementController extends Controller
             "equipement" => $equipement,
             "stock" => $stock,
         ]);
+    }
+
+    /**
+     * Get the photos of an equipement and coloris.
+     */
+    public function getEquipementPhotos($idequipement, $idcoloris)
+    {
+        try {
+            $equipement_pics = $this->getEquipementPhotosData($idequipement, $idcoloris);
+            return response()->json(['equipement_pics' => $equipement_pics]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching equipement photos: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
 
+    /**
+     * Retrieve equipement photos data.
+     */
+    private function getEquipementPhotosData($idequipement, $idcoloris)
+    {
+        return DB::table('presentation_eq')
+            ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
+            ->select('media.lienmedia')
+            ->where('presentation_eq.idequipement', $idequipement)
+            ->where('presentation_eq.idcoloris', $idcoloris)
+            ->get();
+    }
 
-        // Functions to get the photos of an equipement and coloris
-        public function getEquipementPhotos($idequipement, $idcoloris)
-        {
-            try {
-                $equipement_pics = $this->getEquipementPhotosData($idequipement, $idcoloris);
+    /**
+     * Get the stock of the equipement.
+     */
+    public function getEquipementStock($idequipement, $idcoloris, $idtaille)
+    {
+        try {
+            $tailleOptions = Taille::select('idtaille', 'libelletaille')
+                ->where('idtaille', $idtaille)
+                ->get();
 
-                return response()->json(['equipement_pics' => $equipement_pics]);
-            } catch (\Exception $e) {
-                \Log::error('Error fetching equipement photos: ' . $e->getMessage());
-
-                return response()->json(['error' => 'Internal Server Error'], 500);
-            }
+            $stock = $this->getEquipementStockData($idequipement, $idcoloris, $idtaille, $tailleOptions);
+            return response()->json(['stock' => $stock]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching equipement stock: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
-        //
-        private function getEquipementPhotosData($idequipement, $idcoloris)
-        {
-            return DB::table('presentation_eq')
+    }
+
+    /**
+     * Retrieve equipement stock data.
+     */
+    private function getEquipementStockData($idequipement, $idcoloris, $idtaille, $tailleOptions)
+    {
+        return Stock::where('idequipement', $idequipement)
+            ->where('idcoloris', $idcoloris)
+            ->where('idtaille', $idtaille)
+            ->value('quantite');
+    }
+
+    /**
+     * Fetch equipment photos for a specific equipement and coloris.
+     */
+    public function fetchEquipmentPhotos(Request $request)
+    {
+        try {
+            $idequipement = $request->input('idequipement');
+            $idcoloris = $request->input('idcoloris');
+
+            $equipement_pics = DB::table('presentation_eq')
                 ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
                 ->select('media.lienmedia')
                 ->where('presentation_eq.idequipement', $idequipement)
                 ->where('presentation_eq.idcoloris', $idcoloris)
                 ->get();
-        }
 
-
-        // Function to get stock of the equipement
-        public function getEquipementStock($idequipement, $idcoloris, $idtaille)
-        {
-            try {
-                $tailleOptions = Taille::select('idtaille', 'libelletaille')
-                                ->where('idtaille', $idtaille)
-                                ->get();
-
-                $stock = $this->getEquipementStockData($idequipement, $idcoloris, $idtaille, $tailleOptions);
-
-                return response()->json(['stock' => $stock]);
-            } catch (\Exception $e) {
-                \Log::error('Error fetching equipement stock: ' . $e->getMessage());
-
-                return response()->json(['error' => 'Internal Server Error'], 500);
+            $html = '<div class="slider">';
+            foreach ($equipement_pics as $pic) {
+                $html .= '<img src="' . $pic->lienmedia . '">';
             }
+            $html .= '</div>';
+
+            return response()->json(['html' => $html]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching equipment photos' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
-
-
-        private function getEquipementStockData($idequipement, $idcoloris, $idtaille, $tailleOptions)
-        {
-            return Stock::where('idequipement', $idequipement)
-                ->where('idcoloris', $idcoloris)
-                ->where('idtaille', $idtaille)
-                ->value('quantite');
-        }
-
-
-
-
-
-        //
-        public function fetchEquipmentPhotos(Request $request)
-        {
-
-            try {
-                $idequipement = $request->input('idequipement');
-                $idcoloris = $request->input('idcoloris');
-
-                $equipement_pics = DB::table('presentation_eq')
-                    ->join('media', 'presentation_eq.idpresentation', '=', 'media.idpresentation')
-                    ->select('media.lienmedia')
-                    ->where('presentation_eq.idequipement', $idequipement)
-                    ->where('presentation_eq.idcoloris', $idcoloris)
-                    ->get();
-
-                    $html = '<div class="slider">';
-                    foreach ($equipement_pics as $pic) {
-                        $html .= '<img src="' . $pic->lienmedia . '">';
-                    }
-                    $html .= '</div>';
-
-                return response()->json(['html' => $html]);
-            } catch (\Exception $e) {
-                Log::error('Error fetching equipment photos' . $e->getMessage());
-                return response()->json(['error' => 'Internal Server Error'], 500);
-            }
-
-
-        }
+    }
 }

@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterFinishedController extends Controller
 {
-    public function create(): View{
-        // Return the registerfinished view
+    /**
+     * Display the registerfinished view.
+     */
+    public function create(): View
+    {
         return view('auth.registerfinished');
     }
 }

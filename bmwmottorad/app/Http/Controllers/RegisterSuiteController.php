@@ -19,20 +19,28 @@ use Illuminate\Http\RedirectResponse;
 
 class RegisterSuiteController extends Controller
 {
-    public function create(): View{
-        //load the view for the second part of the account register
-        return view('auth.registersuite', ['pays'=>Pays::all() ]);
+    /**
+     * Controller method for displaying the second part of the account registration form.
+     */
+    public function create(): View
+    {
+        // Load the view for the second part of the account registration
+        return view('auth.registersuite', ['pays' => Pays::all()]);
     }
 
-    public function store(Request $request): RedirectResponse{
 
-        // Check if at least one phone number was given 
-        if(empty($request->telephonepvmb) && empty($request->telephonepvfx) && empty($request->telephonepfmb) && empty($request->telephonepffx)){
+    /**
+     * Store method for processing and storing user registration data.
+     */
+    public function store(): RedirectResponse
+    {
+        // Check if at least one phone number was given
+        if (empty(request('telephonepvmb')) && empty(request('telephonepvfx')) && empty(request('telephonepfmb')) && empty(request('telephonepffx'))) {
             return redirect('registersuite');
         }
 
         // Check the data format
-        $request->validate([
+        request()->validate([
             'adresse' => ['required', 'string', 'max:100'],
             'nomcompagnie' => ['required_if:accounttype,professionnal'],
             'datenaissanceclient' => ['required', 'date', 'before:' . now()->subYears(18)->format('Y-m-d')],
@@ -42,75 +50,71 @@ class RegisterSuiteController extends Controller
             'telephonepffx' => ['nullable', 'string', 'min:10', 'max:10', 'regex:/^0[1-9]{1}[0-9]{8}$/i'],
         ]);
 
-        // ---------------------------------------------------- Adress creation  ----------------------------------------------------------------------
-        // Creating the adress for the new user
-        $b = Adresse::create([
-            'nompays' => $request->nompays,
-            'adresse' => $request->adresse
+        // Adress creation
+        $adresse = Adresse::create([
+            'nompays' => request('nompays'),
+            'adresse' => request('adresse'),
         ]);
 
-        // ---------------------------------------------------- Client creation ----------------------------------------------------------------------
-        $c = Client::create([
-            'civilite' => $request->user()->civilite,
-            'nomclient' => $request->user()->lastname,
-            'prenomclient' => $request->user()->firstname,
-            'datenaissanceclient' => $request->datenaissanceclient,
-            'emailclient' => $request->user()->email,
-            'numadresse' => $b->numadresse
+        // Client creation
+        $client = Client::create([
+            'civilite' => auth()->user()->civilite,
+            'nomclient' => auth()->user()->lastname,
+            'prenomclient' => auth()->user()->firstname,
+            'datenaissanceclient' => request('datenaissanceclient'),
+            'emailclient' => auth()->user()->email,
+            'numadresse' => $adresse->numadresse,
         ]);
 
-        // ---------------------------------------------------- Phone number creation ----------------------------------------------------------------------
-
+        // Phone number creation
         Telephone::create([
-            'numtelephone' => $request->telephonepvmb,
+            'numtelephone' => request('telephonepvmb'),
             'fonction' => 'Privé',
             'type' => 'Mobile',
-            'idclient' => $c->idclient
+            'idclient' => $client->idclient,
         ]);
-        
+
         Telephone::create([
-            'numtelephone' => $request->telephonepfmb,
+            'numtelephone' => request('telephonepfmb'),
             'fonction' => 'Professionnel',
             'type' => 'Mobile',
-            'idclient' => $c->idclient
+            'idclient' => $client->idclient,
         ]);
-        
+
         Telephone::create([
-            'numtelephone' => $request->telephonepvfx,
+            'numtelephone' => request('telephonepvfx'),
             'fonction' => 'Privé',
             'type' => 'Fixe',
-            'idclient' => $c->idclient
+            'idclient' => $client->idclient,
         ]);
 
-        
         Telephone::create([
-            'numtelephone' => $request->telephonepffx,
+            'numtelephone' => request('telephonepffx'),
             'fonction' => 'Professionnel',
             'type' => 'Fixe',
-            'idclient' => $c->idclient
+            'idclient' => $client->idclient,
         ]);
 
-        // ---------------------------------------------------- User update ----------------------------------------------------------------------
-
+        // User update
         User::where('id', auth()->user()->id)->update([
-            'idclient'=>$c->idclient,
-            'iscomplete'=>true,
+            'idclient' => $client->idclient,
+            'iscomplete' => true,
         ]);
 
-        // ---------------------------------------------------- Account type linking ----------------------------------------------------------------------
-        
-        if($request->input("accounttype") == "private"){
+        // Account type linking
+        if (request('accounttype') == 'private') {
             Prive::create([
-                'idclient' => $c->idclient
+                'idclient' => $client->idclient,
             ]);
-        }else{
+        } else {
             Professionnel::create([
-                'idclient' => $c->idclient,
-                'nomcompagnie' => $request->nomcompagnie,
+                'idclient' => $client->idclient,
+                'nomcompagnie' => request('nomcompagnie'),
             ]);
         }
 
         // Redirect to the registerfinished view
         return redirect('registerfinished');
     }
+
 }

@@ -69,49 +69,47 @@ class CommandeController extends Controller
         return view('commandecb', compact('equipements', 'cart', 'cb', 'total', 'fee'));
     }
 
-    //
-    public function paycb(Request $request)  : RedirectResponse
+    /**
+     * Process payment via credit card.
+     */
+    public function paycb(Request $request): RedirectResponse
     {
-        // Verify all the fields requiered are filled
+        // Verify all the required fields are filled
         $request->validate([
-            'cardnumber' => ['required', 'string', 'min:16' ,'max:16', 'regex:/^[3-5]{1}[0-9]{15}$/i'],
+            'cardnumber' => ['required', 'string', 'min:16', 'max:16', 'regex:/^[3-5]{1}[0-9]{15}$/i'],
             'owner' => ['required', 'string'],
-            'expiration' => ['required', 'date', 'after:' . date('m/y')],
+            'expiration' => ['required', 'date', 'after:' . now()->format('m/y')],
             'cvv' => ['required', 'string', 'min:3', 'max:3', 'regex:/^[0-9]{3}$/i'],
         ]);
 
-        // If the client saved his infos, auto fill
-        if($request->saveinfo){
-            if(Infocb::where('idclient', auth()->user()->idclient)
-                    ->first()){
+        // If the client saved their info, auto-fill
+        if ($request->saveinfo) {
+            if (Infocb::where('idclient', auth()->user()->idclient)->first()) {
                 Infocb::where('idclient', auth()->user()->idclient)
                     ->update([
                         'numcarte' => Crypt::encrypt($request->cardnumber),
                         'titulairecompte' => Crypt::encrypt($request->owner),
-                        'dateexpiration' => Crypt::encrypt($request->expiration)
+                        'dateexpiration' => Crypt::encrypt($request->expiration),
                     ]);
-            }
-            else {
+            } else {
                 Infocb::insert([
                     'idclient' => auth()->user()->idclient,
                     'numcarte' => Crypt::encrypt($request->cardnumber),
                     'titulairecompte' => Crypt::encrypt($request->owner),
-                    'dateexpiration' => Crypt::encrypt($request->expiration)
+                    'dateexpiration' => Crypt::encrypt($request->expiration),
                 ]);
             }
         }
 
         $this->createOrder('CB');
 
-        // Redirect to the recap of the order validated
+        // Redirect to the order summary page
         return redirect('/panier/commande/success');
     }
 
-
-
     //  ===================================== STRIPE PART ===============================================================================
 
-    /*
+    /**
     * The client pays using Stripe
     */
     public function createstripe(){
@@ -155,17 +153,18 @@ class CommandeController extends Controller
     }
 
 
-    //
-    public function paystripe(Request $request)  : RedirectResponse
+    /**
+     * Process payment via Stripe.
+     */
+    public function paystripe(Request $request): RedirectResponse
     {
-
-        // Calculating the total
+        // Calculate the total
         $total = 0;
         $cart = session()->get('cart', []);
-        $equipements = Equipement::whereIn('idequipement', array_keys($cart))
-                ->get();
-        foreach($equipements as $equipement){
-            foreach($cart[$equipement->idequipement] as $cartItem){
+        $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
+
+        foreach ($equipements as $equipement) {
+            foreach ($cart[$equipement->idequipement] as $cartItem) {
                 $total += $equipement->prixequipement * $cartItem['quantity'];
             }
         }
@@ -173,22 +172,26 @@ class CommandeController extends Controller
         // Connect to Stripe's API
         $sourceToken = $request->stripeToken;
 
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-        Stripe\Charge::create ([
+        Stripe\Charge::create([
             "amount" => $total * 100,
             "currency" => "eur",
             "source" => $sourceToken,
-            "description" => "Paiement commande equipement BMW Motorrad"
+            "description" => "Payment for BMW Motorrad equipment order",
         ]);
 
         $this->createOrder('stripe');
 
-        // Redirect to the recap of the order validated
+        // Redirect to the order summary page
         return redirect('/panier/commande/success');
     }
 
-    public function success(){
+    /**
+     * Display the order success view.
+     */
+    public function success()
+    {
         // Get necessary data
         $cart = session()->get('cart', []);
         $equipements = Equipement::whereIn('idequipement', array_keys($cart))->get();
@@ -198,17 +201,17 @@ class CommandeController extends Controller
                 // Check if coloris key exists
                 $cartItem['coloris_name'] = isset($cartItem['coloris']) ? $this->getColorisName($cartItem['coloris']) : '';
 
-
                 // Check if taille key exists
                 $cartItem['taille_name'] = isset($cartItem['taille']) ? $this->getTailleName($cartItem['taille']) : '';
             }
         }
 
         session()->forget('cart');
+
         return view('commandesuccess', compact('equipements', 'cart'));
     }
 
-    /*
+    /**
     *   Create an order from the cart
     */
     private function createOrder($type){
@@ -269,45 +272,46 @@ class CommandeController extends Controller
 
     // ==================================== GETTERS ===========================================================
 
-    private function getColorisName($colorisId)
+    /**
+     * Retrieve the coloris name based on its ID.
+     */
+    private function getColorisName($colorisId): string
     {
         // Retrieve coloris name based on ID
-        return DB::table('coloris')->where('idcoloris', $colorisId)->value('nomcoloris');
+        return DB::table('coloris')->where('idcoloris', $colorisId)->value('nomcoloris') ?? '';
     }
 
-    //
-    private function getTailleName($tailleId)
+    /**
+     * Retrieve the taille name based on its ID.
+     *
+     * @param int $tailleId
+     * @return string
+     */
+    private function getTailleName($tailleId): string
     {
         // Retrieve taille name based on ID
-        return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille');
+        return DB::table('taille')->where('idtaille', $tailleId)->value('libelletaille') ?? '';
     }
 
-    /*
-    *   Get the link to the media for a color of an equipment
-    */
-    private function getEquipementPhotos($equipementId, $colorisId)
+    /**
+     * Get the link to the media for a color of an equipment.
+     */
+    private function getEquipementPhotos($equipementId, $colorisId): string
     {
         // Get the id of the presentation image
         $idpresentation = DB::table('presentation_eq')
             ->select('idpresentation')
             ->where('idequipement', $equipementId)
             ->where('idcoloris', $colorisId)
-            ->get();
+            ->value('idpresentation');
 
-        if ($idpresentation->isNotEmpty()) {
-
-            // Get the idpesentation as a string instead of an array
-            $idpresentation = $idpresentation[0]->idpresentation;
-
+        if ($idpresentation) {
             $lienmedia = DB::table('media')
                 ->select('lienmedia')
                 ->where('idpresentation', $idpresentation)
-                ->select('lienmedia')
-                ->first();
+                ->value('lienmedia');
 
-            if ($lienmedia) {
-                return $lienmedia;
-            }
+            return $lienmedia ?? '';
         }
 
         return '';
