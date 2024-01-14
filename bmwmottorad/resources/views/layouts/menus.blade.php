@@ -1,7 +1,8 @@
 <html lang="{{ app()->getLocale() }}">
     <head>
 
-        <script src="tarteaucitron/tarteaucitron.js"></script>
+        <script src="/tarteaucitron/tarteaucitron.js"></script>
+        <script src="/js/popup.js"></script>
         <script type="text/javascript">
         tarteaucitron.init({
         "privacyUrl": "/confidentialite", /* Privacy policy url */
@@ -62,6 +63,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="{{asset('css/layout-menu.css')}}"/>
+        <link rel="stylesheet" href="/css/popup.css">
 
         <title>BMW @yield('title')</title>
 

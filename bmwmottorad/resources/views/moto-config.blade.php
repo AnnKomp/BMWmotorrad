@@ -7,6 +7,24 @@
 
 
 @section('content')
+<button onclick="openPopup()" class="guidebutton"><img src="img/guideimages/moreinfoicon.png" alt=""></button>
+
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Motos BMW Motorrad</h2>
+        <p>Vous vous trouvez sur la page des motos proposées à la vente.
+        </p>
+        <h3>Filtrer les motos par gamme</h3>
+        <img src="img/guideimages/motofilter.png" alt="" class="popupimg">
+        <p>Le bandeau situé en dessous du menu principal contient la liste des différentes gammes de moto vendues. pour n'afficher que les motos d'une gamme, il suffit de cliquer sur le nom de la gamme. appuyer sur Toutes affiche toutes les motos que nous proposons.</p>
+        <h3>En savoir plus sur une moto</h3>
+        <img src="img/guideimages/motopreview.png" alt="" class="popupimg">
+        <p>Chaque moto est représentée par son nom, une image et son prix de départ. Cliquer sur la moto vous redirige vers la page dédiée à ce modèle, contenant davantage d'informations et de fonctionnalitées.</p>
+    </div>
+</div>
+
 <h1>Votre configuration de la moto {{ $moto->nommoto }}</h1>
 
 <h2 id=price>Prix total : {{ $totalPrice}} €</h2>
@@ -105,7 +123,7 @@
 
 <form action="{{ route('pdf-download') . '?id=' . $idmoto }}" method="post">
     @csrf
-    <button type="submit">Télécharger PDF</button>
+    <button type="submit" class="pdfbutton">Télécharger PDF</button>
 </form>
 
 

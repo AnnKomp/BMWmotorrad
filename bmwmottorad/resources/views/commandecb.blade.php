@@ -5,12 +5,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/panier.css">
     <link rel="stylesheet" href="/css/commandecb.css">
+    <script src="/js/popup.js"></script>
+    <link rel="stylesheet" href="/css/popup.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-      
+    
+
 <div class="container">
-      
+<button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Paiement par CB</h2>
+        <p>Afin de payer votre commande, vous devez renseigner vos informations bancaires.</p>
+        <img src="/img/guideimages/cb.png" alt="" class="popupimg">
+        <p>Nous n'enregistrons pas automatiquement vos informations bancaires.Cependant, si vous souhaitez le faire afin de simplifier vos futurs achats vous pouvez cocher la case correspondante.</p>
+        <img src="/img/guideimages/cbregister.png" alt="" class="popupimg">
+        <p>Pour valider la commande cliquez sur "Payer".</p>
+        <img src="/img/guideimages/cbbutton.png" alt="" class="popupimg">
+    </div>
+</div>
 <h1>Paiement par CB</h1>
 
 <form method="POST" action="{{ route('paymentcb') }}">
@@ -107,7 +124,7 @@
                 <td id=name>{{ $equipement->nomequipement }}</td>
 
                 <td id=photo>
-                    <img src="{{ $cartItem['photo'] }}" alt="Equipement Photo" class="equipement-photo">
+                    <img src="{{ $cartItem['photo']->lienmedia }}" alt="Equipement Photo" class="equipement-photo">
                 </td>
 
                 <td id=coloris>{{ $cartItem['coloris_name'] }}</td>

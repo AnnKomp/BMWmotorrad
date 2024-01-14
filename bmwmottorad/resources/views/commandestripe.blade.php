@@ -4,12 +4,26 @@
     <title>BMW Motorrad Paiement Stripe</title>
     <link rel="stylesheet" href="/css/panier.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="/js/popup.js"></script>
+    <link rel="stylesheet" href="/css/popup.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
 <div class="container">
+<button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
 
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Paiement par Stripe</h2>
+        <p>Afin de payer votre commande, vous devez renseigner vos informations bancaires.</p>
+        <img src="/img/guideimages/stripe.png" alt="" class="popupimg">
+        <p>Pour valider la commande cliquez sur "Payer".</p>
+        <img src="/img/guideimages/stripebutton.png" alt="" class="popupimg">
+    </div>
+</div>
     <h1>BMW Motorrad - Paiement Stripe</h1>
 
     <table>

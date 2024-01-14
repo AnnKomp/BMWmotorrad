@@ -1,0 +1,73 @@
+#popup-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 80%;
+}
+
+#popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#popup-content {
+    text-align: center;
+    overflow: auto;
+    max-height: 80vh;
+}
+
+#close-popup {
+    cursor: pointer;
+    color: #333;
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.popupimg {
+    max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h4{
+    text-decoration: underline;
+    border-top: 1px solid black;
+}
+
+.guidebutton{
+    color: black;
+    background-color: white;
+    transition: 0.5s all ease;
+    border: 0px;
+    font-size: larger;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    z-index: 5;
+    border-radius: 50%;
+}
+
+.guidebutton:hover{
+    color: white;
+    background-color: black;
+    cursor:pointer;
+}
+
+.guidebutton>img:hover{
+    filter: invert(100%);
+}

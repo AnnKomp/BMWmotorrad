@@ -5,6 +5,25 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/equipement.css') }}" />
 
 @section('content')
+    <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+    <div id="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup-container">
+        <div id="popup-content">
+            <span id="close-popup" onclick="closePopup()">&times;</span>
+            <h2>Consultation d'un équipement</h2>
+            <p>Sur cette page vous avez accès à plus d'informations sur l'équipement. vous pouvez cliquer sur les flèches à droite et à gauche de l'image pour voir l'équipement sous différents angles.</p>
+            <img src="/img/guideimages/equipementpreview.png" alt="" class="popupimg">
+            <h3>Choisir son équipement</h3>
+            <p>Vous pouvez choisir la taille et la couleur de l'équipement à l'aide des menus déroulants correspondants.</p>
+            <img src="/img/guideimages/equipementchosecolortaille.png" alt="" class="popupimg">
+            <p>Choisissez la quantité à ajouter au panier avec le champ dédié.</p>
+            <img src="/img/guideimages/equipementchoseqtt.png" alt="" class="popupimg">
+            <p>Vous pouvez ensuite ajouter l'équipement à votre panier en cliquant sur le bouton "Ajouter au panier"</p>
+            <img src="/img/guideimages/equipementaddbasket.png" alt="" class="popupimg">
+        </div>
+    </div>
+
     <h1>{{ $nomequipement }}</h1>
 
     <div class="description">{{ $descriptionequipement }}</div>
@@ -92,45 +111,46 @@
 
     </script>
 
-    <h3 id=price>Prix : {{ $prixequipement }} €</h3>
-    <h3 id=stock>Stock : {{ $stock }}</h3>
+    <div class="contentdiv">
+        <h3 id=price>Prix : {{ $prixequipement }} €</h3>
+        <h3 id=stock>Stock : {{ $stock }}</h3>
 
-    <form id="addToCartForm">
-        @csrf
+        <form id="addToCartForm">
+            @csrf
 
-        @if ($stock && $stock >0)
+            @if ($stock && $stock >0)
 
-            <div class="options-container">
-                <div class="option-section">
-                    <h3>Choix taille :</h3>
-                    <select name="taille" id="taille">
-                        @foreach ($tailleOptions as $tailleOption)
-                            <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
-                        @endforeach
-                    </select>
+                <div class="options-container">
+                    <div class="option-section">
+                        <h3>Choix taille :</h3>
+                        <select name="taille" id="taille" class="combobox">
+                            @foreach ($tailleOptions as $tailleOption)
+                                <option value="{{ $tailleOption->idtaille }}">{{ $tailleOption->libelletaille }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="option-section">
+                        <h3>Choix coloris :</h3>
+                        <select name="coloris" id="coloris" class="combobox">
+                            @foreach ($colorisOptions as $colorisOption)
+                                <option value="{{ $colorisOption->idcoloris }}">{{ $colorisOption->nomcoloris }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
-                <div class="option-section">
-                    <h3>Choix coloris :</h3>
-                    <select name="coloris" id="coloris">
-                        @foreach ($colorisOptions as $colorisOption)
-                            <option value="{{ $colorisOption->idcoloris }}">{{ $colorisOption->nomcoloris }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <label for="quantity">Quantité :</label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}" oninput="validateQuantity()">
-            <p id="errorMessage" style="color: red;"></p>
+                <label for="quantity">Quantité </label>
+                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $stock }}" oninput="validateQuantity()">
+                <p id="errorMessage" style="color: red;"></p>
 
 
-            <button type="button" id="addToCartButton">Ajouter dans le panier</button>
-        @else
-            <p>Stock épuisé</p>
-        @endif
-    </form>
-
+                <button type="button" id="addToCartButton">Ajouter dans le panier</button>
+            @else
+                <p>Stock épuisé</p>
+            @endif
+        </form>
+    </div>
 
 
 
