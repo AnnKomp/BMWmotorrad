@@ -1,4 +1,23 @@
 <x-app-layout>
+    <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+    <div id="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup-container">
+        <div id="popup-content">
+            <span id="close-popup" onclick="closePopup()">&times;</span>
+            <h2>Le profil</h2>
+            <h3>Editer le compte</h3>
+            <p>Vous pouvez editer vos informations en modifiant les champs proposés.</p>
+            <img src="/img/guideimages/profiledit.png" alt="" class="popupimg">
+            <p>Une fois les informations modifiées, cliquez sur le bouton "Enregistrer" pour sauvegarder les modifications.</p>
+            <img src="/img/guideimages/profileditbutton.png" alt="" class="popupimg">
+            <h3>Supprimer/Anonymiser le compte</h3>
+            <p>Vous pouvez supprimer votre compte en cliquant sur le bouton correspondant. Si vous avez déjà passé au moins une commande, supprimer votre compte n'est pas possible mais il est possible de l'anonymiser.</p>
+            <img src="/img/guideimages/deleteaccount.png" alt="" class="popupimg">
+            <p>Entrez le mot de passe de votre compte puis confirmez votre choix en cliquant sur le bouton (ce choix n'est pas réversible).</p>
+            <img src="/img/guideimages/deletebutton.png" alt="" class="popupimg">
+        </div>
+    </div>
     <link rel="stylesheet" href="/css/profile.css">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">

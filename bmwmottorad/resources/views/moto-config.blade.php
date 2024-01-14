@@ -113,13 +113,15 @@
             <h3 id=nom>{{ $style->nomstyle }}</h3>
 
 
-    <div style="text-align: center;">
+    <div style="text-align: center;" id="photomoto">
             <img width="80%" src={{ $style->photomoto }} >
-            </div>
+    </div>
         @endforeach
     </h2>
 
 @endif
+
+<a href="/moto/offer?idmoto={{$idmoto}}" class='menus' id="offerbutton">Faire une demande d'offre</a>
 
 <form action="{{ route('pdf-download') . '?id=' . $idmoto }}" method="post">
     @csrf

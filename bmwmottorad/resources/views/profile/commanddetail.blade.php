@@ -1,4 +1,19 @@
 <x-app-layout>
+    <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+    <div id="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup-container">
+        <div id="popup-content">
+            <span id="close-popup" onclick="closePopup()">&times;</span>
+            <h2>Détail d'une commande</h2>
+            <p>Cette section vous permet de voir le détail d'une commande passée.</p>
+            <img src="/img/guideimages/commanddetail.png" alt="" class="popupimg">
+            <p>Si la commande est toujours en cours, il vous est possible d'annuler des articles en cliquant sur la flêche rouge correspondante.
+                Vous serez alors remboursé du montant correspondant au prix de l'article annulé. Si vous annulez tout les articles, la commande sera annulée et vous serez intégralement remboursé(e).
+            </p>
+            <img src="/img/guideimages/commandcancel.png" alt="" class="popupimg">
+        </div>
+    </div>
     <link rel="stylesheet" href="/css/command-detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <x-slot name="header">
