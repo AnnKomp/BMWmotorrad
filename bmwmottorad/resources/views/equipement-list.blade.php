@@ -5,6 +5,27 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/equipement-list.css') }}" />
 
 @section('content')
+<button onclick="openPopup()" class="guidebutton"><img src="img/guideimages/moreinfoicon.png" alt=""></button>
+
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Equipements BMW Motorrad</h2>
+        <p>Vous vous trouvez sur cette page les équipements pour motards proposés à la vente.
+        </p>
+        <img src="img/guideimages/equipementlist.png" alt="" class="popupimg">
+        <h3>Filtrer les équipements</h3>
+        <img src="img/guideimages/filterlist.png" alt="" class="popupimg">
+        <p>A gauche de la liste des équipements se trouve une liste de filtres que vous pouvez appliquer pour faciliter votre recherche. Vous pouvez trier les équipements sur plusieurs critères comme la catégorie ou bien le sexe. vous pouvez aussi rechercher un équipement par son nom via la barre de recherche.</p>
+        <h3>Appliquer des filtres</h3>
+        <img src="img/guideimages/applyfilterbutton.png" alt="" class="popupimg">
+        <p>Une fois vos filtres choisis, il suffit d'appuyer sur le bouton rechercher pour les appliquer.</p>
+        <h3>Réinitialiser les filtres</h3>
+        <img src="img/guideimages/resetfilterbutton.png" alt="" class="popupimg">
+        <p>Si vous souhaitez réinitialiser vos filtres, il suffit d'appuyer sur le bouton réinitialiser.</p>
+    </div>
+</div>
 
 <script src='js/equipement-list.js' defer></script>
 

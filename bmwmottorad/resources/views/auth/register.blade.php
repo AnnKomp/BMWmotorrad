@@ -1,4 +1,17 @@
 <x-guest-layout>
+    <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+    <div id="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup-container">
+        <div id="popup-content">
+            <span id="close-popup" onclick="closePopup()">&times;</span>
+            <h2>Création de compte</h2>
+            <p>Pour créer votre compte, veuillez fournir les informations nécessaires, puis une fois cela fait, cliquez sur "S'INSCRIRE" pour créer votre compte et passer à la seconde partie.</p>
+            <img src="/img/guideimages/createbutton.png" alt="" class="popupimg">
+            <p>Vous pouvez cliquer sur le logo BMW pour retourner à l'accueil du site.</p>
+            <img src="/img/guideimages/registerhomebutton.png" alt="" class="popupimg">
+        </div>
+    </div>
     <!-- First form for the account creation -->
     <form method="POST" action="{{ route('register') }}">
         @csrf

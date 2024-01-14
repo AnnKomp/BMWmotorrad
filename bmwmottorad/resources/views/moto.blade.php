@@ -26,7 +26,25 @@
 
 
 @section('content')
+<button onclick="openPopup()" class="guidebutton"><img src="img/guideimages/moreinfoicon.png" alt=""></button>
 
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Consulter une moto</h2>
+        <p>Sur la page d'une moto, vous trouvez plus d'informations sur la moto tels que sa fiche technique.
+        </p>
+        <img src="img/guideimages/motoslider.png" alt="" class="popupimg">
+        <p>des images donnent un aperçu de la moto. cliquer sur les flèches à droite ou à gauche de l'image permettent de visualiser les différentes photos de la moto.</p>
+        <h3>Configurer la moto</h3>
+        <img src="img/guideimages/configurationbutton.png" alt="" class="popupimg">
+        <p>Si vous souhaitez configurer la moto pour la réserver, cliquer sur le bouton configuration situé en dessous du menu vous redirigera vers le configurateur.</p>
+        <h3>Faire une demande d'essai</h3>
+        <img src="img/guideimages/essaibutton.png" alt="" class="popupimg">
+        <p>Si vous souhaitez essayer la moto chez un concessionnaire, vous pouvez cliquer sur ce bouton situé sous la description de la moto qui vous redirigera vers un formulaire à remplir pour faire votre demande.</p>
+    </div>
+</div>
 <div class="slider-container">
 <div class = 'slider'>
 @foreach ($moto_pics as $pic)
@@ -57,7 +75,7 @@
 
 
 <div id="essaibutton">
-    <a href="/moto/essai?idmoto={{$idmoto}}" >
+    <a href="/moto/essai?idmoto={{$idmoto}}" class="essai">
         <button>Demander un essai</button>
     </a>
 </div>

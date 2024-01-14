@@ -1,15 +1,26 @@
 @extends('layouts.menus')
-
+<link rel="stylesheet" href="/css/essai.css">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('title', 'Motorrad')
 
 @section('content')
+<button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
 
-<link rel="stylesheet" href="/css/essai.css">
-
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Faire une demande d'essai</h2>
+        <p>Afin de faire une demande d'essai veuillez remplir le formulaire avec les informations requises et choisir un concessionnaire.</p>
+        <img src="/img/guideimages/essaiform.png" alt="" class="popupimg"> 
+        <p>Une fois le formulaire remplis, il suffit de cliquer sur le bouton envoyer ma demande. Vous serez redirigé(e) vers une page de confirmation.
+             Le concessionnaire prendra ensuite contact avec vous par mail pour planifier la demande
+        </p>
+        <img src="/img/guideimages/essaibutton.png" alt="" class="popupimg">
+    </div>
+</div>
 <div id="form">
-    <img src="" alt="">
     <form action="{{ route('essaipost') }}" method="POST">
     @csrf
         <div style="display: none;">
@@ -80,5 +91,4 @@
         </div>
     </form>
 </div>
-
 @endsection

@@ -17,6 +17,27 @@
 @endsection
 
 @section('content')
+<button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+<div id="popup-overlay" onclick="closePopup()"></div>
+<div id="popup-container">
+    <div id="popup-content">
+        <span id="close-popup" onclick="closePopup()">&times;</span>
+        <h2>Choisir la couleur de la moto</h2>
+        <p>Dans cette première étape de la configuration, vous devez choisir la couleur/style de votre moto(Vous ne pouvez en choisir qu'une seule).
+            A droite se trouve la liste des couleurs disponibles pour le modèle de moto choisi ainsi que la prix de chaque couleur de moto.
+        </p>
+        <img src="/img/guideimages/colorlist.png" alt="" class="popupimg">
+        <p>Il vous est possible de cliquer sur l'image de la couleur pour avoir un aperçu de la moto.</p>
+        <img src="/img/guideimages/colorpreview.png" alt="" class="popupimg">
+        <h3>Choisir la couleur</h3>
+        <img src="/img/guideimages/colorchoice.png" alt="" class="popupimg">
+        <p>Une fois votre choix fait, il suffit de cocher le bouton situé à gauche de l'image de la couleur.</p>
+        <img src="/img/guideimages/colorchosed.png" alt="" class="popupimg">
+        <p>Pour poursuivre la configuration de votre moto, cliquez sur le bouton "Lancer la configuration".</p>
+        <img src="/img/guideimages/startconfig.png" alt="" class="popupimg">
+    </div>
+</div>
 <form action="{{ route('processColors')}}?id={{$idmoto}}" method="post" >
     @csrf
     <div class="couleur">

@@ -2,6 +2,18 @@
     <script src="/js/register_suite_script.js" defer></script>
     <script src="/js/adresssyntax.js" defer></script>
     <link rel="stylesheet" href="/css/register.css">
+
+    <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+    <div id="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup-container">
+        <div id="popup-content">
+            <span id="close-popup" onclick="closePopup()">&times;</span>
+            <h2>Suite de la création de compte</h2>
+            <p>Pour finaliser la création de votre compte, davantage d'informations sont requises. Une fois les informations fournies, cliquez sur le bouton "Créer"</p>
+            <img src="/img/guideimages/registersuitebutton.png" alt="" class="popupimg">
+        </div>
+    </div>
     <!-- Second form for the account creation -->
     <form method="POST" action="{{ route('registersuite') }}">
         @csrf
@@ -85,7 +97,7 @@
         </div>
 
         <div class="mt-4">
-            <input type="checkbox"><p>En créant un compte My BMW, vous acceptez notre <a href="" id="rgpd">Politique de confidentialité</a></p></input> 
+            <input type="checkbox" id="check"><p>En créant un compte My BMW, vous acceptez notre <a href="" id="rgpd">Politique de confidentialité</a></p></input> 
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -96,3 +108,4 @@
     </form>
 </x-guest-layout>
 
+<script>document.querySelector("#check").required = true</script>

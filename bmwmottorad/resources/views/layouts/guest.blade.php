@@ -12,6 +12,8 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/css/register.css">
         <link rel="stylesheet" href="/css/login.css">
+        <script src="/js/popup.js"></script>
+        <link rel="stylesheet" href="/css/popup.css">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
