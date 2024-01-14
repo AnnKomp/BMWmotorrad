@@ -1,4 +1,17 @@
 <x-app-layout>
+    <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
+
+    <div id="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup-container">
+        <div id="popup-content">
+            <span id="close-popup" onclick="closePopup()">&times;</span>
+            <h2>La liste des commandes</h2>
+            <p>Cette section vous donne accès aux commandes que vous avez passé(e) avec votre compte.</p>
+            <img src="/img/guideimages/commandliste.png" alt="" class="popupimg">
+            <p>Pour avoir le détail d'une commande, cliquez sur l'icone d'information de la commande correspondante.</p>
+            <img src="/img/guideimages/commandbutton.png" alt="" class="popupimg">
+        </div>
+    </div>
     <link rel="stylesheet" href="/css/commands-list.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <x-slot name="header">

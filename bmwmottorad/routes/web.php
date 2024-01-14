@@ -21,6 +21,7 @@ use App\Http\Controllers\AnonController;
 use App\Http\Controllers\GammeController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\CaracteristiqueController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\BotManController;
 
 /*
@@ -53,6 +54,11 @@ Route::get("/pack",[PackController::class, "info" ]);
 Route::get("/moto/essai",[EssaiController::class, "create"]);
 Route::post("/moto/essai", [EssaiController::class, "store"])->name('essaipost');
 Route::get("/moto/essai/confirmation", [EssaiController::class, "confirm"]);
+
+
+Route::get("/moto/offer",[OfferController::class, "create"]);
+Route::post("/moto/offer", [OfferController::class, "store"])->name('essaipost');
+Route::get("/moto/offer/confirmation", [OfferController::class, "confirm"]);
 
 ///////////////////////////  EQUIPEMENT  /////////////////////////////////////
 Route::get("/equipements",[EquipementController::class, "index" ]);

@@ -4,9 +4,13 @@
 
 
 @section('content')
+<<<<<<< HEAD
 
 
 <button onclick="openPopup()" class="guidebutton">Besoin d'aide ?</button>
+=======
+<button onclick="openPopup()" class="guidebutton"><img src="img/guideimages/moreinfoicon.png" alt=""></button>
+>>>>>>> d4ebc4ce2aff9e9df3add4482271ddb6274b9ca9
 
 <div id="popup-overlay" onclick="closePopup()"></div>
 <div id="popup-container">
