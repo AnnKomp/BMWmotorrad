@@ -14,59 +14,64 @@ use App\Models\Client;
 
 class AnonController extends Controller
 {
-    // Function to show the anonymisation view
-    public function create(){
+    /**
+     * Show the anonymization view.
+     */
+    public function create(): View
+    {
         return view('profile.anon');
     }
 
-    public function generateRandMail(){
+    /**
+     * Generate a random email for anonymization.
+     */
+    public function generateRandMail(): string
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $string = '';
-    
+
         for ($i = 0; $i < 50; $i++) {
             $string .= $characters[mt_rand(0, strlen($characters) - 1)];
         }
-    
+
         $string .= '@xx.xx';
 
         return $string;
     }
 
-    /*
-     Function that executes an sql function to anonymize all clients who have not connected since the date given in the requets form.
-     The date has to be at least one year old from today
+    /**
+     * Execute an SQL function to anonymize clients who haven't connected since the specified date.
+     * The date must be at least one year old from today.
      */
-    public function execute(Request $request): RedirectResponse
+    public function execute(Request $request)
     {
         $request->validate([
             'date' => ['required', 'date', 'before:' . now()->subYears(1)->format('Y-m-d')],
         ]);
 
+        // Delete users who haven't connected since the specified date
         User::where('lastconnected', '<', date('Y-m-d', strtotime($request->date)))->delete();
 
+        // Get client IDs and delete related records in other tables
         $clientids = User::pluck('idclient');
 
         Infocb::whereNotIn('idclient', $clientids)->delete();
 
         DB::table('adresse')
-            ->whereIn('numadresse', function ($query) {
+            ->whereIn('numadresse', function ($query) use ($clientids) {
                 $query->select('numadresse')
                     ->from('client')
-                    ->whereNotIn('idclient', function ($subquery) {
-                        $subquery->select('idclient')
-                            ->from('users');
-                    });
-        })->update(['adresse' => 'x']);
+                    ->whereNotIn('idclient', $clientids);
+            })->update(['adresse' => 'x']);
 
         Telephone::whereNotIn('idclient', $clientids)->delete();
-
         Professionnel::whereNotIn('idclient', $clientids)->delete();
-
         Prive::whereNotIn('idclient', $clientids)->delete();
 
+        // Anonymize client information
         $clients = Client::whereNotIn('idclient', $clientids)->pluck('idclient');
 
-        for($i = 0; $i < count($clients); $i++){
+        for ($i = 0; $i < count($clients); $i++) {
             Client::where('idclient', $clients[$i])->update([
                 'civilite' => 'x',
                 'nomclient' => 'x',
@@ -77,4 +82,5 @@ class AnonController extends Controller
 
         return redirect()->route('dpoanon')->with('status', 'data_anonymised');
     }
+
 }

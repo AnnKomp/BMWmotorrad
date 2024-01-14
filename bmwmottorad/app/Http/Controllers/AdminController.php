@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
 
-    // Function to show the delivering fees view
+    /**
+     * Display the delivering fees view.
+     */
     public function deliveringFees()
     {
         $fraisLivraison = FraisLivraison::where('nomparametre', 'montantfraislivraison')->firstOrFail();
@@ -21,7 +23,9 @@ class AdminController extends Controller
         return view("fraislivraison", compact('fraisLivraison'));
     }
 
-    // Function to update the threshold for delivering fees
+    /**
+     * Update the threshold for delivering fees.
+     */
     public function updateDeliveringFees(Request $request)
     {
         $request->validate([
@@ -38,7 +42,9 @@ class AdminController extends Controller
         return redirect()->route('delivering-fees')->with('success', 'Montant des frais de livraison mis à jour avec succès.');
     }
 
-    // Function to show all equipements
+    /**
+     * Show all equipements.
+     */
     public function modifequipment()
     {
         $equipements = Equipement::all();
@@ -46,13 +52,16 @@ class AdminController extends Controller
         return view("modifequipement", compact('equipements'));
     }
 
-    // Function to show the information of the equipement to update
+
+    /**
+     * Show the information of the equipement to update.
+     */
     public function showEquipmentModificationForm(Request $request)
     {
-        //getting the data
+        // Getting the data
         $identifiantEquipment = $request->input('equipement');
 
-        $prix = Equipement::where('idequipement','=',$identifiantEquipment)
+        $prix = Equipement::where('idequipement', '=', $identifiantEquipment)
                     ->first('prixequipement');
 
         $colorisIds = Stock::where('idequipement', $identifiantEquipment)
@@ -67,17 +76,18 @@ class AdminController extends Controller
 
         $coloris = Coloris::all();
 
-
-        return view('modify-equipment-form', ['identifiantEquipment' => $identifiantEquipment, 'prixDeBase' => $prixDeBase, 'colorisOptions' => $colorisOptions, 'coloris' => $coloris ]);
+        return view('modify-equipment-form', ['identifiantEquipment' => $identifiantEquipment, 'prixDeBase' => $prixDeBase, 'colorisOptions' => $colorisOptions, 'coloris' => $coloris]);
     }
 
-    // Function to proceed to the update of the equipement in the DB
+    /**
+     * Proceed to the update of the equipement in the DB.
+     */
     public function updateEquipment(Request $request)
     {
         // Retrieve the equipment to update
         $equipement = Equipement::where('idequipement', (int) $request->input('idequipement'))->first();
 
-        if ($equipement && $request->input('prix')>0) {
+        if ($equipement && $request->input('prix') > 0) {
             // Update the price of the equipment
             $equipement->update([
                 'prixequipement' => $request->input('prix'),
@@ -87,25 +97,24 @@ class AdminController extends Controller
 
             // Redirect the user to the result page with a success message
             return redirect()->route('update.result', ['result' => 'success']);
-        }
-        elseif ($request->input('prix') <= 0) {
+        } elseif ($request->input('prix') <= 0) {
             return redirect()->route('update.result', ['result' => 'negative']);
-        }
-        else {
+        } else {
             // Equipment not found
             \Log::warning('Equipment not found for idequipement: ' . $request->input('identifiant_equipment'));
             return redirect()->route('update.result', ['result' => 'not_found']);
         }
     }
 
-    // Function to add a new coloris for the equipement and the stock for it
+   /**
+     * Add a new coloris for the equipement and the stock for it.
+     */
     public function addColorisEquipement(Request $request)
     {
         $colorisId = (int) $request->input('idcoloris');
-
         $equipementId = (int) $request->input('idequipement');
         $tailleId = 0;
-        $quantite = Null;
+        $quantite = null;
 
         // Create a new Stock record
         $stock = new Stock([
@@ -118,27 +127,30 @@ class AdminController extends Controller
         // Save the new Stock record
         $stock->save();
 
-        return view('update-result', ['result' => "add-success"]);
+        return view('update-result', ['result' => 'add-success']);
     }
 
-
-
-    // Function to show the result of the equipement update
+    /**
+     * Show the result of the equipement update.
+     */
     public function showUpdateResult($result)
     {
         return view('update-result', ['result' => $result]);
     }
 
-
-
-    // Function to show the list of all motos
+    /**
+     * Show the list of all motos.
+     */
     public function motolistCom()
     {
         $ranges = Gamme::all();
         $motos = DB::table('modelemoto')
-            ->select('*')
-            ->join('media', 'media.idmoto', '=', 'modelemoto.idmoto')
-            ->whereColumn('idmediapresentation', 'idmedia')
+            ->select('modelemoto.idmoto',
+                    'nommoto',
+                    'lienmedia',
+                    'prixmoto')
+            ->join('media', 'media.idmoto','=','modelemoto.idmoto')
+            ->where('ispresentation', '=', 'TRUE')
             ->get();
 
         return view("motos-com", ['motos' => $motos, 'ranges' => $ranges]);

@@ -13,10 +13,8 @@
     <div class = 'header_category'>
         <a href="/moto?id={{$idmoto}}" class = "categories">{{ $motoname }}</a>
         <a href="/moto/color?idmoto={{$idmoto}}&idcouleur={{$idcouleur}}" class = "categories">Configuration</a>
-
     </div>
 @endsection
-
 
 @section('content')
 <button onclick="openPopup()" class="guidebutton"><img src="/img/guideimages/moreinfoicon.png" alt=""></button>
