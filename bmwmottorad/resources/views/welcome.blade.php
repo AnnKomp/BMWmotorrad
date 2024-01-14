@@ -4,7 +4,7 @@
 
 
 @section('content')
-<button onclick="openPopup()" class="guidebutton">Besoin d'aide ?</button>
+<button onclick="openPopup()" class="guidebutton"><img src="img/guideimages/moreinfoicon.png" alt=""></button>
 
 <div id="popup-overlay" onclick="closePopup()"></div>
 <div id="popup-container">
