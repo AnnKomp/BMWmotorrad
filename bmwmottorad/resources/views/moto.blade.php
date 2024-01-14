@@ -36,7 +36,9 @@
         <p>Sur la page d'une moto, vous trouvez plus d'informations sur la moto tels que sa fiche technique.
         </p>
         <img src="img/guideimages/motoslider.png" alt="" class="popupimg">
-        <p>des images donnent un aperçu de la moto. cliquer sur les flèches à droite ou à gauche de l'image permettent de visualiser les différentes photos de la moto.</p>
+        <p>Des images donnent un aperçu de la moto. 
+            Cliquer sur les flèches à droite ou à gauche de l'image permettent de visualiser les différentes photos de la moto.</p>
+        <br>
         <h3>Configurer la moto</h3>
         <img src="img/guideimages/configurationbutton.png" alt="" class="popupimg">
         <p>Si vous souhaitez configurer la moto pour la réserver, cliquer sur le bouton configuration situé en dessous du menu vous redirigera vers le configurateur.</p>
