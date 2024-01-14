@@ -18,7 +18,7 @@
         </p>
         <img src="img/guideimages/pdfdl.png" alt="" class="popupimg">
         <h3>Acheter la moto</h3>
-        <p>Les motos ne sont pas directement vendues sur le site, si vous souhaitez l'acquérier, cliquez sur "Faire une demande d'offre" afin de faire une demande auprès d'un concessionnaire.</p>
+        <p>Les motos ne sont pas directement vendues sur le site, si vous souhaitez l'acquérir, cliquez sur "Faire une demande d'offre" afin de faire une demande auprès d'un concessionnaire.</p>
         <img src="img/guideimages/offerask.png" alt="" class="popupimg">
         <p>La suite se déroulera alors avec le concessionnaire qui prendra contact avec vous.</p>
     </div>
