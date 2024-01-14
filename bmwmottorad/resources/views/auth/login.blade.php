@@ -6,15 +6,22 @@
     <div id="popup-content">
         <span id="close-popup" onclick="closePopup()">&times;</span>
         <h2>La connexion</h2>
-        <p>Pour vous connecter, rentrez l'adresse utilisée pour créer votre compte et le mot de passe puis cliquez sur le bouton "SE CONNECTER".</p>
+        <br>
+        <p>Pour vous connecter, rentrez l'adresse email utilisée pour créer votre compte et le mot de passe puis cliquez sur le bouton "SE CONNECTER".</p>
         <img src="/img/guideimages/loginbutton.png" alt="" class="popupimg">
-        <h3>Connexion avec google</h3>
+        <br>
+        <h2>Connexion avec google</h2>
+        <br>
         <p>Si vous avez un compte créé avec l'email de votre compte google, vous pouvez cliquer sur "Se connecter avec google" pour vous identifier plus simplement.</p>
         <img src="/img/guideimages/logingoogle.png" alt="" class="popupimg">
+        <br>
         <h3>Mot de passe oublié</h3>
+        <br>
         <p>Si vous avez oublié votre mot de passe, vous pouvez cliquer sur "Mot de Passe oublié ?" pour le réinitialiser.</p>
         <img src="/img/guideimages/loginforgot.png" alt="" class="popupimg">
+        <br>
         <h3>Pas encore inscrit ?</h3>
+        <br>
         <p>Si vous n'avez pas encore de compte, il suffit de cliquer sur "Inscription" pour créer votre compte client.</p>
         <img src="/img/guideimages/loginregister.png" alt="" class="popupimg">
     </div>

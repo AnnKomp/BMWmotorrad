@@ -6,19 +6,33 @@
         <div id="popup-content">
             <span id="close-popup" onclick="closePopup()">&times;</span>
             <h2>Votre home BMW Motorrad</h2>
+            <br>
             <p>L'espace de votre compte vous donne accès à plusieurs pages pour contrôler votre compte.</p>
+            <br>
             <img src="/img/guideimages/accountmenu.png" alt="" class="popupimg">
+            <br>
             <h3>Informations du compte</h3>
+            <br>
             <img src="/img/guideimages/profile.png" alt="" class="popupimg">
+            <br>
             <p>"Profil" permet d'accéder aux informations de votre compte et de les éditer. Vous pouvez aussi supprimer votre compte via cette section.</p>
+            <br>
             <h3>Commandes du compte</h3>
+            <br>
             <img src="/img/guideimages/orders.png" alt="" class="popupimg">
+            <br>
             <p>"Mes commandes" sert à gérer vos commandes.</p>
+            <br>
             <h3>Copies des données</h3>
+            <br>
             <img src="/img/guideimages/data.png" alt="" class="popupimg">
+            <br>
             <p>"Données" sert à l'obtention d'une copie des données que nous stockons vous concernant.</p>
+            <br>
             <h3>Déconnexion</h3>
+            <br>
             <img src="/img/guideimages/logout.png" alt="" class="popupimg">
+            <br>
             <p>"Déconnexion" sert à vous déconnecter de votre compte.</p>
         </div>
     </div>

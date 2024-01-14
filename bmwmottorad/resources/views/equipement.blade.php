@@ -12,7 +12,8 @@
         <div id="popup-content">
             <span id="close-popup" onclick="closePopup()">&times;</span>
             <h2>Consultation d'un équipement</h2>
-            <p>Sur cette page vous avez accès à plus d'informations sur l'équipement. vous pouvez cliquer sur les flèches à droite et à gauche de l'image pour voir l'équipement sous différents angles.</p>
+            <p>Sur cette page vous avez accès à plus d'informations sur l'équipement. 
+                Vous pouvez cliquer sur les flèches à droite et à gauche de l'image pour voir l'équipement sous différents angles.</p>
             <img src="/img/guideimages/equipementpreview.png" alt="" class="popupimg">
             <h3>Choisir son équipement</h3>
             <p>Vous pouvez choisir la taille et la couleur de l'équipement à l'aide des menus déroulants correspondants.</p>

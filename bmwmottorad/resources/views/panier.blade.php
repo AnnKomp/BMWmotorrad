@@ -16,7 +16,7 @@
             <p>Le panier contient tout les équipements que vous avez ajouté.</p>
             <img src="/img/guideimages/basketlist.png" alt="" class="popupimg">
             <h3>Modifier un équipement du panier</h3>
-            <p>Vous pouvez modifier la quantite d'un équipement de votre panier en cliquant sur le bouton + pour en ajouter et - pour en retirer.</p>
+            <p>Vous pouvez modifier la quantite d'un équipement de votre panier en cliquant sur le bouton "+"" pour en ajouter et "-" pour en retirer.</p>
             <img src="/img/guideimages/basketeditqtt.png" alt="" class="popupimg">
             <p>Vous pouvez retirer un équipement de votre panier en appuyer sur le bouton X.</p>
             <img src="/img/guideimages/basketdelete.png" alt="" class="popupimg">

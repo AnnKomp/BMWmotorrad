@@ -6,9 +6,11 @@
         <div id="popup-content">
             <span id="close-popup" onclick="closePopup()">&times;</span>
             <h2>La liste des commandes</h2>
-            <p>Cette section vous donne accès aux commandes que vous avez passé(e) avec votre compte.</p>
+            <br>
+            <p>Cette section vous donne accès aux commandes que vous avez passé avec votre compte.</p>
             <img src="/img/guideimages/commandliste.png" alt="" class="popupimg">
-            <p>Pour avoir le détail d'une commande, cliquez sur l'icone d'information de la commande correspondante.</p>
+            <br>
+            <p>Pour avoir le détail d'une commande, cliquez sur l'icône d'information de la commande correspondante.</p>
             <img src="/img/guideimages/commandbutton.png" alt="" class="popupimg">
         </div>
     </div>

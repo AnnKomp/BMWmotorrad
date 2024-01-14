@@ -19,7 +19,9 @@
     <div id="popup-content">
         <span id="close-popup" onclick="closePopup()">&times;</span>
         <h2>Le choix des packs</h2>
-        <p>Dans cette seconde étape, vous pouvez choisir des packs pour votre moto. Ces packs réunissent plusieures options de la moto. Il est possible de choisir plusieurs packs.</p>
+        <p>Dans cette seconde étape, vous pouvez choisir des packs pour votre moto. 
+            Ces packs réunissent plusieures options de la moto. 
+            Il est possible de choisir plusieurs packs.</p>
         <p>Chaque pack a une image de présentation ainsi que son prix.</p>
         <img src="/img/guideimages/packlist.png" alt="" class="popupimg">
         <p>Vous pouvez cliquer sur le i à droite d'un pack pour en savoir plus sur son contenu.</p>
@@ -28,7 +30,8 @@
         <img src="/img/guideimages/packchose.png" alt="" class="popupimg">
         <p>Pour sélectionner un pack, il suffit de cocher la case à gauche de l'image du pack.</p>
         <img src="/img/guideimages/packchosed.png" alt="" class="popupimg">
-        <p>Pour poursuivre la configuration de votre moto, cliquez sur le bouton "Suivant: option". Pour revenir à l'étape précédente, cliquez sur le bouton "Précédent"</p>
+        <p>Pour poursuivre la configuration de votre moto, cliquez sur le bouton "Suivant: option". 
+            Pour revenir à l'étape précédente, cliquez sur le bouton "Précédent"</p>
         <img src="/img/guideimages/optionsbutton.png" alt="" class="popupimg">
         <img src="/img/guideimages/precedentbutton.png" alt="" class="popupimg">
     </div>
