@@ -24,8 +24,9 @@
     <div id="popup-content">
         <span id="close-popup" onclick="closePopup()">&times;</span>
         <h2>Choisir la couleur de la moto</h2>
-        <p>Dans cette première étape de la configuration, vous devez choisir la couleur/style de votre moto(Vous ne pouvez en choisir qu'une seule).
-            A droite se trouve la liste des couleurs disponibles pour le modèle de moto choisi ainsi que la prix de chaque couleur de moto.
+        <p>Dans cette première étape de la configuration, vous devez choisir la couleur/style de votre moto
+            (Vous ne pouvez en choisir qu'une seule).
+            A droite se trouve la liste des couleurs disponibles pour le modèle de moto choisi ainsi que le prix de chaque couleur de moto.
         </p>
         <img src="/img/guideimages/colorlist.png" alt="" class="popupimg">
         <p>Il vous est possible de cliquer sur l'image de la couleur pour avoir un aperçu de la moto.</p>

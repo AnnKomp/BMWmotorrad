@@ -23,14 +23,18 @@
     <div id="popup-content">
         <span id="close-popup" onclick="closePopup()">&times;</span>
         <h2>Motos BMW Motorrad</h2>
-        <p>Vous vous trouvez sur la page des motos proposées à la .
+        <p>Vous vous trouvez sur la page des motos proposées à la vente.
         </p>
         <h3>Filtrer les motos par gamme</h3>
         <img src="img/guideimages/motofilter.png" alt="" class="popupimg">
-        <p>Le bandeau situé en dessous du menu principal contient la liste des différentes gammes de moto vendues. pour n'afficher que les motos d'une gamme, il suffit de cliquer sur le nom de la gamme. appuyer sur Toutes affiche toutes les motos que nous proposons.</p>
+        <p>Le bandeau situé en dessous du menu principal contient la liste des différentes gammes de moto vendues. 
+            Pour n'afficher que les motos d'une gamme, il suffit de cliquer sur le nom de la gamme.</p>
+        <p>Appuyer sur "Toutes" affiche toutes les motos que nous proposons.</p>
+        <br>
         <h3>En savoir plus sur une moto</h3>
         <img src="img/guideimages/motopreview.png" alt="" class="popupimg">
-        <p>Chaque moto est représentée par son nom, une image et son prix de départ. Cliquer sur la moto vous redirige vers la page dédiée à ce modèle, contenant davantage d'informations et de fonctionnalitées.</p>
+        <p>Chaque moto est représentée par son nom, une image et son prix de départ. 
+            Cliquer sur la moto vous redirige vers la page dédiée à ce modèle, contenant davantage d'informations et de fonctionnalitées.</p>
     </div>
 </div>
 <div class = 'moto_display'>

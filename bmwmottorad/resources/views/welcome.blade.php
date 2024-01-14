@@ -4,7 +4,13 @@
 
 
 @section('content')
+<<<<<<< HEAD
+
+
+<button onclick="openPopup()" class="guidebutton">Besoin d'aide ?</button>
+=======
 <button onclick="openPopup()" class="guidebutton"><img src="img/guideimages/moreinfoicon.png" alt=""></button>
+>>>>>>> d4ebc4ce2aff9e9df3add4482271ddb6274b9ca9
 
 <div id="popup-overlay" onclick="closePopup()"></div>
 <div id="popup-container">
@@ -22,7 +28,7 @@
         <p>Ce bouton vous redirigera vers la page d'acceuil du site BMW Motorrad.</p>
         <h4>Bouton Motos</h4>
         <img src="img/guideimages/motobutton.png" alt="" class="popupimg">
-        <p>Ce bouton vous redirigera vers la section des moto du site BMW Motorrad.</p>
+        <p>Ce bouton vous redirigera vers la section des motos du site BMW Motorrad.</p>
         <h4>Bouton Equipements</h4>
         <img src="img/guideimages/equipbutton.png" alt="" class="popupimg">
         <p>Ce bouton vous redirigera vers la section des équipements de motard du site BMW Motorrad.</p>
@@ -46,12 +52,9 @@
         <p>En pied de page vous pouvez si le souhaiter cliquer sur confidentialité pour accéder à notre politique de confidentialité ou sur cookies pour accéder à notre politique sur les cookies.</p>
     </div>
 </div>
+
 <h1>Bienvenue chez BMW Mottorad</h1>
-
 @endsection
-
-
-
 
 <script>
     var botmanWidget = {
