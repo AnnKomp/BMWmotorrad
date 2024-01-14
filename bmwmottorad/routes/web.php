@@ -22,6 +22,7 @@ use App\Http\Controllers\GammeController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\CaracteristiqueController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\BotManController;
 
 /*
 |--------------------------------------------------------------------------
@@ -238,3 +239,7 @@ Route::post('download-pdf', [PDFController::class, 'generatePdf'])->name('pdf-do
 Route::get('/cookies', [RGPDController::class, 'createcookies'])->name('cookies');
 Route::get('/confidentialite', [RGPDCONTROLLER::class, 'createconfidentialite'])->name('confidentialite');
 
+
+///////////////////////////// BOTMAN //////////////////////////////////
+
+Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotManController@handle');
